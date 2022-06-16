@@ -8,12 +8,15 @@ use App\Models\Category;
 use App\Models\CategoryRecipe;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Carbon\Carbon;
 
 class Recipe extends Model
 {
     use HasFactory;
+    
+    public static $DEFAULT_DATE = '1979-12-31';
 
+    public $timestamps = false;
     /**
      * The categories that belong to the Recipe
      *
@@ -53,6 +56,34 @@ class Recipe extends Model
         $all = $included->merge($recipes)->sortBy('name')->values()->all();
 
         return $all;
+    }
 
+    public static function includedInMenu() {
+        return Recipe::where('is_in_menu', true)->get();
+    }
+
+    public function includeInMenu() {
+        $this->last_used_at = Carbon::now();
+        $this->is_in_menu = true;
+        $this->save();
+    }
+
+    public static function clearMenu() {
+        $recipesInMenu = Recipe::includedInMenu();
+
+        foreach ($recipesInMenu as $recipe) {
+            $recipe->is_in_menu = false;
+            $recipe->save();
+        }
+    }
+
+    public static function discardMenu() {
+        $recipesInMenu = Recipe::includedInMenu();
+
+        foreach ($recipesInMenu as $recipe) {
+            $recipe->is_in_menu = false;
+            $recipe->last_used_at = Recipe::$DEFAULT_DATE;
+            $recipe->save();
+        }
     }
 }

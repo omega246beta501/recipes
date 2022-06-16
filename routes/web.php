@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/recipes', 'App\Http\Controllers\Controller@randomRecipes');
-Route::post('/recipes/regenerate/', 'App\Http\Controllers\Controller@regenerateRecipes');
+Route::post('/recipes/regenerate', 'App\Http\Controllers\Controller@regenerateRecipes');
+Route::post('/recipes/include', 'App\Http\Controllers\Controller@includeRecipesInMenu');
+Route::get('/recipes/clearMenu', 'App\Http\Controllers\Controller@discardMenu');

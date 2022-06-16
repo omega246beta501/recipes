@@ -23,17 +23,21 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Receta</th>
+                                    @if($isMenuSet)
+                                    <th>En el menú</th>
+                                    @else
                                     <th>Mantener?</th>
+                                    @endif
                                 </tr>
                             </thead>
                             @foreach($recipes as $recipe)
                             <tr>
                                 <th>{{ $recipe->id }}</th>
                                 <th>{{ $recipe->name }}</th>
-                                @if(isset($keepedRecipesIds) && in_array($recipe->id, $keepedRecipesIds))
-                                <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}" checked></th>
+                                @if($isMenuSet)
+                                <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}" checked disabled></th>
                                 @else
-                                <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}"></th>
+                                <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}" @checked(isset($keepedRecipesIds) && in_array($recipe->id, $keepedRecipesIds))></th>
                                 @endif
                             </tr>
                             @endforeach
@@ -42,12 +46,21 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <button type="submit" class="btn btn-danger" onclick="regenerate()">Regenerar</button>
+                        <button type="submit" @disabled($isMenuSet) class="btn btn-danger" onclick="regenerate()">Regenerar recetas</button>
                     </div>
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                        <button type="submit" @disabled($isMenuSet) class="btn btn-primary" onclick="includeInMenu()">Asignar menú</button>
                     </div>
                 </div>
+                @if($isMenuSet)
+                <div class="row">
+                    <div class="col"></div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-warning" onclick="clearMenu()">Reiniciar menú</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+                @endif
             </div>
             <div class="col">
             </div>
@@ -87,6 +100,54 @@
             $("html").html(response);
         });
     }
+
+    function includeInMenu() {
+
+        var data = {
+            "recipesToInclude": <?php echo json_encode(Arr::pluck($recipes, 'id')); ?>
+        }
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://127.0.0.1:80/recipes/include",
+            "method": "POST",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+            },
+            "data": JSON.stringify(data)
+        }
+
+        $.ajax(settings).done(function (response) {
+            alert('Se ha generado el menu para la semana');
+            $("html").html(response);
+        });
+    }
+
+    function clearMenu() {
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://127.0.0.1:80/recipes/clearMenu",
+            "method": "GET",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+            }
+        }
+        response = confirm("¿Estás seguro de querer borrar el menú?");
+
+        if(response) {
+            $.ajax(settings).done(function (response) {
+                alert('Se ha borrado el menú de la semana. Las recetas no utilizadas vuelven a estar disponibles.');
+               location.reload();
+            });
+        }
+    }
+
+   
     </script>
 </body>
 

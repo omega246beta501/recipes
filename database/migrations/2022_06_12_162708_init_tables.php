@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->unsignedInteger('kcal')->nullable();
             $table->date('last_used_at')->nullable(false)->default('1979-12-31');
-            $table->timestamps();
+            $table->boolean('is_in_menu')->nullable(false)->default(false);
         });
 
         Schema::create('category_recipes', function (Blueprint $table) {
