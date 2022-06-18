@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Recipe;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -19,6 +21,7 @@ class Controller extends BaseController
         $isMenuSet = false;
         $includedInMenu = \App\Models\Recipe::includedInMenu()->pluck('id')->toArray();
         $recipes = \App\Models\Recipe::randomRecipes($includedInMenu, [], [], 6);
+        $categories = Category::orderBy('name')->get();
 
         if(count($includedInMenu) > 0) {
             $isMenuSet = true;
@@ -26,17 +29,21 @@ class Controller extends BaseController
 
         return view('prueba', [
             'recipes' => $recipes,
-            'isMenuSet' => $isMenuSet
+            'isMenuSet' => $isMenuSet,
+            'categories' => $categories
         ]);
     }
 
     public function regenerateRecipes(Request $request) {
         $data = $request->json()->all();
         $keepedRecipesIds = $data['keepedRecipesIds'];
-        Log::info($keepedRecipesIds);
-        $recipes = \App\Models\Recipe::randomRecipes($keepedRecipesIds, [], [], 6);
+        $includedCategoriesIds = $data['includedCategoriesIds'];
+        $excludedCategoriesIds = $data['excludedCategoriesIds'];
 
-        return view('prueba', [
+        Log::info($keepedRecipesIds);
+        $recipes = \App\Models\Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, 6);
+
+        return view('pruebaTable', [
             'recipes' => $recipes,
             'isMenuSet' => false,
             'keepedRecipesIds' => $keepedRecipesIds
@@ -54,7 +61,7 @@ class Controller extends BaseController
             $recipe->includeInMenu();
         }
 
-        return view('prueba', [
+        return view('pruebaTable', [
             'recipes' => $recipes,
             'isMenuSet' => true,
             'keepedRecipesIds' => $recipesToInclude
