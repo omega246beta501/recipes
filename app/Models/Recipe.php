@@ -35,14 +35,20 @@ class Recipe extends Model
 
         $recipes = Recipe::where(function($q) use ($includedCategories, $excludedCategories, $includedRecipes) {
             if(!empty($includedCategories) || !empty($excludedCategories)) {
-                $q->whereHas('categories', function($q) use ($includedCategories, $excludedCategories) {
-                    if(!empty($includedCategories)) {
-                        $q = $q->whereIn('category_id', $includedCategories);
-                    }
-                    if(!empty($excludedCategories)) {
-                        $q = $q->whereNotIn('category_id', $excludedCategories);
-                    }
-                });
+                if(!empty($includedCategories)) {
+                    $q->whereIn('id', function($q) use ($includedCategories) {
+                        $q->select('recipe_id')
+                            ->from('category_recipes')
+                            ->whereIn('category_id', $includedCategories);
+                    });
+                }
+                if(!empty($excludedCategories)) {
+                    $q->whereNotIn('id', function($q) use ($excludedCategories) {
+                        $q->select('recipe_id')
+                            ->from('category_recipes')
+                            ->whereIn('category_id', $excludedCategories);
+                    });
+                }
             }
             $q->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
 
