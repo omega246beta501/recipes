@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RequestHelper;
 use App\Models\Category;
 use App\Models\Recipe;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,7 +17,6 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function randomRecipes() {
-        // $data = $request->json()->all();
         Log::info("recetas");
         $isMenuSet = false;
         $includedInMenu = \App\Models\Recipe::includedInMenu()->pluck('id')->toArray();
@@ -35,7 +35,8 @@ class Controller extends BaseController
     }
 
     public function regenerateRecipes(Request $request) {
-        $data = $request->json()->all();
+        $data = RequestHelper::requestToArray($request);
+
         $keepedRecipesIds = $data['keepedRecipesIds'];
         $includedCategoriesIds = $data['includedCategoriesIds'];
         $excludedCategoriesIds = $data['excludedCategoriesIds'];
@@ -51,7 +52,7 @@ class Controller extends BaseController
     }
 
     public function includeRecipesInMenu(Request $request) {
-        $data = $request->json()->all();
+        $data = RequestHelper::requestToArray($request);
         $recipesToInclude = $data['recipesToInclude'];
 
         $recipes = \App\Models\Recipe::randomRecipes($recipesToInclude, [], [], 6);

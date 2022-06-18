@@ -170,7 +170,7 @@
 
             $.ajax(settings).done(function(response) {
                 alert('Se ha generado el menu para la semana');
-                $(".regenerable").html(response);
+                location.reload();
             });
         }
 
