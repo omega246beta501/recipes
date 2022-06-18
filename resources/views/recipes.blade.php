@@ -130,7 +130,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://127.0.0.1:80/recipes/regenerate",
+                "url": "{{ App\Data\Routes\RecipeRoutes::REGENERATE_RECIPES }}",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",
@@ -159,7 +159,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://127.0.0.1:80/recipes/include",
+                "url": "{{ App\Data\Routes\RecipeRoutes::CREATE_MENU }}",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",
@@ -179,7 +179,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://127.0.0.1:80/recipes/clearMenu",
+                "url": "{{ App\Data\Routes\RecipeRoutes::DISCARD_MENU }}",
                 "method": "GET",
                 "headers": {
                     "cache-control": "no-cache",
