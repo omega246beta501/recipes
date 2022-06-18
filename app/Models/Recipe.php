@@ -34,15 +34,17 @@ class Recipe extends Model
         $included = Recipe::whereIn('id', $includedRecipes)->get();
 
         $recipes = Recipe::where(function($q) use ($includedCategories, $excludedCategories, $includedRecipes) {
-            $q->whereHas('categories', function($q) use ($includedCategories, $excludedCategories) {
-                if(!empty($includedCategories)) {
-                    $q = $q->whereIn('category_id', $includedCategories);
-                }
-                if(!empty($excludedCategories)) {
-                    $q = $q->whereNotIn('category_id', $excludedCategories);
-                }
-            })
-            ->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
+            if(!empty($includedCategories) || !empty($excludedCategories)) {
+                $q->whereHas('categories', function($q) use ($includedCategories, $excludedCategories) {
+                    if(!empty($includedCategories)) {
+                        $q = $q->whereIn('category_id', $includedCategories);
+                    }
+                    if(!empty($excludedCategories)) {
+                        $q = $q->whereNotIn('category_id', $excludedCategories);
+                    }
+                });
+            }
+            $q->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
 
             if(!empty($includedRecipes)) {
                 $q = $q->whereNotIn('id', $includedRecipes);
@@ -53,7 +55,7 @@ class Recipe extends Model
         ->orderBy('name')
         ->get();
 
-        $all = $included->merge($recipes)->sortBy('name')->values()->all();
+        $all = $included->merge($recipes)->sortBy('name');
 
         return $all;
     }
