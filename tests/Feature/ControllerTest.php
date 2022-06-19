@@ -31,7 +31,7 @@ class ControllerTest extends TestCase
             'recipesToInclude' => [$recipeToInclude->id]
         ];
         
-        $this->post(RecipeRoutes::CREATE_MENU, $data);
+        $this->post(MenuRoutes::CREATE_MENU, $data);
 
         $recipeToInclude->refresh();
 
@@ -52,7 +52,7 @@ class ControllerTest extends TestCase
             'recipesToInclude' => $recipesToInclude->pluck('id')->toArray()
         ];
         
-        $response = $this->post(RecipeRoutes::CREATE_MENU, $data);
+        $response = $this->post(MenuRoutes::CREATE_MENU, $data);
 
         $expectedRecipesInView = $recipesToInclude;
 

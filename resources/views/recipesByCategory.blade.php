@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 @php
-    $categoryCounter = 1;
+    $recipeCounter = 1;
 @endphp
 <head>
     <meta charset="utf-8">
@@ -25,17 +25,17 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Categoría</th>
-                                    <th>Cantidad</th>
+                                    <th>{{ $category->name }}</th>
+                                    <th>Última vez</th>
                                 </tr>
                             </thead>
-                            @foreach($categories as $category)
+                            @foreach($recipes as $recipe)
                             <tr>
-                                <td>{{ $categoryCounter }}</td>
-                                <td><a href="{{ str_replace('{id}', $category->id, App\Data\Routes\CategoryRoutes::RECIPES_BY_CATEGORY) }}">{{ $category->name }}</a></td>
-                                <td>{{ $category->recipes_count }}</td>
+                                <td>{{ $recipeCounter }}</td>
+                                <td>{{ $recipe->name }}</td>
+                                <td>{{ $recipe->last_used_at }}</td>
                             </tr>
-                            @php $categoryCounter++; @endphp
+                            @php $recipeCounter++; @endphp
                             @endforeach
                         </table>
                     </div>

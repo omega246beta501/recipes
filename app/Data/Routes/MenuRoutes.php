@@ -2,8 +2,8 @@
 
 namespace App\Data\Routes;
 
-class RecipeRoutes {
-    const RECIPES = '/menu';
+class MenuRoutes {
+    const MENU = '/menu';
     const REGENERATE_RECIPES = '/menu/regenerate';
     const CREATE_MENU = '/menu/createMenu';
     const DISCARD_MENU = '/menu/discardMenu';

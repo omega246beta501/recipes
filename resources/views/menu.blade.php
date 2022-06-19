@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
-
+@php
+    use App\Data\Routes\MenuRoutes;
+@endphp
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +14,10 @@
     <style>
         .select2-selection__choice {
             background-color: #fd1dc2;
+        }
+        a {
+            color: white;
+            text-decoration: auto;
         }
     </style>
 </head>
@@ -39,7 +45,7 @@
                             @foreach($recipes as $recipe)
                             <tr>
                                 <th>{{ $recipe->id }}</th>
-                                <th>{{ $recipe->name }}</th>
+                                <th><a href="{{ str_replace('{id}', $recipe->id, MenuRoutes::RECIPE) }}">{{ $recipe->name }}</a></th>
                                 @if($isMenuSet)
                                 <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}" checked disabled></th>
                                 @else
@@ -130,7 +136,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "{{ App\Data\Routes\RecipeRoutes::REGENERATE_RECIPES }}",
+                "url": "{{ AMenuRoutes::REGENERATE_RECIPES }}",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",
@@ -159,7 +165,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "{{ App\Data\Routes\RecipeRoutes::CREATE_MENU }}",
+                "url": "{{ MenuRoutes::CREATE_MENU }}",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",
@@ -179,7 +185,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "{{ App\Data\Routes\RecipeRoutes::DISCARD_MENU }}",
+                "url": "{{ MenuRoutes::DISCARD_MENU }}",
                 "method": "GET",
                 "headers": {
                     "cache-control": "no-cache",

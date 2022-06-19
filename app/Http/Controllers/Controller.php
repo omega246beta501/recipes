@@ -27,7 +27,7 @@ class Controller extends BaseController
             $isMenuSet = true;
         }
 
-        return view('recipes', [
+        return view('menu', [
             'recipes' => $recipes,
             'isMenuSet' => $isMenuSet,
             'categories' => $categories
@@ -44,7 +44,7 @@ class Controller extends BaseController
         Log::info($keepedRecipesIds);
         $recipes = \App\Models\Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, 6);
 
-        return view('recipesTable', [
+        return view('menuTable', [
             'recipes' => $recipes,
             'isMenuSet' => false,
             'keepedRecipesIds' => $keepedRecipesIds
@@ -62,7 +62,7 @@ class Controller extends BaseController
             $recipe->includeInMenu();
         }
 
-        return view('recipesTable', [
+        return view('menuTable', [
             'recipes' => $recipes,
             'isMenuSet' => true,
             'keepedRecipesIds' => $recipesToInclude

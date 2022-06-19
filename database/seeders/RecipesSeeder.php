@@ -358,6 +358,231 @@ class RecipesSeeder extends Seeder
         $recipe->categories()->attach(Category::FAVORITAS_MARTA);
         $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
         $recipe->categories()->attach(Category::GORDACO);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Sopa de Pollo'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
+        $recipe->categories()->attach(Category::HEALTHY);
+        $recipe->categories()->attach(Category::SOPAS);
+        $recipe->categories()->attach(Category::ADELI);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::LEGUMBRES);
+        $recipe->categories()->attach(Category::FACIL);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Puré carné y brócolí'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::HEALTHY);
+        $recipe->categories()->attach(Category::FACIL);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::CERDO);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Noodles'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::HEALTHY);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::CHINA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Fajitas'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::HEALTHY);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::MEXICANA);
+        $recipe->categories()->attach(Category::FACIL);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Albóndigas'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::ADELI);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::FAVORITAS_MARTA);
+        $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
+        $recipe->categories()->attach(Category::CERDO);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Croquetas'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::SUPERPILOPI);
+        $recipe->categories()->attach(Category::FAVORITAS_MARTA);
+        $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Carne en salsa'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::FAVORITAS_MARTA);
+        $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Asao de la abuela Julia'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::TERNERA);
+        $recipe->categories()->attach(Category::FAVORITAS_MARTA);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::JUANAN);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Macarrones al horno de Juan'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::FAVORITAS_MARTA);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::JUANAN);
+        $recipe->categories()->attach(Category::PASTA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Macarrones de la abuela'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::FAVORITAS_RUBEN);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::PASTA);
+        $recipe->categories()->attach(Category::ADELI);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Espaguetis carbonara'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::ITALIANA);
+        $recipe->categories()->attach(Category::PASTA);
+        $recipe->categories()->attach(Category::SUPERPILOPI);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Ramen'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::HEALTHY);
+        $recipe->categories()->attach(Category::SOPAS);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::JAPONESA);
+        $recipe->categories()->attach(Category::FACIL);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Pollo empanao'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::POLLO);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Hamburguesas'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::FACIL);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Coditos con bechamel'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::PASTA);
+        $recipe->categories()->attach(Category::ADELI);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Ternera china'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::TERNERA);
+        $recipe->categories()->attach(Category::CHINA);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Biscotas con bechamel'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::ADELI);
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Macarrones con chorizo'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::LACTOSA);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::PASTA);
+        $recipe->categories()->attach(Category::FACIL);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Pollo Teriyaki'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::POLLO);
+        $recipe->categories()->attach(Category::CHINA);
+        $recipe->categories()->attach(Category::SUPERPILOPI);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Pan relleno de sofrito'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::CERDO);
+        $recipe->categories()->attach(Category::ADELI);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Camembert frito'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::GORDACO);
+        $recipe->categories()->attach(Category::LACTOSA);
+        $recipe->categories()->attach(Category::VEGETARIANA);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Paella al estilo Marta'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::ARROCES);
+        $recipe->categories()->attach(Category::ESPAÑOLA);
+        $recipe->categories()->attach(Category::POLLO);
+
+        $recipe = new \App\Models\Recipe([
+            'name' => 'Risotto'
+        ]);
+        $recipe->save();
+        $recipe->categories()->attach(Category::ARROCES);
+        $recipe->categories()->attach(Category::ITALIANA);
+        $recipe->categories()->attach(Category::SUPERPILOPI);
+        $recipe->categories()->attach(Category::VEGETARIANA);
+        $recipe->categories()->attach(Category::LACTOSA);
+
+        
+
+
+
+
+
         
 
 

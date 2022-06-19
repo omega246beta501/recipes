@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,6 +15,23 @@ class CategoryController extends Controller
 
         return view('categories', [
             'categories' => $categories
+        ]);
+    }
+
+    public function recipesByCategory($id) {
+        $category= Category::find($id);
+
+        $recipes = $category->recipes;
+
+        foreach ($recipes as $recipe) {
+            if($recipe->last_used_at == Recipe::$DEFAULT_DATE) {
+                $recipe->last_used_at = 'Nunca';
+            }
+        }
+
+        return view('recipesByCategory', [
+            'category' => $category,
+            'recipes' => $recipes
         ]);
     }
 }

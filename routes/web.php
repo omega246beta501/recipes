@@ -1,6 +1,7 @@
 <?php
 
 use App\Data\Routes\CategoryRoutes;
+use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\Controller@randomRecipes');
-Route::post(RecipeRoutes::REGENERATE_RECIPES, 'App\Http\Controllers\Controller@regenerateRecipes');
-Route::post(RecipeRoutes::CREATE_MENU, 'App\Http\Controllers\Controller@includeRecipesInMenu');
-Route::get(RecipeRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMenu');
+Route::get(MenuRoutes::MENU, 'App\Http\Controllers\Controller@randomRecipes');
+Route::post(MenuRoutes::REGENERATE_RECIPES, 'App\Http\Controllers\Controller@regenerateRecipes');
+Route::post(MenuRoutes::CREATE_MENU, 'App\Http\Controllers\Controller@includeRecipesInMenu');
+Route::get(MenuRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMenu');
 
 // CATEGORIES
 Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index');
+Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryController@recipesByCategory');
