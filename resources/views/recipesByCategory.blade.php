@@ -2,6 +2,7 @@
 <html lang="en">
 @php
     $recipeCounter = 1;
+    use App\Data\Routes\MenuRoutes;
 @endphp
 <head>
     <meta charset="utf-8">
@@ -32,7 +33,7 @@
                             @foreach($recipes as $recipe)
                             <tr>
                                 <td>{{ $recipeCounter }}</td>
-                                <td>{{ $recipe->name }}</td>
+                                <td><a href="{{ str_replace('{id}', $recipe->id, MenuRoutes::RECIPE) }}">{{ $recipe->name }}</a></td>
                                 <td>{{ $recipe->last_used_at }}</td>
                             </tr>
                             @php $recipeCounter++; @endphp
