@@ -15,11 +15,11 @@ class Table extends Component
      *
      * @return void
      */
-    public function __construct($isMenuSet, $recipes, $keepedRecipesIds)
+    public function __construct($isMenuSet, $recipes, $keepedRecipesIds = "")
     {
+        $this->$keepedRecipesIds = $keepedRecipesIds;
         $this->recipes = $recipes;
         $this->isMenuSet = $isMenuSet;
-        $this->$keepedRecipesIds = $keepedRecipesIds;
     }
 
     /**
