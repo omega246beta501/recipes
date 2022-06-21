@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Models\Category;
 use App\Models\Recipe;

@@ -136,7 +136,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "{{ AMenuRoutes::REGENERATE_RECIPES }}",
+                "url": "{{ MenuRoutes::REGENERATE_RECIPES }}",
                 "method": "POST",
                 "headers": {
                     "cache-control": "no-cache",

@@ -1,3 +1,6 @@
+@php
+    use App\Data\Routes\MenuRoutes;
+@endphp
 <table class="table table-hover table-dark" id="recipestable">
     <thead>
         <tr>
@@ -13,7 +16,7 @@
     @foreach($recipes as $recipe)
     <tr>
         <th>{{ $recipe->id }}</th>
-        <th>{{ $recipe->name }}</th>
+        <th><a href="{{ str_replace('{id}', $recipe->id, MenuRoutes::RECIPE) }}">{{ $recipe->name }}</a></th>
         @if($isMenuSet)
         <th><input class="form-check-input keeped" type="checkbox" value="" id="{{ $recipe->id }}" checked disabled></th>
         @else
