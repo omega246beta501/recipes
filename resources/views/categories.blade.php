@@ -1,17 +1,39 @@
 @php
 $categoryCounter = 1;
+use App\Data\Routes\CategoryRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Categorías</x-slot>
         <div class="container">
-            <div class="row">
-                <x-elements.accordion>
-                    <x-slot:buttonName>
-                        Insertar nueva categoría
-                    </x-slot:buttonName>
+            <div class="row" style="margin-bottom: 1%;">
+                <div class="col"></div>
+                <div class="col-6">
+                    <x-elements.accordion>
+                        <x-slot:buttonName>
+                            Insertar nueva categoría
+                        </x-slot:buttonName>
 
-                    Aquí va el formulario
-                </x-elements.accordion>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" id="categoryName" placeholder="Nombre">
+                            </div>
+                            <div class="col">
+                                <select id="recipesSelect" name="kk[]" multiple="multiple" style="width: 100%;">
+                                    @foreach($recipes as $recipe)
+                                    <option value={{ $recipe->id }}>{{ $recipe->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 2%;">
+                            <div class="col-10"></div>
+                            <div class="col">
+                                <button class="btn btn-success" onclick="createCategory()">Crear</button>
+                            </div>
+                        </div>
+                    </x-elements.accordion>
+                </div>
+                <div class="col"></div>
             </div>
             <div class="row">
                 <div class="col">
@@ -43,13 +65,43 @@ $categoryCounter = 1;
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-        </script>
         <script>
             $(document).ready(function() {
-                $('#accordionButton').click(function () {
-                    $('#collapseOne').collapse('toggle');
+                $('#recipesSelect').select2({
+                    width: 'resolve',
+                    placeholder: "Recetas a incluir"
                 });
             });
+
+            function createCategory() {
+                var recipesToAttach = [];
+                var categoryName = $('#categoryName').val();
+
+                $('#recipesSelect').find(':selected').each(function() {
+                    recipesToAttach.push(this.value);
+                });
+
+                var data = {
+                    "recipesToAttach": recipesToAttach,
+                    "newName": categoryName
+                }
+
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "{{ CategoryRoutes::NEW_CATEGORY }}",
+                    "method": "POST",
+                    "headers": {
+                        "cache-control": "no-cache",
+                        "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+                    },
+                    "data": JSON.stringify(data)
+                }
+
+                $.ajax(settings).done(function(response) {
+                    alert('Se ha incluido una receta nueva al sistema');
+                    location.reload();
+                });
+            }
         </script>
 </x-layout>

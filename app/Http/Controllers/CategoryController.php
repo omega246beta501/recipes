@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RequestHelper;
 use App\Models\Category;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
@@ -13,8 +14,11 @@ class CategoryController extends Controller
                                 ->orderBy('recipes_count', 'desc')
                                 ->get();
 
+        $recipes = Recipe::orderBy('name')->get();
+
         return view('categories', [
-            'categories' => $categories
+            'categories' => $categories,
+            'recipes'   => $recipes
         ]);
     }
 
@@ -33,5 +37,22 @@ class CategoryController extends Controller
             'tableTitle' => $category->name,
             'recipes' => $recipes
         ]);
+    }
+
+    public function store(Request $request) {
+        $data = RequestHelper::requestToArray($request);
+        
+        $newName = $data['newName'];
+        $recipesToAttach = $data['recipesToAttach'];
+
+        if(!empty($recipesToAttach)) {
+            $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
+        }
+
+        $newCategory = new Category();
+        $newCategory->name = $newName;
+        $newCategory->save();
+
+        $newCategory->recipes()->attach($recipesModels);
     }
 }

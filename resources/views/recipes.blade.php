@@ -7,6 +7,14 @@ use App\Data\Routes\RecipeRoutes;
     <x-slot:title>Recetas</x-slot>
     <div class="container">
         <div class="row">
+            <x-elements.accordion>
+                <x-slot:buttonName>
+                    Insertar nueva receta
+                </x-slot:buttonName>
+                Aquí va el formulario
+            </x-elements.accordion>
+        </div>
+        <div class="row">
             <div class="col">
             </div>
             <div class="col">
@@ -36,9 +44,4 @@ use App\Data\Routes\RecipeRoutes;
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-    </script>
-    <script>
-        $(document).ready(function() {});
-    </script>
 </x-layout>

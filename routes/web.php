@@ -24,6 +24,7 @@ Route::get(MenuRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMen
 
 // CATEGORIES
 Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index');
+Route::post(CategoryRoutes::NEW_CATEGORY, 'App\Http\Controllers\CategoryController@store');
 Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryController@recipesByCategory');
 
 // RECIPES
