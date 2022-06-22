@@ -11,12 +11,12 @@ use App\Data\Routes\RecipeRoutes;
             </div>
             <div class="col">
                 <div class="row">
-                    <div class="regenerable col">
-                        <table class="table table-hover table-dark" id="recipestable">
+                    <div class="col">
+                        <table class="table table-hover table-dark">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ $category->name }}</th>
+                                    <th>{{ $tableTitle }}</th>
                                     <th>Última vez</th>
                                 </tr>
                             </thead>

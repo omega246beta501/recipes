@@ -30,7 +30,7 @@ class CategoryController extends Controller
         }
 
         return view('recipes', [
-            'category' => $category,
+            'tableTitle' => $category->name,
             'recipes' => $recipes
         ]);
     }

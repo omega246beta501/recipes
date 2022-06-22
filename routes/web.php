@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', 'App\Http\Controllers\Controller@randomRecipes');
 Route::get(MenuRoutes::MENU, 'App\Http\Controllers\Controller@randomRecipes');
 Route::post(MenuRoutes::REGENERATE_RECIPES, 'App\Http\Controllers\Controller@regenerateRecipes');
 Route::post(MenuRoutes::CREATE_MENU, 'App\Http\Controllers\Controller@includeRecipesInMenu');
@@ -24,3 +25,6 @@ Route::get(MenuRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMen
 // CATEGORIES
 Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index');
 Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryController@recipesByCategory');
+
+// RECIPES
+Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index');
