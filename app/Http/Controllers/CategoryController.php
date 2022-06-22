@@ -29,7 +29,7 @@ class CategoryController extends Controller
             }
         }
 
-        return view('recipesByCategory', [
+        return view('recipes', [
             'category' => $category,
             'recipes' => $recipes
         ]);
