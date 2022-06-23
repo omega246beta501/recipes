@@ -68,4 +68,47 @@ class CategoryController extends Controller
             DB::rollBack();
         }
     }
+
+    public function updateView($id) {
+
+        $category = Category::findOrFail($id);
+        $attachedRecipes = $category->recipes;
+        $allRecipes = Recipe::orderBy('name')->get();
+
+        return view('components.forms.category', [
+            'recipes' => $allRecipes,
+            'attachedRecipes' => $attachedRecipes,
+            'category' => $category
+        ]);
+    }
+
+    public function update(Request $request) {
+
+        $data = RequestHelper::requestToArray($request);
+        
+        $id             = $data['id'];
+        $newName        = $data['newName'] ?? null;
+
+        $recipesToAttach = $data['recipesToAttach'];
+        $recipesModels = new Collection();
+
+        try {
+            DB::beginTransaction();
+
+            if(!empty($recipesToAttach)) {
+                $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
+            }
+    
+            $newCategory = Category::findOrFail($id);
+            $newCategory->name            = $newName;
+            $newCategory->save();
+    
+            $newCategory->recipes()->sync($recipesModels);
+
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+        }
+    }
 }

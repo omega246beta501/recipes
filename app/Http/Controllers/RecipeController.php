@@ -66,7 +66,6 @@ class RecipeController extends Controller
 
         return view('components.forms.recipe', [
             'categories' => $allcategories,
-            'select2Id' => 'updateSelec2Categories',
             'attachedCategories' => $attachedCategories,
             'recipe' => $recipe
         ]);

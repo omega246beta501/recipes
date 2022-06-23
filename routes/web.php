@@ -26,6 +26,8 @@ Route::get(MenuRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMen
 Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index');
 Route::post(CategoryRoutes::NEW_CATEGORY, 'App\Http\Controllers\CategoryController@store');
 Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryController@recipesByCategory');
+Route::get(CategoryRoutes::UPDATE_VIEW, 'App\Http\Controllers\CategoryController@updateView');
+Route::post(CategoryRoutes::UPDATE, 'App\Http\Controllers\CategoryController@update');
 
 // RECIPES
 Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index');
