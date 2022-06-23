@@ -5,6 +5,13 @@ use App\Data\Routes\RecipeRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Recetas</x-slot>
+    @foreach($recipes as $recipe)
+    <x-elements.modal>
+        <x-slot:modalId>{{ $recipe->id }}</x-slot:modalId>
+        <x-slot:title>Receta {{ $recipe->name}}</x-slot:title>
+        El cuerpesito del modal va aquí
+    </x-elements.modal>
+    @endforeach
         <div class="container">
             <div class="row" style="margin-bottom: 1%;">
                 <div class="col"></div>
@@ -52,7 +59,7 @@ use App\Data\Routes\RecipeRoutes;
                                 @foreach($recipes as $recipe)
                                 <tr>
                                     <td>{{ $recipeCounter }}</td>
-                                    <td><a href="{{ str_replace('{id}', $recipe->id, RecipeRoutes::RECIPE) }}">{{ $recipe->name }}</a></td>
+                                    <td><a href="#" onclick="openModal({{ $recipe->id }})">{{ $recipe->name }}</a></td>
                                     <td>{{ $recipe->last_used_at }}</td>
                                 </tr>
                                 @php $recipeCounter++; @endphp
@@ -102,6 +109,10 @@ use App\Data\Routes\RecipeRoutes;
                     alert('Se ha incluido una receta nueva al sistema');
                     location.reload();
                 });
+            }
+
+            function openModal(modalId) {
+                $('#' + modalId).modal('show');
             }
         </script>
 </x-layout>

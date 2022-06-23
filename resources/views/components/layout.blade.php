@@ -27,6 +27,23 @@ use App\Data\Routes\CategoryRoutes;
         header {
             margin-bottom: 1%;
         }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: .5;
+        }
+
+        button.close {
+            padding: 0;
+            background-color: transparent;
+            border: 0;
+            -webkit-appearance: none;
+        }
     </style>
 </head>
 
