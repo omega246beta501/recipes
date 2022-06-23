@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\RequestHelper;
 use App\Models\Category;
 use App\Models\Recipe;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -35,7 +37,8 @@ class CategoryController extends Controller
 
         return view('recipes', [
             'tableTitle' => $category->name,
-            'recipes' => $recipes
+            'recipes' => $recipes,
+            'categories' => new Collection()
         ]);
     }
 
@@ -44,15 +47,25 @@ class CategoryController extends Controller
         
         $newName = $data['newName'];
         $recipesToAttach = $data['recipesToAttach'];
+        $recipesModels = new Collection();
 
-        if(!empty($recipesToAttach)) {
-            $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
+        try {
+            DB::beginTransaction();
+
+            if(!empty($recipesToAttach)) {
+                $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
+            }
+    
+            $newCategory = new Category();
+            $newCategory->name = $newName;
+            $newCategory->save();
+    
+            $newCategory->recipes()->attach($recipesModels);
+
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
         }
-
-        $newCategory = new Category();
-        $newCategory->name = $newName;
-        $newCategory->save();
-
-        $newCategory->recipes()->attach($recipesModels);
     }
 }

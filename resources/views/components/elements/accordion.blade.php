@@ -8,10 +8,17 @@
             </h5>
         </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 {{ $slot }}
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#accordionButton').click(function() {
+            $('#collapseOne').collapse('toggle');
+        });
+    });
+</script>

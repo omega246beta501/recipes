@@ -99,7 +99,7 @@ use App\Data\Routes\CategoryRoutes;
                 }
 
                 $.ajax(settings).done(function(response) {
-                    alert('Se ha incluido una receta nueva al sistema');
+                    alert('Se ha incluido una categoría nueva al sistema');
                     location.reload();
                 });
             }

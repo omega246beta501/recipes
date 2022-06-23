@@ -29,3 +29,4 @@ Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryCo
 
 // RECIPES
 Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index');
+Route::post(RecipeRoutes::NEW_RECIPE, 'App\Http\Controllers\RecipeController@store');
