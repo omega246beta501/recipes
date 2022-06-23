@@ -4,7 +4,7 @@ namespace App\View\Components\Forms;
 
 use Illuminate\View\Component;
 
-class recipe extends Component
+class Recipe extends Component
 {
     public $categories;
 

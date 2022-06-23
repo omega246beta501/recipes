@@ -35,7 +35,7 @@ use App\Data\Routes\RecipeRoutes;
                                 @foreach($recipes as $recipe)
                                 <tr>
                                     <td>{{ $recipeCounter }}</td>
-                                    <td><a href="#" onclick="openModal({{ $recipe->id }})">{{ $recipe->name }}</a></td>
+                                    <td><a onclick="openModal('updateModal', {{ $recipe->id }})">{{ $recipe->name }}</a></td>
                                     <td>{{ $recipe->last_used_at }}</td>
                                 </tr>
                                 @php $recipeCounter++; @endphp
@@ -48,59 +48,45 @@ use App\Data\Routes\RecipeRoutes;
                 </div>
             </div>
         </div>
-        @foreach($recipes as $recipe)
-        <x-elements.modal>
-            <x-slot:modalId>{{ $recipe->id }}</x-slot:modalId>
-            <x-slot:title>Receta {{ $recipe->name}}</x-slot:title>
-            <x-forms.recipe :categories="$categories"></x-forms.recipe>
-        </x-elements.modal>
-        @endforeach
+        <div class="modalContainer">
+            <x-elements.modal>
+                <x-slot:modalId>updateModal</x-slot:modalId>
+                <x-slot:title>Actualizar Receta</x-slot:title>
+                <!-- Al hacer una peticion al controller, este renderizara el form -->
+                <div id="updateRecipeForm"></div>
+            </x-elements.modal>
+        </div>
         <script>
             $(document).ready(function() {
-                $('#categoriesSelect').select2({
+                $('#insertSelec2Categories').select2({
                     width: 'resolve',
                     placeholder: "Categorías a incluir (Opcional)"
                 });
             });
 
-            function createRecipe() {
-                var categoriesToAttach = [];
-                var recipeName = $('#recipeName').val();
-                var recipePrice = $('#recipePrice').val();
-                var recipeKcal = $('#recipeKcal').val();
-                var recipeDescription = $('#recipeDescription').val();
-
-                $('#categoriesSelect').find(':selected').each(function() {
-                    categoriesToAttach.push(this.value);
-                });
-
-                var data = {
-                    "categoriesToAttach": categoriesToAttach,
-                    "newName": recipeName,
-                    "newPrice": recipePrice,
-                    "newKcal": recipeKcal,
-                    "newDescription": recipeDescription
-                }
+            function openModal(modalId, recipeId) {
 
                 var settings = {
                     "async": true,
                     "crossDomain": true,
-                    "url": "{{ RecipeRoutes::NEW_RECIPE }}",
-                    "method": "POST",
+                    "url": "{{ RecipeRoutes::UPDATE_VIEW }}".replace("{id}", recipeId),
+                    "method": "GET",
                     "headers": {
                         "cache-control": "no-cache",
                         "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
-                    },
-                    "data": JSON.stringify(data)
+                    }
                 }
 
                 $.ajax(settings).done(function(response) {
-                    alert('Se ha incluido una receta nueva al sistema');
-                    location.reload();
+                    $("#updateRecipeForm").html(response);
+                    // Select2 situado en el formulario que general el controller. Metodo UpdateView
+                    $('#updateSelec2Categories').select2({
+                        width: 'resolve',
+                        placeholder: "Categorías a incluir (Opcional)",
+                        dropdownParent: $('#' + modalId)
+                    });
                 });
-            }
 
-            function openModal(modalId) {
                 $('#' + modalId).modal('show');
             }
         </script>

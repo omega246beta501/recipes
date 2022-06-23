@@ -24,6 +24,12 @@ use App\Data\Routes\CategoryRoutes;
             text-decoration: auto;
         }
 
+        a:hover {
+            color: #ffc107 !important;
+            cursor: pointer;
+            text-decoration: auto;
+        }
+
         header {
             margin-bottom: 1%;
         }
