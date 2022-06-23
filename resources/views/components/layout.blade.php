@@ -44,6 +44,10 @@ use App\Data\Routes\CategoryRoutes;
             border: 0;
             -webkit-appearance: none;
         }
+
+        .row {
+            margin-bottom: 1%;
+        }
     </style>
 </head>
 
