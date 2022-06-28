@@ -27,6 +27,12 @@ class Recipe extends Model
         return $this->belongsToMany(Category::class, 'category_recipes');
     }
 
+    public function ingredients() {
+        return $this->belongsToMany(Ingredient::class, 'ingredient_recipes')
+        ->withPivot('description')
+        ->withTimestamps();
+    }
+
     public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], int $amount = 6) {
         Log::info($includedRecipes);
         $amountIncluded = count($includedRecipes);

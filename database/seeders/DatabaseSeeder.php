@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RecipesSeeder;
 use Database\Seeders\CategoriesSeeder;
+use Database\Seeders\IngredientsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,6 @@ class DatabaseSeeder extends Seeder
     {
         CategoriesSeeder::run();
         RecipesSeeder::run();
+        IngredientsSeeder::run();
     }
 }
