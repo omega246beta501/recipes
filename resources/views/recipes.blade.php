@@ -13,6 +13,12 @@ use App\Data\Routes\RecipeRoutes;
                         <x-slot:buttonName>
                             Insertar nueva receta
                         </x-slot:buttonName>
+                        <x-slot:accordionButtonId>
+                            newRecipeAccordionButton
+                        </x-slot:accordionButtonId>
+                        <x-slot:accordionId>
+                            newRecipeAccordion
+                        </x-slot:accordionId>
                         <x-forms.recipe :categories="$categories"></x-forms.recipe>
                     </x-elements.accordion>
                 </div>

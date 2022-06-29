@@ -4,12 +4,16 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Data\Routes\RecipeRoutes;
 
 if(!isset($attachedCategories)) {
-    $attachedCategories = new Collection();
+$attachedCategories = new Collection();
+}
+
+if(!isset($attachedIngredients)) {
+$attachedIngredients = new Collection();
 }
 
 $formMode = "insert";
 if(isset($recipe)) {
-    $formMode = "update";
+$formMode = "update";
 }
 
 @endphp
@@ -32,6 +36,68 @@ if(isset($recipe)) {
         </div>
         <div class="col">
             <input class="form-control" type="text" id="{{ $formMode }}RecipeKcal" placeholder="Calorías (Opcional)" @if(isset($recipe)) value="{{ $recipe->kcal }}" @endif>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <x-elements.accordion>
+                <x-slot:buttonName>
+                    Ingredientes
+                </x-slot:buttonName>
+                <x-slot:accordionButtonId>
+                    @if($formMode == 'insert')
+                    newIngredientsAccordionButton
+                    @else
+                    updateIngredientsAccordionButton
+                    @endif
+                </x-slot:accordionButtonId>
+                <x-slot:accordionId>
+                    @if($formMode == 'insert')
+                    newIngredientsAccordion
+                    @else
+                    updateIngredientsAccordion
+                    @endif
+                </x-slot:accordionId>
+                <div class="row row-cols-1 row-cols-md-4 g-4">
+                    @foreach($attachedIngredients as $ingredient)
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                {{ $ingredient->name }}
+                            </div>
+                            <div class="card-body">
+                                <input class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción..." value="{{ $ingredient->pivot->description }}">
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <a href="#" class="btn btn-success">Update</a>
+                                    </div>
+                                    <div class="col"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <input class="autocomplete form-control mb-2 text-center" type="text" placeholder="Nombre Ingrediente" autocomplete="off">
+                            </div>
+                            <div class="card-body">
+                                <input class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col">
+                                        <a href="#" class="btn btn-primary">Añadir</a>
+                                    </div>
+                                    <div class="col"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </x-elements.accordion>
         </div>
     </div>
     <div class="row">
@@ -126,4 +192,7 @@ if(isset($recipe)) {
             location.reload();
         });
     }
+    $(document).ready(function(){
+        $('.basicAutoComplete').autoComplete();
+    });
 </script>

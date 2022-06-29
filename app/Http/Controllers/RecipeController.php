@@ -63,11 +63,13 @@ class RecipeController extends Controller
         $recipe = Recipe::findOrFail($id);
         $attachedCategories = $recipe->categories;
         $allcategories = Category::orderBy('name')->get();
+        $attachedIngredients = $recipe->ingredients;
 
         return view('components.forms.recipe', [
+            'recipe' => $recipe,
             'categories' => $allcategories,
             'attachedCategories' => $attachedCategories,
-            'recipe' => $recipe
+            'attachedIngredients' => $attachedIngredients,
         ]);
     }
 

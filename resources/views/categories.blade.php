@@ -12,6 +12,12 @@ use App\Data\Routes\CategoryRoutes;
                         <x-slot:buttonName>
                             Insertar nueva categoría
                         </x-slot:buttonName>
+                        <x-slot:accordionButtonId>
+                            newCategoryAccordionButton
+                        </x-slot:accordionButtonId>
+                        <x-slot:accordionId>
+                            newCategoryAccordion
+                        </x-slot:accordionId>
                         <x-forms.category :recipes="$recipes"></x-forms.category>
                     </x-elements.accordion>
                 </div>

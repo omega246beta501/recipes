@@ -3,6 +3,7 @@
 use App\Data\Routes\CategoryRoutes;
 use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
+use App\Models\Ingredient;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,3 +35,10 @@ Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index')
 Route::post(RecipeRoutes::UPDATE, 'App\Http\Controllers\RecipeController@update');
 Route::post(RecipeRoutes::NEW_RECIPE, 'App\Http\Controllers\RecipeController@store');
 Route::get(RecipeRoutes::UPDATE_VIEW, 'App\Http\Controllers\RecipeController@updateView');
+
+// INGREDIENTS
+
+Route::get('/ingredients/all', function() {
+    $ingredients = Ingredient::orderBy('name')->pluck('name');
+    return $ingredients;
+});
