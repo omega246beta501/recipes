@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <a href="#" class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Update</a>
+                        <button class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Update</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -21,14 +21,14 @@
     <div class="col">
         <div class="card">
             <div class="card-header text-center">
-                <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Nombre Ingrediente" autocomplete="off">
+                <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Ingrediente" autocomplete="off">
             </div>
             <div class="card-body">
                 <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <a href="#" class="btn btn-primary" onclick="addNewIngredient({{  $recipe->id }})">Añadir</a>
+                        <button class="btn btn-primary" onclick="addNewIngredient({{  $recipe->id }})">Añadir</button>
                     </div>
                     <div class="col"></div>
                 </div>
