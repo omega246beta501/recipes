@@ -109,6 +109,20 @@ $formMode = "update";
             <textarea class="form-control" id="{{ $formMode }}RecipeDescription" cols="30" rows="10" placeholder="Descripción de la receta (Opcional)">@if(isset($recipe)){{$recipe->description}}@endif</textarea>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <input class="form-control" id="{{ $formMode }}RecipeUrl" placeholder="Url vídeo de la receta (Opcional)" @if(isset($recipe)) value="{{$recipe->url}}"@endif>
+        </div>
+    </div>
+    @if(isset($recipe) && isset($recipe->url))
+    <div class="row">
+        <div class="col">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" width="100%" height="400" src="{{ $recipe->url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="row" style="margin-top: 2%;">
         <div class="col-10"></div>
         <div class="col">
@@ -128,6 +142,7 @@ $formMode = "update";
         var recipePrice = $('#insertRecipePrice').val();
         var recipeKcal = $('#insertRecipeKcal').val();
         var recipeDescription = $('#insertRecipeDescription').val();
+        var recipeUrl = $('#insertRecipeUrl').val();
 
         $('#insertSelec2Categories').find(':selected').each(function() {
             categoriesToAttach.push(this.value);
@@ -138,7 +153,8 @@ $formMode = "update";
             "newName": recipeName,
             "newPrice": recipePrice,
             "newKcal": recipeKcal,
-            "newDescription": recipeDescription
+            "newDescription": recipeDescription,
+            "newUrl": recipeUrl
         }
 
         var settings = {
@@ -165,6 +181,7 @@ $formMode = "update";
         var recipePrice = $('#updateRecipePrice').val();
         var recipeKcal = $('#updateRecipeKcal').val();
         var recipeDescription = $('#updateRecipeDescription').val();
+        var recipeUrl = $('#updateRecipeUrl').val();
 
         $('#updateSelec2Categories').find(':selected').each(function() {
             categoriesToAttach.push(this.value);
@@ -176,6 +193,7 @@ $formMode = "update";
             "newPrice": recipePrice,
             "newKcal": recipeKcal,
             "newDescription": recipeDescription,
+            "newUrl": recipeUrl,
             "id": id
         }
 

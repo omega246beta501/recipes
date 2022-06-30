@@ -27,6 +27,7 @@ class RecipeController extends Controller
     public function store(Request $request) {
         $data = RequestHelper::requestToArray($request);
         
+        $newUrl         = $data['newUrl'] ?? null;
         $newName        = $data['newName'];
         $newKcal        = $data['newKcal'] ?? null;
         $newPrice       = $data['newPrice'] ?? null;
@@ -47,6 +48,7 @@ class RecipeController extends Controller
             $newRecipe->kcal            = $newKcal;
             $newRecipe->price           = $newPrice;
             $newRecipe->description     = $newDescription;
+            $newRecipe->url             = $newUrl;
             $newRecipe->save();
     
             $newRecipe->categories()->attach($categoriesModels);
@@ -78,6 +80,7 @@ class RecipeController extends Controller
         $data = RequestHelper::requestToArray($request);
         
         $id             = $data['id'];
+        $newUrl         = $data['newUrl'] ?? null;
         $newName        = $data['newName'] ?? null;
         $newKcal        = $data['newKcal'] ?? null;
         $newPrice       = $data['newPrice'] ?? null;
@@ -98,6 +101,7 @@ class RecipeController extends Controller
             $newRecipe->kcal            = $newKcal;
             $newRecipe->price           = $newPrice;
             $newRecipe->description     = $newDescription;
+            $newRecipe->url             = $newUrl;
             $newRecipe->save();
     
             $newRecipe->categories()->sync($categoriesModels);
