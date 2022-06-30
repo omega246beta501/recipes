@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
 
+            $table->unique(["ingredient_id", "recipe_id"]);
             $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade')->onUpdate('cascade');
         });
