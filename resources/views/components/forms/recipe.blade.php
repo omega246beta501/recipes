@@ -2,6 +2,7 @@
 @php
 use Illuminate\Database\Eloquent\Collection;
 use App\Data\Routes\RecipeRoutes;
+use App\Data\Routes\IngredientRoutes;
 
 if(!isset($attachedCategories)) {
 $attachedCategories = new Collection();
@@ -38,6 +39,7 @@ $formMode = "update";
             <input class="form-control" type="text" id="{{ $formMode }}RecipeKcal" placeholder="Calorías (Opcional)" @if(isset($recipe)) value="{{ $recipe->kcal }}" @endif>
         </div>
     </div>
+    @if($formMode == 'update')
     <div class="row">
         <div class="col-12">
             <x-elements.accordion>
@@ -58,40 +60,41 @@ $formMode = "update";
                     updateIngredientsAccordion
                     @endif
                 </x-slot:accordionId>
-                <div class="row row-cols-1 row-cols-md-4 g-4">
-                    @foreach($attachedIngredients as $ingredient)
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                {{ $ingredient->name }}
-                            </div>
-                            <div class="card-body">
-                                <input class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción..." value="{{ $ingredient->pivot->description }}">
-                                <div class="row">
-                                    <div class="col"></div>
-                                    <div class="col">
-                                        <a href="#" class="btn btn-success">Update</a>
+                <div id="ingredientsGrid">
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
+                        @foreach($attachedIngredients as $ingredient)
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header text-center bg-danger bg-gradient bg-opacity-75" onclick="detachRecipeFromIngredient(event, {{ $recipe->id }}, {{ $ingredient->id }})">
+                                    {{ $ingredient->name }}
+                                </div>
+                                <div class="card-body">
+                                    <input id="{{$recipe->id}}-{{$ingredient->id}}" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción..." value="{{ $ingredient->pivot->description }}">
+                                    <div class="row">
+                                        <div class="col"></div>
+                                        <div class="col">
+                                            <a href="#" class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Update</a>
+                                        </div>
+                                        <div class="col"></div>
                                     </div>
-                                    <div class="col"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
-
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                <input class="autocomplete form-control mb-2 text-center" type="text" placeholder="Nombre Ingrediente" autocomplete="off">
-                            </div>
-                            <div class="card-body">
-                                <input class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
-                                <div class="row">
-                                    <div class="col"></div>
-                                    <div class="col">
-                                        <a href="#" class="btn btn-primary">Añadir</a>
+                        @endforeach
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Nombre Ingrediente" autocomplete="off">
+                                </div>
+                                <div class="card-body">
+                                    <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
+                                    <div class="row">
+                                        <div class="col"></div>
+                                        <div class="col">
+                                            <a href="#" class="btn btn-primary" onclick="addNewIngredient({{  $recipe->id }})">Añadir</a>
+                                        </div>
+                                        <div class="col"></div>
                                     </div>
-                                    <div class="col"></div>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +103,7 @@ $formMode = "update";
             </x-elements.accordion>
         </div>
     </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <textarea class="form-control" id="{{ $formMode }}RecipeDescription" cols="30" rows="10" placeholder="Descripción de la receta (Opcional)">@if(isset($recipe)) {{$recipe->description}} @endif</textarea>
@@ -116,7 +120,7 @@ $formMode = "update";
         </div>
     </div>
 </div>
-
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     function createRecipe() {
         var categoriesToAttach = [];
@@ -192,7 +196,110 @@ $formMode = "update";
             location.reload();
         });
     }
-    $(document).ready(function(){
-        $('.basicAutoComplete').autoComplete();
+
+    function addNewIngredient(recipeId) {
+
+        var newIngredientName = $('#autocomplete').val();
+        var newIngredientDescription = $('#newIngredientDescription').val();
+
+        var data = {
+            "recipeId": recipeId,
+            "newIngredientName": newIngredientName,
+            "newIngredientDescription": newIngredientDescription,
+        }
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "{{ IngredientRoutes::ATTACH_RECIPE }}",
+            "method": "POST",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+            },
+            "data": JSON.stringify(data)
+        }
+
+        $.ajax(settings).done(function(response) {
+            $("#ingredientsGrid").html(response);
+
+            $("#autocomplete").autocomplete({
+                source: "{{ IngredientRoutes::QUERY_INGREDIENTS }}"
+            });
+        });
+    }
+
+    function detachRecipeFromIngredient(event, recipeId, ingredientId) {
+
+        var data = {
+            "recipeId": recipeId,
+            "ingredientId": ingredientId,
+        }
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "{{ IngredientRoutes::DETACH_RECIPE }}",
+            "method": "POST",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+            },
+            "data": JSON.stringify(data)
+        }
+
+        detach = true;
+
+        if (event.ctrlKey == false) {
+            detach = confirm("¿Deseas eliminar el ingrediente de la receta?");
+        }
+
+        if (detach) {
+            $.ajax(settings).done(function(response) {
+                $("#ingredientsGrid").html(response);
+
+                $("#autocomplete").autocomplete({
+                    source: "{{ IngredientRoutes::QUERY_INGREDIENTS }}"
+                });
+            });
+        }
+    }
+
+    function updateAttachedIngredient(recipeId, ingredientId) {
+
+        description = $("#" + recipeId + "-" + ingredientId).val();
+
+        var data = {
+            "recipeId": recipeId,
+            "ingredientId": ingredientId,
+            "description": description
+        }
+
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "{{ IngredientRoutes::UPDATE_ATTACHED }}",
+            "method": "POST",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
+            },
+            "data": JSON.stringify(data)
+        }
+
+        $.ajax(settings).done(function(response) {
+            $("#ingredientsGrid").html(response);
+
+            $("#autocomplete").autocomplete({
+                source: "{{ IngredientRoutes::QUERY_INGREDIENTS }}"
+            });
+            alert('Se ha actualizado el ingrediente en el sistema');
+        });
+    }
+
+    $(document).ready(function() {
+        $("#autocomplete").autocomplete({
+            source: "{{ IngredientRoutes::QUERY_INGREDIENTS }}"
+        });
     });
 </script>

@@ -1,9 +1,9 @@
 <?php
 
 use App\Data\Routes\CategoryRoutes;
+use App\Data\Routes\IngredientRoutes;
 use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
-use App\Models\Ingredient;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,8 +37,7 @@ Route::post(RecipeRoutes::NEW_RECIPE, 'App\Http\Controllers\RecipeController@sto
 Route::get(RecipeRoutes::UPDATE_VIEW, 'App\Http\Controllers\RecipeController@updateView');
 
 // INGREDIENTS
-
-Route::get('/ingredients/all', function() {
-    $ingredients = Ingredient::orderBy('name')->pluck('name');
-    return $ingredients;
-});
+Route::post(IngredientRoutes::ATTACH_RECIPE, 'App\Http\Controllers\IngredientController@attachRecipe');
+Route::post(IngredientRoutes::DETACH_RECIPE, 'App\Http\Controllers\IngredientController@detachRecipe');
+Route::get(IngredientRoutes::QUERY_INGREDIENTS, 'App\Http\Controllers\IngredientController@queryIngredients');
+Route::post(IngredientRoutes::UPDATE_ATTACHED, 'App\Http\Controllers\IngredientController@updateAttachedRecipe');

@@ -6,9 +6,7 @@ use Illuminate\Support\Str;
 
 class FormatHelper {
     public static function ingredientNameFormat($name) {
-        Pluralizer::uselanguage('spanish');
-        $name = Str::singular(Str::title(Str::squish($name)));
-        Pluralizer::uselanguage('english');
+        $name = Str::title(Str::squish($name));
         
         return $name;
     }
