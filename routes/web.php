@@ -22,6 +22,7 @@ Route::get(MenuRoutes::MENU, 'App\Http\Controllers\Controller@randomRecipes');
 Route::post(MenuRoutes::REGENERATE_RECIPES, 'App\Http\Controllers\Controller@regenerateRecipes');
 Route::post(MenuRoutes::CREATE_MENU, 'App\Http\Controllers\Controller@includeRecipesInMenu');
 Route::get(MenuRoutes::DISCARD_MENU, 'App\Http\Controllers\Controller@discardMenu');
+Route::get(MenuRoutes::NEW_MENU, 'App\Http\Controllers\Controller@clearMenu');
 
 // CATEGORIES
 Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index');

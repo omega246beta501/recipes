@@ -72,4 +72,8 @@ class Controller extends BaseController
     public function discardMenu() {
         \App\Models\Recipe::discardMenu();
     }
+
+    public function clearMenu() {
+        Recipe::clearMenu();
+    }
 }
