@@ -1,4 +1,4 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="{{ $modalId }}">
+<div class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog" id="{{ $modalId }}">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,6 +23,12 @@
     $(document).ready(function() {
         $('.closeModalButton').click(function() {
             $('#{{ $modalId }}').modal('hide');
+        });
+
+        $("body").on("mousedown", function(e) {
+            if($(e.target).attr('class') == 'modal fade show') {
+                $('#{{ $modalId }}').modal('hide');
+            }
         });
     });
 </script>
