@@ -26,19 +26,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Log::info("Checking if the menu is outdated");
+        // Log::info("Checking if the menu is outdated");
 
-        $inMenuRecipe = Recipe::where('is_in_menu', true)->first();
+        // $inMenuRecipe = Recipe::where('is_in_menu', true)->first();
 
-        if($inMenuRecipe) {
-            $assignedAt = $inMenuRecipe->last_used_at;
-            $today = Carbon::now();
+        // if($inMenuRecipe) {
+        //     $assignedAt = $inMenuRecipe->last_used_at;
+        //     $today = Carbon::now();
     
-            $difference = $today->diffInDays($assignedAt);
+        //     $difference = $today->diffInDays($assignedAt);
     
-            if($difference >= 7) {
-                Recipe::clearMenu();
-            }
-        }
+        //     if($difference >= 7) {
+        //         Recipe::clearMenu();
+        //     }
+        // }
     }
 }
