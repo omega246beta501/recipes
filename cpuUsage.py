@@ -47,9 +47,9 @@ while(True):
         
         if(logic):
             print(now() + "Reinicio el server")
-            os.system('sail down')
+            os.system('./sail down')
             time.sleep(5)
-            os.system('sail up -d')
+            os.system('./sail up -d')
             time.sleep(60)
             print(now() + "He reinciado el server")
 
