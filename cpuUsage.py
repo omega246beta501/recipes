@@ -40,10 +40,10 @@ while(True):
     
     if(len(lista) == 3):
         print(now() + "¿Ya han pasado 90 segundos, ha estado el server a más de " + str(threshold) + " Durante ese tiempo?")
-        logic = False
+        logic = True
 
         for element in lista:
-            logic = logic or element
+            logic = logic and element
         
         if(logic):
             print(now() + "Reinicio el server")
