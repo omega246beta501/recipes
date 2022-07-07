@@ -100,4 +100,21 @@ class Recipe extends Model
             $recipe->save();
         }
     }
+
+    public static function createShoppingList() {
+        $shoppingList = ShoppingList::findOrFail(1);
+        $shoppingList->emptyList();
+        
+        $inMenuIngredients = DB::table('recipes')
+                                ->join('ingredient_recipes', 'ingredient_recipes.recipe_id', '=', 'recipes.id')
+                                ->join('ingredients', 'ingredient_recipes.ingredient_id', '=', 'ingredients.id')
+                                ->select(DB::raw("ingredients.id, group_concat(recipes.name, ':', ingredient_recipes.description) as description"))
+                                ->where('recipes.is_in_menu', 1)
+                                ->groupBy('ingredients.name')
+                                ->get();
+        
+        foreach ($inMenuIngredients as $ingredient) {
+            $shoppingList->ingredients()->attach($ingredient->id, ['description' => $ingredient->description]);
+        }
+    }
 }

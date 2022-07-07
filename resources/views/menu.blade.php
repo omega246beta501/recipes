@@ -49,11 +49,34 @@ use App\Data\Routes\MenuRoutes;
                             <button type="submit" class="btn btn-warning" onclick="clearMenu()">Reiniciar menú</button>
                         </div>
                     </div>
+
                     @endif
                 </div>
                 <div class="col">
                 </div>
             </div>
+            @if($isMenuSet)
+            <div class="row mt-5">
+                <div class="col"></div>
+                <div class="col-6">
+                    <table class="table table-hover table-dark" id="shoppingListTable">
+                        <thead>
+                            <tr>
+                                <th>Elemento</th>
+                                <th>Detalles</th>
+                            </tr>
+                        </thead>
+                        @foreach($shoppingList as $element)
+                        <tr>
+                            <th>{{ $element->name }}</th>
+                            <th>{{ $element->pivot->description }}</th>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="col"></div>
+            </div>
+            @endif
         </div>
         <script>
             $(document).ready(function() {

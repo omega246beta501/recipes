@@ -16,7 +16,6 @@ def now():
     return str(datetime.now()) + " "
 
 def isOverThreshold(cpuPercent):
-    cpuPercent = float(cpuPercent)
     return cpuPercent >= threshold
 
 def checkCPUusage(cpuPercent):
@@ -36,7 +35,9 @@ while(True):
     print(now() + 'Nueva vuelta al bucle')
     print(now() + "CPU usage: " + str(psutil.cpu_percent()) + "%")
 
-    checkCPUusage(psutil.cpu_percent())
+    print(now() + "Es el valor de la CPU: " + str(psutil.cpu_percent()) + " > que " + str(threshold) + "?")
+    lista.append(psutil.cpu_percent())
+    print(lista)
     
     if(len(lista) == 3):
         print(now() + "¿Ya han pasado 90 segundos, ha estado el server a más de " + str(threshold) + " Durante ese tiempo?")
@@ -57,7 +58,9 @@ while(True):
             print(now() + "No reinicio el server")
         
         lista.clear()
-        checkCPUusage(psutil.cpu_percent())
+        print(now() + "Es el valor de la CPU: " + str(psutil.cpu_percent()) + " > que " + str(threshold) + "?")
+        lista.append(psutil.cpu_percent())
+        print(lista)
 
     print(now() + "Me espero 30 segundos")
     time.sleep(30)

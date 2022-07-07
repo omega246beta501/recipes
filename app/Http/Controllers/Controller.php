@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\RequestHelper;
 use App\Models\Category;
 use App\Models\Recipe;
+use App\Models\ShoppingList;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -19,18 +21,23 @@ class Controller extends BaseController
     public function randomRecipes() {
         Log::info("recetas");
         $isMenuSet = false;
+        $shoppingList = ShoppingList::findOrFail(1);
+        $shoppingListIngredients = new Collection();
+
         $includedInMenu = \App\Models\Recipe::includedInMenu()->pluck('id')->toArray();
         $recipes = \App\Models\Recipe::randomRecipes($includedInMenu, [], [], 6);
         $categories = Category::orderBy('name')->get();
 
         if(count($includedInMenu) > 0) {
             $isMenuSet = true;
+            $shoppingListIngredients = $shoppingList->ingredients;
         }
 
         return view('menu', [
             'recipes' => $recipes,
             'isMenuSet' => $isMenuSet,
-            'categories' => $categories
+            'categories' => $categories,
+            'shoppingList' => $shoppingListIngredients
         ]);
     }
 
@@ -54,6 +61,8 @@ class Controller extends BaseController
     public function includeRecipesInMenu(Request $request) {
         $data = RequestHelper::requestToArray($request);
         $recipesToInclude = $data['recipesToInclude'];
+        $shoppingList = ShoppingList::findOrFail(1);
+        $shoppingListIngredients = new Collection();
 
         $recipes = \App\Models\Recipe::randomRecipes($recipesToInclude, [], [], 6);
 
@@ -62,10 +71,14 @@ class Controller extends BaseController
             $recipe->includeInMenu();
         }
 
+        Recipe::createShoppingList();
+        $shoppingListIngredients = $shoppingList->ingredients;
+
         return view('components.menu.table', [
             'recipes' => $recipes,
             'isMenuSet' => true,
-            'keepedRecipesIds' => $recipesToInclude
+            'keepedRecipesIds' => $recipesToInclude,
+            'shoppingList' => $shoppingListIngredients
         ]);
     }
 
