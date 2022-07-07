@@ -36,7 +36,7 @@ while(True):
     print(now() + "CPU usage: " + str(psutil.cpu_percent()) + "%")
 
     print(now() + "Es el valor de la CPU: " + str(psutil.cpu_percent()) + " > que " + str(threshold) + "?")
-    lista.append(psutil.cpu_percent())
+    lista.append(psutil.cpu_percent() > threshold)
     print(lista)
     
     if(len(lista) == 3):
@@ -59,7 +59,7 @@ while(True):
         
         lista.clear()
         print(now() + "Es el valor de la CPU: " + str(psutil.cpu_percent()) + " > que " + str(threshold) + "?")
-        lista.append(psutil.cpu_percent())
+        lista.append(psutil.cpu_percent() > threshold)
         print(lista)
 
     print(now() + "Me espero 30 segundos")
