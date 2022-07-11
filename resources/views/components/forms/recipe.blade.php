@@ -82,7 +82,7 @@ $formMode = "update";
                         </div>
                         @endforeach
                         <div class="col">
-                            <div class="card xyz-in">
+                            <div class="card xyz-in" xyz="fade right-100% delay-6">
                                 <div class="card-header text-center">
                                     <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Ingrediente" autocomplete="off">
                                 </div>
