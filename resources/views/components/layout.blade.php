@@ -15,6 +15,7 @@ use App\Data\Routes\CategoryRoutes;
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core">
     <style>
         .select2-selection__choice {
             background-color: #fd1dc2;
@@ -56,7 +57,17 @@ use App\Data\Routes\CategoryRoutes;
             margin-bottom: 1%;
         }
 
-        .ui-autocomplete { z-index:2147483647; }
+        .ui-autocomplete {
+            z-index: 2147483647;
+        }
+
+        .card-grid {
+            --xyz-stagger: 0.2s;
+            --xyz-translate-y: -350%;
+            --xyz-scale-x: 0;
+            --xyz-ease: cubic-bezier(0.5, -1.5, 0.5, 1.5);
+            --xyz-duration: 0.7s;
+        }
     </style>
 </head>
 

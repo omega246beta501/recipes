@@ -44,12 +44,7 @@ class IngredientController extends Controller
 
         $recipe->ingredients()->detach($ingredient);
 
-        $attachedIngredients = $recipe->ingredients()->orderBy('name')->get();
-
-        return view('components.ingredients.grid', [
-            "recipe" => $recipe,
-            "attachedIngredients" => $attachedIngredients
-        ]);
+        return response()->json(['status' => 'ok']);
     }
 
     public function updateAttachedRecipe(Request $request)

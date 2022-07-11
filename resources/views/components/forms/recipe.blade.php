@@ -60,11 +60,11 @@ $formMode = "update";
                     updateIngredientsAccordion
                     @endif
                 </x-slot:accordionId>
-                <div id="ingredientsGrid">
+                <div id="ingredientsGrid" class="card-grid" xyz>
                     <div class="row row-cols-1 row-cols-md-4 g-4">
                         @foreach($attachedIngredients as $ingredient)
                         <div class="col">
-                            <div class="card">
+                            <div class="card xyz-in">
                                 <div class="card-header text-center bg-danger bg-gradient bg-opacity-75" onclick="detachRecipeFromIngredient(event, {{ $recipe->id }}, {{ $ingredient->id }})">
                                     {{ $ingredient->name }}
                                 </div>
@@ -82,7 +82,7 @@ $formMode = "update";
                         </div>
                         @endforeach
                         <div class="col">
-                            <div class="card">
+                            <div class="card xyz-in">
                                 <div class="card-header text-center">
                                     <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Ingrediente" autocomplete="off">
                                 </div>
@@ -272,8 +272,17 @@ $formMode = "update";
         }
 
         if (detach) {
+            
             $.ajax(settings).done(function(response) {
-                $("#ingredientsGrid").html(response);
+                
+                var card = $(event.target).parent();
+                var col = $(card).parent();
+
+                $(card).addClass('xyz-out');
+
+                setTimeout(function() {
+                    $(col).remove();
+                }, 300);
 
                 $("#autocomplete").autocomplete({
                     source: "{{ IngredientRoutes::QUERY_INGREDIENTS }}"
