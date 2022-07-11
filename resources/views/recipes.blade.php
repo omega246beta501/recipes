@@ -91,9 +91,10 @@ use App\Data\Routes\RecipeRoutes;
                         placeholder: "Categorías a incluir (Opcional)",
                         dropdownParent: $('#' + modalId)
                     });
+                    
+                    $('#' + modalId).modal('show');
                 });
 
-                $('#' + modalId).modal('show');
             }
         </script>
 </x-layout>
