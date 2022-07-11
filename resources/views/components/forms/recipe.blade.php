@@ -114,7 +114,7 @@ $formMode = "update";
             <input class="form-control" id="{{ $formMode }}RecipeUrl" placeholder="Url vídeo de la receta (Opcional)" @if(isset($recipe)) value="{{$recipe->url}}"@endif>
         </div>
     </div>
-    @if(isset($recipe) && isset($recipe->url))
+    @if(isset($recipe) && isset($recipe->url) && $recipe->url != '')
     <div class="row">
         <div class="col">
             <div class="embed-responsive embed-responsive-16by9">

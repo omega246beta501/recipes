@@ -42,7 +42,11 @@ use App\Data\Routes\RecipeRoutes;
                                 <tr>
                                     <td>{{ $recipeCounter }}</td>
                                     <td><a onclick="openModal('updateModal', {{ $recipe->id }})">{{ $recipe->name }}</a></td>
+                                    @if($recipe->last_used_at == '1979-12-31')
+                                    <td>Nunca</td>
+                                    @else
                                     <td>{{ $recipe->last_used_at }}</td>
+                                    @endif
                                 </tr>
                                 @php $recipeCounter++; @endphp
                                 @endforeach
