@@ -93,6 +93,8 @@ use App\Data\Routes\RecipeRoutes;
                     });
                     
                     $('#' + modalId).modal('show');
+                    $('#' + modalId).addClass('xyz-in');
+                    $('#' + modalId).removeClass('xyz-out');
                 });
 
             }
