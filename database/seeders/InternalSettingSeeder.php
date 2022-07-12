@@ -15,6 +15,6 @@ class InternalSettingSeeder extends Seeder
     public static function run()
     {
         //Insert settings row with default values
-        DB::insertOrIgnore('insert into internal_settings (internal_settings.`key`, internal_settings.value) values ("is_bring_active", "true")');
+        DB::table('internal_settings')->insertOrIgnore(['key' => 'is_bring_active', 'value' => 'true']);
     }
 }

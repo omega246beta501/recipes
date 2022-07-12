@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         InternalSettingSeeder::run();
         //Insert bring row with default values
-        DB::insertOrIgnore('insert into bring (id, uuid, public_uuid, token) values (?, ?, ?)', [1, null, null, null]);
-        DB::insertOrIgnore('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);
+        DB::table('bring')->insertOrIgnore(['id' => 1, 'uuid' => null, 'public_uuid' => null, 'token' => null]);
+        DB::table('shopping_lists')->insertOrIgnore(['id' => 1, 'name' => 'Compra']);
     }
 }
