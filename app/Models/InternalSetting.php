@@ -12,15 +12,15 @@ class InternalSetting extends Model
     public static $IS_BRING_ACTIVE = 'is_bring_active';
 
     static function findBykey($key){
-        return Setting::where('key', $key)->first();
+        return InternalSetting::where('key', $key)->first();
     }
 
     static function getValue($key) {
-        return Setting::where('key', $key)->first()->value;
+        return InternalSetting::where('key', $key)->first()->value;
     }
 
     static function setValue($key, $value) {
-        $setting = Setting::where('key', $key)->first();
+        $setting = InternalSetting::where('key', $key)->first();
         if($setting) {
             $setting->value = $value;
             $setting->save();
