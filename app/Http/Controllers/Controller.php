@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\RequestHelper;
 use App\Models\Bring;
 use App\Models\Category;
+use App\Models\InternalSetting;
 use App\Models\Recipe;
 use App\Models\ShoppingList;
 use Illuminate\Database\Eloquent\Collection;
@@ -75,10 +76,11 @@ class Controller extends BaseController
         Recipe::createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients;
         
-        $bring = Bring::getToken();
-        
-        foreach ($shoppingListIngredients as $ingredient) {
-            $bring->addIngredient($ingredient);
+        if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE)) {
+            $bring = Bring::getToken();
+            foreach ($shoppingListIngredients as $ingredient) {
+                $bring->addIngredient($ingredient);
+            }
         }
 
         return view('components.menu.table', [

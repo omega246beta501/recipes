@@ -9,7 +9,7 @@ use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\IngredientsSeeder;
 use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class DevSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -18,9 +18,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        CategoriesSeeder::run();
+        RecipesSeeder::run();
+        IngredientsSeeder::run();
         InternalSettingSeeder::run();
         //Insert bring row with default values
-        DB::insertOrIgnore('insert into bring (id, uuid, public_uuid, token) values (?, ?, ?)', [1, null, null, null]);
+        DB::insertOrIgnore('insert into bring (uuid, public_uuid, token) values (?, ?, ?)', [null, null, null]);
         DB::insertOrIgnore('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);
     }
 }

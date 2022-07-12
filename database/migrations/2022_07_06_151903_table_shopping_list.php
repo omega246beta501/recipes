@@ -28,8 +28,6 @@ return new class extends Migration
             $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
-
-        DB::insert('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);
     }
 
     /**

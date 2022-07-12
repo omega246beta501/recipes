@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Setting;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +15,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bring', function (Blueprint $table) {
+        //settings table
+        Schema::create('internal_settings', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->nullable();
-            $table->uuid('public_uuid')->nullable();
-            $table->text('token')->nullable();
+            $table->string('key')->unique();
+            $table->string('value')->nullable();
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -30,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        //drop table
-        Schema::dropIfExists('bring');
+        //drop settings
+        Schema::dropIfExists('internal_settings');
     }
 };
