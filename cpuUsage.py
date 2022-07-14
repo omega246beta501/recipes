@@ -15,16 +15,9 @@ lista = list()
 def now():
     return str(datetime.now()) + " "
 
-def isOverThreshold(cpuPercent):
-    return cpuPercent >= threshold
-
-def checkCPUusage(cpuPercent):
-    if(isOverThreshold(psutil.cpu_percent())):
-        lista.append(True)
-    else:
-        lista.append(False)
-    print(now() + "Es el valor de la CPU: " + str(cpuPercent) + " > que " + str(threshold) + "?")
-    print(lista)
+def emptyFalseList():
+    if(lista.count(False) > 0):
+        lista.clear()
 
 while(True):
     # print(psutil.cpu_times_percent())
@@ -37,6 +30,7 @@ while(True):
 
     print(now() + "Es el valor de la CPU: " + str(cpu) + " > que " + str(threshold) + "?")
     lista.append(cpu > threshold)
+    emptyFalseList()
     print(lista)
     
     if(len(lista) == 3):
@@ -60,6 +54,7 @@ while(True):
         lista.clear()
         print(now() + "Es el valor de la CPU: " + str(cpu) + " > que " + str(threshold) + "?")
         lista.append(cpu > threshold)
+        emptyFalseList()
         print(lista)
 
     print(now() + "Me espero 30 segundos")
