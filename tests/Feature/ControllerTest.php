@@ -9,6 +9,7 @@ use App\Models\Recipe;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,7 +18,7 @@ use function PHPUnit\Framework\assertTrue;
 
 class ControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
     
     protected function setUp(): void {
         parent::setUp();

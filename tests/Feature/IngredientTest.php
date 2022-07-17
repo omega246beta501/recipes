@@ -3,13 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\Ingredient;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class IngredientTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function testTitlesedNameFormat()
     {

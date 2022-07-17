@@ -26,8 +26,8 @@ class Controller extends BaseController
         $shoppingList = ShoppingList::findOrFail(1);
         $shoppingListIngredients = new Collection();
 
-        $includedInMenu = \App\Models\Recipe::includedInMenu()->pluck('id')->toArray();
-        $recipes = \App\Models\Recipe::randomRecipes($includedInMenu, [], [], 6);
+        $includedInMenu = Recipe::includedInMenu()->pluck('id')->toArray();
+        $recipes = Recipe::randomRecipes($includedInMenu, [], [], 6);
         $categories = Category::orderBy('name')->get();
 
         if(count($includedInMenu) > 0) {
@@ -51,7 +51,7 @@ class Controller extends BaseController
         $excludedCategoriesIds = $data['excludedCategoriesIds'];
 
         Log::info($keepedRecipesIds);
-        $recipes = \App\Models\Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, 6);
+        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, 6);
 
         return view('components.menu.table', [
             'recipes' => $recipes,
@@ -66,12 +66,13 @@ class Controller extends BaseController
         $shoppingList = ShoppingList::findOrFail(1);
         $shoppingListIngredients = new Collection();
 
-        $recipes = \App\Models\Recipe::randomRecipes($recipesToInclude, [], [], 6);
-
+        
         foreach ($recipesToInclude as $recipeId) {
-            $recipe = \App\Models\Recipe::find($recipeId);
+            $recipe = Recipe::find($recipeId);
             $recipe->includeInMenu();
         }
+
+        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], 6);
 
         Recipe::createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients;
@@ -92,7 +93,7 @@ class Controller extends BaseController
     }
 
     public function discardMenu() {
-        \App\Models\Recipe::discardMenu();
+        Recipe::discardMenu();
     }
 
     public function clearMenu() {

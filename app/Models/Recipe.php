@@ -32,6 +32,28 @@ class Recipe extends Model
         ->withPivot('description')
         ->withTimestamps();
     }
+    private static function queryCategories($query, $includedCategories, $excludedCategories) {
+        if(!empty($includedCategories) || !empty($excludedCategories)) {
+            if(!empty($includedCategories)) {
+                $query->whereIn('id', function($q) use ($includedCategories) {
+                    $q->select('recipe_id')
+                        ->from('category_recipes')
+                        ->whereIn('category_id', $includedCategories);
+                });
+            }
+            if(!empty($excludedCategories)) {
+                $query->whereNotIn('id', function($q) use ($excludedCategories) {
+                    $q->select('recipe_id')
+                        ->from('category_recipes')
+                        ->whereIn('category_id', $excludedCategories);
+                });
+            }
+        }
+    }
+
+    private static function queryLastUsedAt($query) {
+        $query->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
+    }
 
     public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], int $amount = 6) {
         Log::info($includedRecipes);
@@ -40,23 +62,9 @@ class Recipe extends Model
         $included = Recipe::whereIn('id', $includedRecipes)->get();
 
         $recipes = Recipe::where(function($q) use ($includedCategories, $excludedCategories, $includedRecipes) {
-            if(!empty($includedCategories) || !empty($excludedCategories)) {
-                if(!empty($includedCategories)) {
-                    $q->whereIn('id', function($q) use ($includedCategories) {
-                        $q->select('recipe_id')
-                            ->from('category_recipes')
-                            ->whereIn('category_id', $includedCategories);
-                    });
-                }
-                if(!empty($excludedCategories)) {
-                    $q->whereNotIn('id', function($q) use ($excludedCategories) {
-                        $q->select('recipe_id')
-                            ->from('category_recipes')
-                            ->whereIn('category_id', $excludedCategories);
-                    });
-                }
-            }
-            $q->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
+            self::queryCategories($q, $includedCategories, $excludedCategories);
+
+            self::queryLastUsedAt($q);
 
             if(!empty($includedRecipes)) {
                 $q = $q->whereNotIn('id', $includedRecipes);
@@ -116,5 +124,19 @@ class Recipe extends Model
         foreach ($inMenuIngredients as $ingredient) {
             $shoppingList->ingredients()->attach($ingredient->id, ['description' => $ingredient->description]);
         }
+    }
+
+    public static function recipesWithIngredients(array $ingredients) {
+        $recipes = DB::table('recipes');
+        
+        foreach ($ingredients as $ingredient) {
+            $recipes->whereIn('recipes.id', function($q) use ($ingredient){
+                $q->select('recipe_id')
+                    ->from('ingredient_recipes')
+                    ->where('ingredient_id', $ingredient);
+            });
+        }
+
+        return $recipes->get();
     }
 }

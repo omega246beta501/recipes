@@ -21,7 +21,7 @@ class RecipeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->numerify('Recipe - ###'),
+            'name' => $this->faker->numerify('Recipe - #######'),
             'description' => $this->faker->text()
         ];
     }
