@@ -55,7 +55,20 @@ class Recipe extends Model
         $query->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
     }
 
-    public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], int $amount = 6) {
+    private static function queryRecipesWithIngredients($query, $withIngredients) {
+        if(!empty($withIngredients)) {
+            foreach ($withIngredients as $ingredient) {
+                $query->whereIn('recipes.id', function($q) use ($ingredient){
+                    $q->select('recipe_id')
+                        ->from('ingredient_recipes')
+                        ->where('ingredient_id', $ingredient);
+                });
+            }
+        }
+        return $query;
+    }
+
+    public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], array $withIngredients = [], int $amount = 6) {
         Log::info($includedRecipes);
         $amountIncluded = count($includedRecipes);
         $amount = $amount - $amountIncluded;
@@ -69,8 +82,11 @@ class Recipe extends Model
             if(!empty($includedRecipes)) {
                 $q = $q->whereNotIn('id', $includedRecipes);
             }
-        })
-        ->inRandomOrder()
+        });
+
+        $recipes = self::queryRecipesWithIngredients($recipes, $withIngredients);
+
+        $recipes = $recipes->inRandomOrder()
         ->limit($amount)
         ->orderBy('name')
         ->get();

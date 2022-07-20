@@ -23,7 +23,7 @@ class DevSeeder extends Seeder
         IngredientsSeeder::run();
         InternalSettingSeeder::run();
         //Insert bring row with default values
-        DB::insertOrIgnore('insert into bring (uuid, public_uuid, token) values (?, ?, ?)', [null, null, null]);
-        DB::insertOrIgnore('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);
+        DB::insert('insert into bring (uuid, public_uuid, token) values (?, ?, ?)', [null, null, null]);
+        DB::insert('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);
     }
 }

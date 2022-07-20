@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\RequestHelper;
 use App\Models\Bring;
 use App\Models\Category;
+use App\Models\Ingredient;
 use App\Models\InternalSetting;
 use App\Models\Recipe;
 use App\Models\ShoppingList;
@@ -25,9 +26,10 @@ class Controller extends BaseController
         $isMenuSet = false;
         $shoppingList = ShoppingList::findOrFail(1);
         $shoppingListIngredients = new Collection();
+        $ingredients = Ingredient::orderBy('name')->get();
 
         $includedInMenu = Recipe::includedInMenu()->pluck('id')->toArray();
-        $recipes = Recipe::randomRecipes($includedInMenu, [], [], 6);
+        $recipes = Recipe::randomRecipes($includedInMenu, [], [], [], 6);
         $categories = Category::orderBy('name')->get();
 
         if(count($includedInMenu) > 0) {
@@ -39,7 +41,8 @@ class Controller extends BaseController
             'recipes' => $recipes,
             'isMenuSet' => $isMenuSet,
             'categories' => $categories,
-            'shoppingList' => $shoppingListIngredients
+            'shoppingList' => $shoppingListIngredients,
+            'ingredients' => $ingredients
         ]);
     }
 
@@ -49,14 +52,16 @@ class Controller extends BaseController
         $keepedRecipesIds = $data['keepedRecipesIds'];
         $includedCategoriesIds = $data['includedCategoriesIds'];
         $excludedCategoriesIds = $data['excludedCategoriesIds'];
+        $includedIngredientsIds = $data['includedIngredientsIds'];
 
         Log::info($keepedRecipesIds);
-        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, 6);
+        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, 6);
 
         return view('components.menu.table', [
             'recipes' => $recipes,
             'isMenuSet' => false,
-            'keepedRecipesIds' => $keepedRecipesIds
+            'keepedRecipesIds' => $keepedRecipesIds,
+            'ingredients' => Ingredient::orderBy('name')->get()
         ]);
     }
 
@@ -72,7 +77,7 @@ class Controller extends BaseController
             $recipe->includeInMenu();
         }
 
-        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], 6);
+        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], 6);
 
         Recipe::createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients;
