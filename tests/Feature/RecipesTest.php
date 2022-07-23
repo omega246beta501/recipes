@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -180,5 +181,49 @@ class RecipesTest extends TestCase
         $obtainedRecipes = Recipe::randomRecipes([], [], [], [$pollo->id], 6);
         //assert two sorted collections are equal
         $this->assertEquals($expectedRecipes->sortBy('id')->pluck('id'), $obtainedRecipes->sortBy('id')->pluck('id'));
+    }
+
+    // test clear menu
+    public function testClearMenu()
+    {
+        $last_used_at = Carbon::now();
+        $previous_last_used_at = Carbon::now()->subDays(1);
+
+        $this->recipe = Recipe::factory()
+                                ->create([
+                                    'is_in_menu' => true,
+                                    'last_used_at' => $last_used_at,
+                                    'previous_last_used_at' => $previous_last_used_at,
+                                ]);
+
+        $this->recipe->refresh();
+        $expectedDate = $this->recipe->last_used_at;
+        
+        Recipe::clearMenu();
+        $this->recipe->refresh();
+
+        $this->assertEquals(0, Recipe::where('is_in_menu', true)->count());
+        $this->assertEquals($expectedDate, $this->recipe->last_used_at);
+    }
+
+    public function testDiscardMenu()
+    {
+        $last_used_at = Carbon::now();
+        $previous_last_used_at = Carbon::now()->subDays(1);
+
+        $this->recipe = Recipe::factory()
+                                ->create([
+                                    'is_in_menu' => true,
+                                    'last_used_at' => $last_used_at,
+                                    'previous_last_used_at' => $previous_last_used_at,
+                                ]);
+        $this->recipe->refresh();
+        $expectedDate = $this->recipe->previous_last_used_at;
+        
+        Recipe::discardMenu();
+        $this->recipe->refresh();
+
+        $this->assertEquals(0, Recipe::where('is_in_menu', true)->count());
+        $this->assertEquals($expectedDate, $this->recipe->last_used_at);
     }
 }

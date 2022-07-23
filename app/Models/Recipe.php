@@ -47,7 +47,7 @@ class Recipe extends Model
         ->withPivot(['qty','description'])
         ->withTimestamps();
     }
-    
+
     private static function queryCategories($query, $includedCategories, $excludedCategories) {
         if(!empty($includedCategories) || !empty($excludedCategories)) {
             if(!empty($includedCategories)) {
@@ -136,7 +136,7 @@ class Recipe extends Model
 
         foreach ($recipesInMenu as $recipe) {
             $recipe->is_in_menu = false;
-            $recipe->last_used_at = Recipe::$DEFAULT_DATE;
+            $recipe->last_used_at = $recipe->previous_last_used_at;
             $recipe->save();
         }
     }
