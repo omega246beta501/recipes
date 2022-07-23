@@ -76,7 +76,7 @@ class Recipe extends Model
             foreach ($withIngredients as $ingredient) {
                 $query->whereIn('recipes.id', function($q) use ($ingredient){
                     $q->select('recipe_id')
-                        ->from('ingredient_recipes')
+                        ->from('recipe_ingredient')
                         ->where('ingredient_id', $ingredient);
                 });
             }
@@ -146,9 +146,9 @@ class Recipe extends Model
         $shoppingList->emptyList();
         
         $inMenuIngredients = DB::table('recipes')
-                                ->join('ingredient_recipes', 'ingredient_recipes.recipe_id', '=', 'recipes.id')
-                                ->join('ingredients', 'ingredient_recipes.ingredient_id', '=', 'ingredients.id')
-                                ->select(DB::raw("ingredients.id, group_concat(recipes.name, ':', ingredient_recipes.description) as description"))
+                                ->join('recipe_ingredient', 'recipe_ingredient.recipe_id', '=', 'recipes.id')
+                                ->join('ingredients', 'recipe_ingredient.ingredient_id', '=', 'ingredients.id')
+                                ->select(DB::raw("ingredients.id, group_concat(recipes.name, ':', recipe_ingredient.description) as description"))
                                 ->where('recipes.is_in_menu', 1)
                                 ->groupBy('ingredients.name')
                                 ->get();
@@ -164,7 +164,7 @@ class Recipe extends Model
         foreach ($ingredients as $ingredient) {
             $recipes->whereIn('recipes.id', function($q) use ($ingredient){
                 $q->select('recipe_id')
-                    ->from('ingredient_recipes')
+                    ->from('recipe_ingredient')
                     ->where('ingredient_id', $ingredient);
             });
         }
