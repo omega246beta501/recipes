@@ -222,6 +222,15 @@ $formMode = "update";
         var newIngredientQty = $('#newIngredientQty').val();
         var newIngredientDescription = $('#newIngredientDescription').val();
 
+        if(newIngredientQty != "") {
+            newIngredientQty = parseFloat(newIngredientQty);
+    
+            if(isNaN(newIngredientQty)) {
+                alert('La cantidad de un ingrediente debe ser un número');
+                return;
+            }
+        }
+
         var data = {
             "recipeId": recipeId,
             "newIngredientName": newIngredientName,
@@ -298,6 +307,14 @@ $formMode = "update";
         description = $("#" + recipeId + "-" + ingredientId + "-description").val();
         qty = $("#" + recipeId + "-" + ingredientId + "-qty").val();
 
+        if(qty != "") {
+            qty = parseFloat(qty);
+    
+            if(isNaN(qty)) {
+                alert('La cantidad de un ingrediente debe ser un número');
+                return;
+            }
+        }
         var data = {
             "recipeId": recipeId,
             "ingredientId": ingredientId,
