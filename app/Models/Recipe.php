@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\FormatHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
@@ -9,6 +10,7 @@ use App\Models\CategoryRecipe;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Recipe extends Model
 {
@@ -17,6 +19,19 @@ class Recipe extends Model
     public static $DEFAULT_DATE = '1979-12-31';
 
     public $timestamps = false;
+
+    protected function kcal(): Attribute {
+        return Attribute::make(
+            set: fn ($value) => FormatHelper::nullIfEmpty($value)
+        );
+    }
+
+    protected function price(): Attribute {
+        return Attribute::make(
+            set: fn ($value) => FormatHelper::nullIfEmpty($value)
+        );
+    }
+    
     /**
      * The categories that belong to the Recipe
      *

@@ -10,4 +10,14 @@ class FormatHelper {
         
         return $name;
     }
+
+    // set to null if empty
+    public static function nullIfEmpty($value) {
+        if(empty($value)) {
+            return null;
+        }
+        else {
+            return $value;
+        }
+    }
 }
