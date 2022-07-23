@@ -20,4 +20,11 @@ class FormatHelper {
             return $value;
         }
     }
+
+    public static function floatToIntQty($value) {
+        if($value != null) {
+            $value = (int) $value;
+        }
+        return $value;
+    }
 }

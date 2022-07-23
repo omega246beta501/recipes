@@ -14,7 +14,8 @@ class Ingredient extends Model
     protected $fillable = ["name"];
 
     public function recipes() {
-        return $this->belongsToMany(Recipe::class, 'ingredient_recipes')
+        return $this->belongsToMany(Recipe::class, 'recipe_ingredient')
+                    ->using(RecipeIngredient::class)
                     ->withPivot(['qty', 'description'])
                     ->withTimestamps();
     }

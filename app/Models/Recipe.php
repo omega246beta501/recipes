@@ -6,7 +6,6 @@ use App\Helpers\FormatHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
-use App\Models\CategoryRecipe;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -43,7 +42,8 @@ class Recipe extends Model
     }
 
     public function ingredients() {
-        return $this->belongsToMany(Ingredient::class, 'ingredient_recipes')
+        return $this->belongsToMany(Ingredient::class, 'recipe_ingredient')
+        ->using(RecipeIngredient::class)
         ->withPivot(['qty','description'])
         ->withTimestamps();
     }
