@@ -6,11 +6,12 @@
                 {{ $ingredient->name }}
             </div>
             <div class="card-body">
-                <input id="{{$recipe->id}}-{{$ingredient->id}}" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción..." value="{{ $ingredient->pivot->description }}">
+                <input id="{{$recipe->id}}-{{$ingredient->id}}-qty" class="form-control mb-2 text-center" type="text" placeholder="Cantidad" value="{{ $ingredient->pivot->qty }}">
+                <input id="{{$recipe->id}}-{{$ingredient->id}}-description" class="form-control mb-2 text-center" type="text" placeholder="Descripción..." value="{{ $ingredient->pivot->description }}">
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">
-                        <button class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Update</button>
+                        <button class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Actualizar</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -24,7 +25,8 @@
                 <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Ingrediente" autocomplete="off">
             </div>
             <div class="card-body">
-                <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
+                <input id="newIngredientQty" class="form-control mb-2 text-center" type="text" placeholder="Cantidad">
+                <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Descripción...">
                 <div class="row">
                     <div class="col"></div>
                     <div class="col">

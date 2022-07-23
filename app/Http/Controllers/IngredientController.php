@@ -16,13 +16,14 @@ class IngredientController extends Controller
 
         $recipeId       = $data['recipeId'];
         $name           = $data['newIngredientName'] ?? null;
+        $qty            = $data['newIngredientQty'] ?? null;
         $description    = $data['newIngredientDescription'] ?? null;
 
         $recipe     = Recipe::findOrFail($recipeId);
         $ingredient = Ingredient::createOrGetIngredient($name);
 
         $recipe->ingredients()->detach($ingredient);
-        $recipe->ingredients()->attach($ingredient, ["description" => $description]);
+        $recipe->ingredients()->attach($ingredient, ["qty" => $qty, "description" => $description]);
 
         $attachedIngredients = $recipe->ingredients()->orderBy('name')->get();
 
@@ -53,12 +54,13 @@ class IngredientController extends Controller
 
         $recipeId       = $data['recipeId'];
         $ingredientId   = $data['ingredientId'];
+        $qty            = $data['qty'] ?? null;
         $description    = $data['description'] ?? null;
 
         $recipe     = Recipe::findOrFail($recipeId);
         $ingredient = Ingredient::findOrFail($ingredientId);
 
-        $recipe->ingredients()->updateExistingPivot($ingredient, ["description" => $description]);
+        $recipe->ingredients()->updateExistingPivot($ingredient, ["qty" => $qty, "description" => $description]);
 
         $attachedIngredients = $recipe->ingredients()->orderBy('name')->get();
 

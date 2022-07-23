@@ -69,11 +69,12 @@ $formMode = "update";
                                     {{ $ingredient->name }}
                                 </div>
                                 <div class="card-body">
-                                    <input id="{{$recipe->id}}-{{$ingredient->id}}" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción..." value="{{ $ingredient->pivot->description }}">
+                                    <input id="{{$recipe->id}}-{{$ingredient->id}}-qty" class="form-control mb-2 text-center" type="text" placeholder="Cantidad" value="{{ $ingredient->pivot->qty }}">
+                                    <input id="{{$recipe->id}}-{{$ingredient->id}}-description" class="form-control mb-2 text-center" type="text" placeholder="Descripción..." value="{{ $ingredient->pivot->description }}">
                                     <div class="row">
                                         <div class="col"></div>
                                         <div class="col">
-                                            <button class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Update</button>
+                                            <button class="btn btn-success" onclick="updateAttachedIngredient({{$recipe->id}}, {{$ingredient->id}})">Actualizar</button>
                                         </div>
                                         <div class="col"></div>
                                     </div>
@@ -87,7 +88,8 @@ $formMode = "update";
                                     <input id="autocomplete" class="form-control mb-2 text-center" type="text" placeholder="Ingrediente" autocomplete="off">
                                 </div>
                                 <div class="card-body">
-                                    <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Cantidad, descripción...">
+                                    <input id="newIngredientQty" class="form-control mb-2 text-center" type="text" placeholder="Cantidad">
+                                    <input id="newIngredientDescription" class="form-control mb-2 text-center" type="text" placeholder="Descripción...">
                                     <div class="row">
                                         <div class="col"></div>
                                         <div class="col">
@@ -111,7 +113,7 @@ $formMode = "update";
     </div>
     <div class="row">
         <div class="col-12">
-            <input class="form-control" id="{{ $formMode }}RecipeUrl" placeholder="Url vídeo de la receta (Opcional)" @if(isset($recipe)) value="{{$recipe->url}}"@endif>
+            <input class="form-control" id="{{ $formMode }}RecipeUrl" placeholder="Url vídeo de la receta (Opcional)" @if(isset($recipe)) value="{{$recipe->url}}" @endif>
         </div>
     </div>
     @if(isset($recipe) && isset($recipe->url) && $recipe->url != '')
@@ -217,11 +219,13 @@ $formMode = "update";
     function addNewIngredient(recipeId) {
 
         var newIngredientName = $('#autocomplete').val();
+        var newIngredientQty = $('#newIngredientQty').val();
         var newIngredientDescription = $('#newIngredientDescription').val();
 
         var data = {
             "recipeId": recipeId,
             "newIngredientName": newIngredientName,
+            "newIngredientQty": newIngredientQty,
             "newIngredientDescription": newIngredientDescription,
         }
 
@@ -272,9 +276,7 @@ $formMode = "update";
         }
 
         if (detach) {
-            
             $.ajax(settings).done(function(response) {
-                
                 var card = $(event.target).parent();
                 var col = $(card).parent();
 
@@ -293,11 +295,13 @@ $formMode = "update";
 
     function updateAttachedIngredient(recipeId, ingredientId) {
 
-        description = $("#" + recipeId + "-" + ingredientId).val();
+        description = $("#" + recipeId + "-" + ingredientId + "-description").val();
+        qty = $("#" + recipeId + "-" + ingredientId + "-qty").val();
 
         var data = {
             "recipeId": recipeId,
             "ingredientId": ingredientId,
+            "qty": qty,
             "description": description
         }
 

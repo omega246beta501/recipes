@@ -44,9 +44,10 @@ class Recipe extends Model
 
     public function ingredients() {
         return $this->belongsToMany(Ingredient::class, 'ingredient_recipes')
-        ->withPivot('description')
+        ->withPivot(['qty','description'])
         ->withTimestamps();
     }
+    
     private static function queryCategories($query, $includedCategories, $excludedCategories) {
         if(!empty($includedCategories) || !empty($excludedCategories)) {
             if(!empty($includedCategories)) {
