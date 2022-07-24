@@ -21,9 +21,15 @@ class FormatHelper {
         }
     }
 
+    private static function decimalPart($float) {
+        return sscanf($float, '%d.%d')[1];
+    }
+
     public static function floatToIntQty($value) {
         if($value != null) {
-            $value = (int) $value;
+            if(self::decimalPart($value) == null) {
+                $value = (int) $value;
+            }
         }
         return $value;
     }
