@@ -19,6 +19,20 @@ class ShoppingList extends Model
         $this->ingredients()->detach();
     }
 
+    private function formatElementDescription($recipe) {
+        if(empty($recipe->pivot->qty) && empty($recipe->pivot->description)) {
+            return $recipe->name;
+        }
+        if(empty($recipe->pivot->qty)) {
+            return $recipe->name . ':(' . $recipe->pivot->description .')';
+        }
+        if(empty($recipe->pivot->description)) {
+            return $recipe->name . ':' . $recipe->pivot->qty;
+        }
+
+        return $recipe->name . ':' . $recipe->pivot->qty . ' (' . $recipe->pivot->description . ')';
+    }
+
     public function createShoppingList() {
         $this->emptyList();
         
@@ -32,10 +46,12 @@ class ShoppingList extends Model
         foreach ($inMenuIngredients as $ingredient) {
             $recipesInMenu = $ingredient->recipes()->where('is_in_menu', 1)->get();
             $shoppingListElements[$i]['id'] = $ingredient->id;
+
             $elementDescriptions = array();
             foreach ($recipesInMenu as $recipe) {
-                $elementDescriptions[] = $recipe->name . ':' . $recipe->pivot->qty . ' ' . $recipe->pivot->description;
+                $elementDescriptions[] = $this->formatElementDescription($recipe);
             }
+
             $shoppingListElements[$i]['description'] = implode(',', $elementDescriptions);
             $i++;
         }
@@ -45,6 +61,7 @@ class ShoppingList extends Model
         foreach ($shoppingListElements as $element) {
             $this->ingredients()->attach($element->id, ['description' => $element->description]);
         }
+
         // $inMenuIngredients = DB::table('recipes')
         //                         ->join('recipe_ingredient', 'recipe_ingredient.recipe_id', '=', 'recipes.id')
         //                         ->join('ingredients', 'recipe_ingredient.ingredient_id', '=', 'ingredients.id')

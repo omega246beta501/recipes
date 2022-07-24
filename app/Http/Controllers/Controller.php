@@ -34,7 +34,7 @@ class Controller extends BaseController
 
         if(count($includedInMenu) > 0) {
             $isMenuSet = true;
-            $shoppingListIngredients = $shoppingList->ingredients;
+            $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
         }
 
         return view('menu', [
@@ -80,7 +80,7 @@ class Controller extends BaseController
         $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], 6);
 
         $shoppingList->createShoppingList();
-        $shoppingListIngredients = $shoppingList->ingredients;
+        $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
         
         if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE)) {
             $bring = Bring::getToken();
