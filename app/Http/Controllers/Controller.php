@@ -79,7 +79,7 @@ class Controller extends BaseController
 
         $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], 6);
 
-        Recipe::createShoppingList();
+        $shoppingList->createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients;
         
         if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE)) {

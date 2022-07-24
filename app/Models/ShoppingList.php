@@ -18,4 +18,43 @@ class ShoppingList extends Model
     public function emptyList() {
         $this->ingredients()->detach();
     }
+
+    public function createShoppingList() {
+        $this->emptyList();
+        
+        $inMenuIngredients = Ingredient::whereHas('recipes', function($query) {
+            $query->where('is_in_menu', 1);
+        })->get();
+
+        $shoppingListElements = array();
+
+        $i = 0;
+        foreach ($inMenuIngredients as $ingredient) {
+            $recipesInMenu = $ingredient->recipes()->where('is_in_menu', 1)->get();
+            $shoppingListElements[$i]['id'] = $ingredient->id;
+            $elementDescriptions = array();
+            foreach ($recipesInMenu as $recipe) {
+                $elementDescriptions[] = $recipe->name . ':' . $recipe->pivot->qty . ' ' . $recipe->pivot->description;
+            }
+            $shoppingListElements[$i]['description'] = implode(',', $elementDescriptions);
+            $i++;
+        }
+
+        $shoppingListElements = json_decode(json_encode($shoppingListElements), false);
+
+        foreach ($shoppingListElements as $element) {
+            $this->ingredients()->attach($element->id, ['description' => $element->description]);
+        }
+        // $inMenuIngredients = DB::table('recipes')
+        //                         ->join('recipe_ingredient', 'recipe_ingredient.recipe_id', '=', 'recipes.id')
+        //                         ->join('ingredients', 'recipe_ingredient.ingredient_id', '=', 'ingredients.id')
+        //                         ->select(DB::raw("ingredients.id, group_concat(recipes.name, ':', recipe_ingredient.qty, ' ', recipe_ingredient.description) as description"))
+        //                         // ->where('recipes.is_in_menu', 1)
+        //                         ->groupBy('ingredients.name')
+        //                         ->get();
+        
+        // foreach ($inMenuIngredients as $ingredient) {
+        //     $shoppingList->ingredients()->attach($ingredient->id, ['description' => $ingredient->description]);
+        // }
+    }
 }
