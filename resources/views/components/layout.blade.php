@@ -90,10 +90,14 @@ use App\Data\Routes\CategoryRoutes;
                 </ul>
 
 
-                <!-- <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
-                    <button type="button" class="btn btn-warning">Sign-up</button>
-                </div> -->
+                <div class="text-end">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        
+                        <button type="submit" class="btn btn-outline-light me-2">Log Out</button>
+                    </form>
+                    <!-- <button type="button" class="btn btn-outline-light me-2">Iniciar Sesi</button> -->
+                </div>
             </div>
         </div>
     </header>
