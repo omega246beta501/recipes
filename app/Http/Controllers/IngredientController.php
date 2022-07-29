@@ -6,6 +6,7 @@ use App\Helpers\RequestHelper;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
 {
@@ -74,7 +75,7 @@ class IngredientController extends Controller
     {
         $data = RequestHelper::requestToArray($request);
         $term = $data['term'];
-        $ingredients = Ingredient::where('name', 'like', '%' . $term . '%')->orderBy('name')->pluck('name');
+        $ingredients = Ingredient::where('name', 'like', '%' . $term . '%')->where('user_id', Auth::id())->orderBy('name')->pluck('name');
 
         return $ingredients;
     }

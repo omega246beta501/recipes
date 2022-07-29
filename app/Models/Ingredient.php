@@ -6,6 +6,7 @@ use App\Helpers\FormatHelper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Ingredient extends Model
 {
@@ -29,7 +30,7 @@ class Ingredient extends Model
     public static function createOrGetIngredient(String $name) {
 
         $name = FormatHelper::ingredientNameFormat($name);
-        $ingredient = Ingredient::where('name', $name)->first();
+        $ingredient = Ingredient::where('name', $name)->where('user_id', Auth::id())->first();
 
         if($ingredient) {
             return $ingredient;
@@ -37,6 +38,7 @@ class Ingredient extends Model
         else {
             $newIngredient = new Ingredient();
             $newIngredient->name = $name;
+            $newIngredient->user_id = Auth::id();
             $newIngredient->save();
 
             return $newIngredient;

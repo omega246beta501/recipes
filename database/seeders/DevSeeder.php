@@ -21,7 +21,7 @@ class DevSeeder extends Seeder
         CategoriesSeeder::run();
         RecipesSeeder::run();
         IngredientsSeeder::run();
-        InternalSettingSeeder::run();
+        SettingSeeder::run();
         //Insert bring row with default values
         DB::insert('insert into bring (uuid, public_uuid, token) values (?, ?, ?)', [null, null, null]);
         DB::insert('insert into shopping_lists (id, name) values (?, ?)', [1, 'Compra']);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingList extends Model
 {
@@ -37,14 +38,15 @@ class ShoppingList extends Model
         $this->emptyList();
         
         $inMenuIngredients = Ingredient::whereHas('recipes', function($query) {
-            $query->where('is_in_menu', 1);
+            $query->where('is_in_menu', 1)
+                  ->where('user_id', Auth::id());
         })->get();
 
         $shoppingListElements = array();
 
         $i = 0;
         foreach ($inMenuIngredients as $ingredient) {
-            $recipesInMenu = $ingredient->recipes()->where('is_in_menu', 1)->get();
+            $recipesInMenu = $ingredient->recipes()->where('is_in_menu', 1)->where('user_id', Auth::id())->get();
             $shoppingListElements[$i]['id'] = $ingredient->id;
 
             $elementDescriptions = array();

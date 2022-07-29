@@ -7,16 +7,18 @@ use App\Models\Category;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function index() {
-        $categories = Category::withCount('recipes')
+        $categories = Category::where('user_id', Auth::id())
+                                ->withCount('recipes')
                                 ->orderBy('recipes_count', 'desc')
                                 ->get();
 
-        $recipes = Recipe::orderBy('name')->get();
+        $recipes = Recipe::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('categories', [
             'categories' => $categories,
@@ -58,6 +60,7 @@ class CategoryController extends Controller
     
             $newCategory = new Category();
             $newCategory->name = $newName;
+            $newCategory->user_id = Auth::id();
             $newCategory->save();
     
             $newCategory->recipes()->attach($recipesModels);
@@ -73,7 +76,7 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
         $attachedRecipes = $category->recipes;
-        $allRecipes = Recipe::orderBy('name')->get();
+        $allRecipes = Recipe::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('components.forms.category', [
             'recipes' => $allRecipes,

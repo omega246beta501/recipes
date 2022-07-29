@@ -6,7 +6,7 @@ use App\Helpers\RequestHelper;
 use App\Models\Bring;
 use App\Models\Category;
 use App\Models\Ingredient;
-use App\Models\InternalSetting;
+use App\Models\Setting;
 use App\Models\Recipe;
 use App\Models\ShoppingList;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +16,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -24,17 +25,17 @@ class Controller extends BaseController
     public function randomRecipes() {
         Log::info("recetas");
         $isMenuSet = false;
-        $shoppingList = ShoppingList::findOrFail(1);
+        $shoppingList = ShoppingList::where('user_id', Auth::id())->first();
         $shoppingListIngredients = new Collection();
-        $ingredients = Ingredient::orderBy('name')->get();
+        $ingredients = Ingredient::where('user_id', Auth::id())->orderBy('name')->get();
 
-        $includedInMenu = Recipe::includedInMenu()->pluck('id')->toArray();
+        $includedInMenu = Recipe::includedInMenu()->where('user_id', Auth::id())->pluck('id')->toArray();
         $recipes = Recipe::randomRecipes($includedInMenu, [], [], [], 6);
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         if(count($includedInMenu) > 0) {
             $isMenuSet = true;
-            $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
+            $shoppingListIngredients = $shoppingList->ingredients()->where('user_id', Auth::id())->orderBy('name')->get();
         }
 
         return view('menu', [
@@ -61,14 +62,14 @@ class Controller extends BaseController
             'recipes' => $recipes,
             'isMenuSet' => false,
             'keepedRecipesIds' => $keepedRecipesIds,
-            'ingredients' => Ingredient::orderBy('name')->get()
+            'ingredients' => Ingredient::where('user_id', Auth::id())->orderBy('name')->get()
         ]);
     }
 
     public function includeRecipesInMenu(Request $request) {
         $data = RequestHelper::requestToArray($request);
         $recipesToInclude = $data['recipesToInclude'];
-        $shoppingList = ShoppingList::findOrFail(1);
+        $shoppingList = ShoppingList::where('user_id', Auth::id())->first();
         $shoppingListIngredients = new Collection();
 
         
@@ -80,9 +81,10 @@ class Controller extends BaseController
         $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], 6);
 
         $shoppingList->createShoppingList();
-        $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
+        $shoppingList->refresh();
+        $shoppingListIngredients = $shoppingList->ingredients()->where('user_id', Auth::id())->orderBy('name')->get();
         
-        if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE)) {
+        if(Setting::getValue(Setting::$IS_BRING_ACTIVE) == "true") {
             $bring = Bring::getToken();
             foreach ($shoppingListIngredients as $ingredient) {
                 $bring->addIngredient($ingredient);

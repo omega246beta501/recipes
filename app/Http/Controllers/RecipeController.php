@@ -8,13 +8,14 @@ use App\Models\Recipe;
 use App\View\Components\Forms\Recipe as FormsRecipe;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
     public function index() {
-        $recipes = Recipe::orderBy('name')->get();
-        $categories = Category::orderBy('name')->get();
+        $recipes = Recipe::where('user_id', Auth::id())->orderBy('name')->get();
+        $categories = Category::where('user_id', Auth::id())->orderBy('name')->get();
 
         return view('recipes', [
             'tableTitle' => 'Todas las recetas',
@@ -49,6 +50,7 @@ class RecipeController extends Controller
             $newRecipe->price           = $newPrice;
             $newRecipe->description     = $newDescription;
             $newRecipe->url             = $newUrl;
+            $newRecipe->user_id         = Auth::id();
             $newRecipe->save();
     
             $newRecipe->categories()->attach($categoriesModels);
@@ -64,7 +66,7 @@ class RecipeController extends Controller
 
         $recipe = Recipe::findOrFail($id);
         $attachedCategories = $recipe->categories;
-        $allcategories = Category::orderBy('name')->get();
+        $allcategories = Category::where('user_id', Auth::id())->orderBy('name')->get();
         $attachedIngredients = $recipe->ingredients()->orderBy('name')->get();
 
         return view('components.forms.recipe', [

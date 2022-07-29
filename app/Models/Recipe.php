@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
 
 class Recipe extends Model
 {
@@ -102,6 +103,8 @@ class Recipe extends Model
 
         $recipes = self::queryRecipesWithIngredients($recipes, $withIngredients);
 
+        $recipes->where('user_id', Auth::id());
+
         $recipes = $recipes->inRandomOrder()
         ->limit($amount)
         ->orderBy('name')
@@ -113,7 +116,7 @@ class Recipe extends Model
     }
 
     public static function includedInMenu() {
-        return Recipe::where('is_in_menu', true)->get();
+        return Recipe::where('is_in_menu', true)->where('user_id', Auth::id())->get();
     }
 
     public function includeInMenu() {
@@ -142,7 +145,7 @@ class Recipe extends Model
     }
 
     public static function recipesWithIngredients(array $ingredients) {
-        $recipes = DB::table('recipes');
+        $recipes = DB::table('recipes')->where('user_id', Auth::id());
         
         foreach ($ingredients as $ingredient) {
             $recipes->whereIn('recipes.id', function($q) use ($ingredient){

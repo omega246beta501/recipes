@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        InternalSettingSeeder::run();
+        SettingSeeder::run();
         //Insert bring row with default values
         DB::table('bring')->insertOrIgnore(['id' => 1, 'uuid' => null, 'public_uuid' => null, 'token' => null]);
         DB::table('shopping_lists')->insertOrIgnore(['id' => 1, 'name' => 'Compra']);
