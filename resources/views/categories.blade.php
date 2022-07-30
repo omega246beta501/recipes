@@ -75,7 +75,7 @@ use App\Data\Routes\CategoryRoutes;
                 var settings = {
                     "async": true,
                     "crossDomain": true,
-                    "url": "{{ CategoryRoutes::UPDATE_VIEW }}".replace("{id}", recipeId),
+                    "url": "{{ route('updateCategoryView', ['tenant' => tenant(), 'id' => -1]) }}".replace("-1", recipeId),
                     "method": "GET",
                     "headers": {
                         "cache-control": "no-cache",

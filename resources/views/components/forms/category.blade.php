@@ -54,7 +54,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ CategoryRoutes::NEW_CATEGORY }}",
+            "url": "{{ route('newCategory', ['tenant' => tenant()]) }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -86,7 +86,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ CategoryRoutes::UPDATE }}",
+            "url": "{{ route('updateCategory', ['tenant' => tenant()]) }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
