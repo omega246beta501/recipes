@@ -19,7 +19,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/estafa', [AuthenticatedSessionController::class, 'create'])
                 ->name('estafa');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');
@@ -51,6 +51,5 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+    
 });
