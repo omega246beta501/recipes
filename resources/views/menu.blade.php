@@ -140,7 +140,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ MenuRoutes::REGENERATE_RECIPES }}",
+                        "url": "{{ route('regenerateRecipes', ['tenant' => tenant()]) }}",
                         "method": "POST",
                         "headers": {
                             "cache-control": "no-cache",
@@ -169,7 +169,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ MenuRoutes::CREATE_MENU }}",
+                        "url": "{{ route('createMenu', ['tenant' => tenant()]) }}",
                         "method": "POST",
                         "headers": {
                             "cache-control": "no-cache",

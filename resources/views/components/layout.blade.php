@@ -82,16 +82,16 @@ use App\Data\Routes\CategoryRoutes;
                 </a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{{ MenuRoutes::MENU }}" class="nav-link px-2 text-warning">Menú</a></li>
-                    <li><a href="{{ CategoryRoutes::CATEGORIES }}" class="nav-link px-2 text-white">Categorías</a></li>
-                    <li><a href="{{ RecipeRoutes::RECIPES }}" class="nav-link px-2 text-white">Recetas</a></li>
+                    <li><a href="{{ route('menu', ['tenant' => tenant()]) }}" class="nav-link px-2 text-warning">Menú</a></li>
+                    <li><a href="{{ route('categories', ['tenant' => tenant()]) }}" class="nav-link px-2 text-white">Categorías</a></li>
+                    <li><a href="{{ route('recipes', ['tenant' => tenant()]) }}" class="nav-link px-2 text-white">Recetas</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
                     <li><a href="#" class="nav-link px-2 text-white">About</a></li>
                 </ul>
 
 
                 <div class="text-end">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout', ['tenant' => tenant()]) }}">
                         @csrf
                         
                         <button type="submit" class="btn btn-outline-light me-2">Log Out</button>

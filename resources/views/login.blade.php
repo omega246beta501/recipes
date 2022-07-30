@@ -117,7 +117,7 @@
 <body class="text-center">
 
     <main class="form-signin w-100 m-auto">
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login', ['tenant' => tenant()]) }}">
             @csrf
 
             <img class="mb-4" src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
