@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Data\Routes\BringRoutes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Bring extends Model
 {
@@ -14,7 +15,7 @@ class Bring extends Model
     public static function getToken()
     {
         $curl = curl_init();
-
+        $user = Auth::user();
         curl_setopt_array($curl, array(
             CURLOPT_URL => BringRoutes::GET_TOKEN,
             CURLOPT_RETURNTRANSFER => true,
@@ -23,7 +24,7 @@ class Bring extends Model
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "email=ruben_ayg@hotmail.com&password=M3cag03ndi0s!!1",
+            CURLOPT_POSTFIELDS => "email=" . $user->bring_user . "&password=" . $user->bring_password,
             CURLOPT_HTTPHEADER => array(
                 "cache-control: no-cache",
             ),
@@ -43,6 +44,7 @@ class Bring extends Model
             $bring->uuid = $response->uuid;
             $bring->public_uuid = $response->publicUuid;
             $bring->token = $response->access_token;
+            $bring->list_uuid = $response->bringListUUID;
             $bring->save();
 
             return $bring;
@@ -50,8 +52,9 @@ class Bring extends Model
     }
 
     public function addIngredient($ingredient) {
+        $bring = Bring::findOrFail(1);
 
-        $cmd = 'curl "' . BringRoutes::BRING_LISTS . '3dcdcff8-e12e-413c-a40f-f6c03afe507d" \
+        $cmd = 'curl "' . BringRoutes::BRING_LISTS . $bring->list_uuid . '" \
         -X "PUT" \
         -H "authorization: Bearer ' . $this->token .'" \
         --data-raw "uuid=3dcdcff8-e12e-413c-a40f-f6c03afe507d&purchase=' . $ingredient->name . '&specification=' . $ingredient->pivot->description . '" \
