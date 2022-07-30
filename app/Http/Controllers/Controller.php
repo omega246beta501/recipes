@@ -82,7 +82,7 @@ class Controller extends BaseController
         $shoppingList->createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
         
-        if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE)) {
+        if(InternalSetting::getValue(InternalSetting::$IS_BRING_ACTIVE) === 'true') {
             $bring = Bring::getToken();
             foreach ($shoppingListIngredients as $ingredient) {
                 $bring->addIngredient($ingredient);
