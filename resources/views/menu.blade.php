@@ -4,9 +4,9 @@ use App\Data\Routes\RecipeRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Menú</x-slot>
-        <div class="container">
+        <div class="container mt-2">
             <div class="row">
-                <div class="col">
+                <div class="col d-none d-md-block">
                 </div>
                 <div class="col">
                     <div class="row">
@@ -59,11 +59,11 @@ use App\Data\Routes\RecipeRoutes;
                     </div>
                     @endif
                 </div>
-                <div class="col">
+                <div class="col d-none d-md-block">
                 </div>
                 @if($isMenuSet)
                 <div class="row mt-5">
-                    <div class="col"></div>
+                    <div class="col d-none d-md-block"></div>
                     <div class="col-6">
                         <table class="table table-hover table-dark" id="shoppingListTable">
                             <thead>
@@ -80,7 +80,7 @@ use App\Data\Routes\RecipeRoutes;
                             @endforeach
                         </table>
                     </div>
-                    <div class="col"></div>
+                    <div class="col d-none d-md-block"></div>
                 </div>
                 @endif
             </div>
