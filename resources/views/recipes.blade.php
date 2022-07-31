@@ -5,10 +5,10 @@ use App\Data\Routes\RecipeRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Recetas</x-slot>
-        <div class="container">
-            <div class="row" style="margin-bottom: 1%;">
-                <div class="col"></div>
-                <div class="col-6">
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col d-none d-md-block"></div>
+                <div class="col-md-6 col-sm">
                     <x-elements.accordion>
                         <x-slot:buttonName>
                             Insertar nueva receta
@@ -22,10 +22,10 @@ use App\Data\Routes\RecipeRoutes;
                         <x-forms.recipe :categories="$categories"></x-forms.recipe>
                     </x-elements.accordion>
                 </div>
-                <div class="col"></div>
+                <div class="col d-none d-md-block"></div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row mt-2">
+                <div class="col d-none d-md-block">
                 </div>
                 <div class="col">
                     <div class="row">
@@ -54,7 +54,7 @@ use App\Data\Routes\RecipeRoutes;
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col d-none d-md-block">
                 </div>
             </div>
         </div>

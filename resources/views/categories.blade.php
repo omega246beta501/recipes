@@ -4,10 +4,10 @@ use App\Data\Routes\CategoryRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Categorías</x-slot>
-        <div class="container">
-            <div class="row" style="margin-bottom: 1%;">
-                <div class="col"></div>
-                <div class="col-6">
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col d-none d-md-block"></div>
+                <div class="col-md-6 col-sm">
                     <x-elements.accordion>
                         <x-slot:buttonName>
                             Insertar nueva categoría
@@ -21,12 +21,12 @@ use App\Data\Routes\CategoryRoutes;
                         <x-forms.category :recipes="$recipes"></x-forms.category>
                     </x-elements.accordion>
                 </div>
-                <div class="col"></div>
+                <div class="col d-none d-md-block"></div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row mt-2">
+                <div class="col d-none d-md-block">
                 </div>
-                <div class="col">
+                <div class="col-sm col-md-4">
                     <div class="row">
                         <div class="regenerable col">
                             <table class="table table-hover table-dark" id="recipestable">
@@ -50,7 +50,7 @@ use App\Data\Routes\CategoryRoutes;
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col d-none d-md-block">
                 </div>
             </div>
         </div>
