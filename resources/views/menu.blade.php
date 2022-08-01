@@ -40,7 +40,7 @@ use App\Data\Routes\RecipeRoutes;
                             </select>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-2">
                         <div class="col">
                             <button type="submit" @disabled($isMenuSet) class="btn btn-danger" onclick="regenerate()">Regenerar recetas</button>
                         </div>

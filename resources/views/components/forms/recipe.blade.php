@@ -126,7 +126,6 @@ $formMode = "update";
     </div>
     @endif
     <div class="row" style="margin-top: 2%;">
-        <div class="col-10"></div>
         <div class="col">
             @if(isset($recipe))
             <button class="btn btn-success" onclick="updateRecipe({{ $recipe->id }})">Actualizar</button>
