@@ -8,6 +8,8 @@ use App\Data\Routes\IngredientRoutes;
 use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Models\Category;
+use App\Models\Recipe;
 use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 
 /*
@@ -63,4 +65,11 @@ Route::group([
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+    
+    Route::get('/borraraco', function() {
+        $recipes = Recipe::all();
+        return view('borrar', [
+            'recipes' => $recipes
+        ]);
+    });
 });

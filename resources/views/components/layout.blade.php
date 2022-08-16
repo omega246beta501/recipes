@@ -53,10 +53,6 @@ use App\Data\Routes\CategoryRoutes;
             -webkit-appearance: none;
         }
 
-        .row {
-            margin-bottom: 1%;
-        }
-
         .ui-autocomplete {
             z-index: 2147483647;
         }
@@ -67,6 +63,49 @@ use App\Data\Routes\CategoryRoutes;
             --xyz-scale-x: 0;
             --xyz-ease: cubic-bezier(0.5, -1.5, 0.5, 1.5);
             --xyz-duration: 0.7s;
+        }
+
+        .ingredient-card {
+            /* min-height: 10vh; */
+            color: #f4f4f4;
+            background-color: rgb(79, 171, 162);
+            max-height: 15vh;
+            padding: 7% 5% 5%;
+            font-family: MuseoSans-500;
+            overflow: hidden;
+        }
+
+        .ingredient-image {
+            width: 25px;
+            height: 45px;
+        }
+
+        .recipe-canvas {
+            display: none;
+            height: 100vh;
+            z-index: 2;
+            position: fixed;
+            top: 0;
+            background-color: #2f3c42;
+            color: #f4f4f4;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .edit-ingredients-canvas {
+            display: none;
+            height: 100vh;
+            z-index: 3;
+            position: fixed;
+            top: 0;
+            background-color: #2f3c42;
+            color: #f4f4f4;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .recipe-canvas-description {
+            color: #9b9b9b;
         }
     </style>
 </head>
@@ -98,7 +137,7 @@ use App\Data\Routes\CategoryRoutes;
                 <div class="text-end">
                     <form method="POST" action="{{ route('logout', ['tenant' => tenant()]) }}">
                         @csrf
-            
+
                         <button type="submit" class="btn btn-outline-light me-2">Log Out</button>
                     </form>
                 </div>
@@ -109,5 +148,27 @@ use App\Data\Routes\CategoryRoutes;
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+<script>
+    function openCanvas(canvasId) {
+        $('#' + canvasId).show(0);
+        $('#' + canvasId).removeClass('xyz-out');
+        $('#' + canvasId).addClass('xyz-in');
+        // $('body').addClass('overflow-hidden');
+    }
+
+    function closeCanvas(event) {
+        $(event.target.parentElement.parentElement.parentElement).removeClass('xyz-in')
+        $(event.target.parentElement.parentElement.parentElement).addClass('xyz-out')
+        $('body').removeClass('overflow-hidden');
+    }
+
+    
+
+    function deleteIngredient(event) {
+        if (event.currentTarget.parentElement.parentElement.id.includes('edit')) {
+            $(event.currentTarget).remove();
+        }
+    }
+</script>
 
 </html>

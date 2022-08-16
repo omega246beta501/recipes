@@ -4,7 +4,79 @@ use App\Data\Routes\RecipeRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Menú</x-slot>
-        <div class="container mt-2">
+        @foreach ($recipes as $recipe)
+        <div id="receta{{ $recipe->id }}" class="recipe-canvas container-fluid" xyz="right-100% duration-2.5">
+            <div class="canvas-header shadow py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
+                <div class="col-1">
+                    <button onclick="closeCanvas(event)" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </div>
+                <div class="col-3 offset-8 fs-6 fw-bold" style="font-size:0.8rem!important;"><span onclick="saveRecipe({{ $recipe->id }})">GUARDAR</span></div>
+            </div>
+            <div class="canvas-title row justify-content-center text-center mt-4">
+                <div class="col" contenteditable="true">
+                    <h1 id="recipeName-{{ $recipe->id }}">{{ $recipe->name }}</h1>
+                </div>
+            </div>
+            <div class="recipe-canvas-description @if(!empty($recipe->description)) shadow @endif pb-1 row mt-4">
+                <div class="col" contenteditable="true">
+                    @if(!empty($recipe->description))
+                    @php
+                    $descriptionLines = explode("\n", $recipe->description);
+                    @endphp
+                    @foreach ($descriptionLines as $descriptionLine)
+                    <span class="mt-1 d-block recipeDescription-{{ $recipe->id }}">{{ $descriptionLine }}</span>
+                    @endforeach
+                    @else
+                    <span class="mt-1 d-block recipeDescription-{{ $recipe->id }}">Descripción</span>
+                    @endif
+                </div>
+            </div>
+            <div class="canvas-ingredients row mt-4 g-1">
+                <div class="col-1">Ingredientes</div>
+                <div class="col-2 offset-9">
+                    <button onclick="openEditIngredientsCanvas('{{ $recipe->id }}')">Editar</button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="card-grid" id="recipe-ingredients-grid-{{ $recipe->id }}">
+                    <div class="row row-cols-3 row-cols-md-4 g-md-4 g-1 text-center">
+                        @foreach($recipe->ingredients as $ingredient)
+                        <div class="col d-block" onclick="deleteIngredient(event)">
+                            <div class="ingredient-card d-block">
+                                <div class="ingredient-card-image">
+                                    <img class="ingredient-image" src="{{url('/leche.png')}}">
+                                </div>
+                                <div class="ingredient-card-text d-block mt-1">
+                                    <div class="ingredient-card-name d-block">
+                                        <div class="ingredient-name-div text-break ingredientName-{{ $recipe->id }}" style="font-size: 75%; line-height:10px">{{ $ingredient->name }}</div>
+                                    </div>
+                                    <div class="ingredient-card-description d-block ingredientDescription-{{ $recipe->id }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="edit-ingredients-{{ $recipe->id }}" class="edit-ingredients-canvas container-fluid" xyz="right-100% duration-2.5">
+            <div class="canvas-header py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
+                <div class="col-1">
+                    <button onclick="closeEditIngredientsCanvas(event, {{ $recipe->id }})" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-8 fs-5 fw-bold">Agregar Ingredientes</div>
+                <div class="col-2 fs-6 fw-bold" style="font-size:0.8rem!important;"><span onclick="saveEditIngredients(event, {{ $recipe->id }})">LISTO</span></div>
+            </div>
+            <div class="canvas-header shadow py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
+                olakase
+            </div>
+            <div class="row mt-2">
+                <div class="card-grid" id="recipe-ingredients-grid-edit-{{ $recipe->id }}"></div>
+            </div>
+        </div>
+        @endforeach
+        <div class="container mt-2" xyz="fade right-100%">
             <div class="row">
                 <div class="col d-none d-md-block">
                 </div>
@@ -81,14 +153,6 @@ use App\Data\Routes\RecipeRoutes;
                     </div>
                 </div>
                 @endif
-            </div>
-            <div class="modalContainer">
-                <x-elements.modal>
-                    <x-slot:modalId>updateModal</x-slot:modalId>
-                    <x-slot:title>Actualizar Receta</x-slot:title>
-                    <!-- Al hacer una peticion al controller, este renderizara el form -->
-                    <div id="updateRecipeForm"></div>
-                </x-elements.modal>
             </div>
             <script>
                 $(document).ready(function() {
@@ -226,32 +290,47 @@ use App\Data\Routes\RecipeRoutes;
                     }
                 }
 
-                function openModal(modalId, recipeId) {
-                    var settings = {
-                        "async": true,
-                        "crossDomain": true,
-                        "url": "{{ route('updateRecipeView', ['tenant' => tenant(), 'id' => -1]) }}".replace("-1", recipeId),
-                        "method": "GET",
-                        "headers": {
-                            "cache-control": "no-cache",
-                            "postman-token": "beeffe31-037f-448b-b45a-382e3b7c8e1c"
-                        }
-                    }
+                function openEditIngredientsCanvas(recipeId) {
+                    $('#recipe-ingredients-grid-edit-' + recipeId).html($('#recipe-ingredients-grid-' + recipeId).html());
+                    openCanvas('edit-ingredients-' + recipeId);
+                }
 
-                    $.ajax(settings).done(function(response) {
-                        $("#updateRecipeForm").html(response);
-                        // Select2 situado en el formulario que general el controller. Metodo UpdateView
-                        $('#updateSelec2Categories').select2({
-                            width: 'resolve',
-                            placeholder: "Categorías a incluir (Opcional)",
-                            dropdownParent: $('#' + modalId)
-                        });
+                function closeEditIngredientsCanvas(event, recipeId) {
+                    $('#recipe-ingredients-grid-edit-' + recipeId).html(null);
+                    closeCanvas(event);
+                }
 
-                        $('#' + modalId).modal('show');
-                        $('#' + modalId).addClass('xyz-in');
-                        $('#' + modalId).removeClass('xyz-out');
+                function saveEditIngredients(event, recipeId) {
+                    $('#recipe-ingredients-grid-' + recipeId).html($('#recipe-ingredients-grid-edit-' + recipeId).html());
+                    $('#recipe-ingredients-grid-edit-' + recipeId).html(null);
+                    closeCanvas(event);
+                }
+
+                function saveRecipe(recipeId) {
+                    var name = $('#recipeName-' + recipeId).html();
+                    // var quantity = $('#new-quantity-' + recipeId).val();
+                    // var unit = $('#new-unit-' + recipeId).val();
+                    var description = [];
+                    $('.recipeDescription-' + recipeId).each(function() {
+                        description.push($(this).html());
                     });
 
+                    description = description.join('\n');
+
+                    var ingredients = [];
+                    $('.ingredientName-' + recipeId).each(function() {
+                        ingredients.push($(this).html());
+                    });
+
+                    var data = {
+                        "name": name,
+                        "description": description,
+                        "ingredients": ingredients
+                    }
+
+                    alert(JSON.stringify(data));
+                    
                 }
             </script>
+        </div>
 </x-layout>

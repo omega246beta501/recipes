@@ -95,10 +95,31 @@ use App\Data\Routes\RecipeRoutes;
                         placeholder: "Categorías a incluir (Opcional)",
                         dropdownParent: $('#' + modalId)
                     });
-                    
+
                     $('#' + modalId).modal('show');
                     $('#' + modalId).addClass('xyz-in');
                     $('#' + modalId).removeClass('xyz-out');
+
+                    $(".zurullo").each(function() {
+                        textLenght = $(this).html().length;
+                        if (textLenght > 15) {
+                            $(this).css('font-size', '5px');
+                        } else if (textLenght > 10) {
+                            $(this).css('font-size', '10px');
+                        } else if (textLenght > 5) {
+                            $(this).css('font-size', '12px');
+                        }
+                    });
+                    //     html().length;
+                    // if(textLenght > 15) {
+                    //     $("#pruebaTexto1").css('font-size', '5px');
+                    // }
+                    // else if(textLenght > 10) {
+                    //     $("#pruebaTexto1").css('font-size', '10px');
+                    // }
+                    // else if(textLenght > 5) {
+                    //     $("#pruebaTexto1").css('font-size', '12px');
+                    // }
                 });
 
             }
