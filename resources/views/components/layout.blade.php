@@ -107,6 +107,23 @@ use App\Data\Routes\CategoryRoutes;
         .recipe-canvas-description {
             color: #9b9b9b;
         }
+
+        .recipe-input {
+            max-width: 100%;
+            background: transparent;
+            color: #9b9b9b;
+            border: none;
+            resize: none;
+        }
+
+        .recipe-input:focus {
+            outline: none;
+        }
+
+        .recipe-name:focus {
+            outline: none;
+        }
+        
     </style>
 </head>
 
@@ -162,7 +179,7 @@ use App\Data\Routes\CategoryRoutes;
         $('body').removeClass('overflow-hidden');
     }
 
-    
+
 
     function deleteIngredient(event) {
         if (event.currentTarget.parentElement.parentElement.id.includes('edit')) {

@@ -13,22 +13,18 @@ use App\Data\Routes\RecipeRoutes;
                 <div class="col-3 offset-8 fs-6 fw-bold" style="font-size:0.8rem!important;"><span onclick="saveRecipe({{ $recipe->id }})">GUARDAR</span></div>
             </div>
             <div class="canvas-title row justify-content-center text-center mt-4">
-                <div class="col" contenteditable="true">
+                <div class="col recipe-name" contenteditable="true">
                     <h1 id="recipeName-{{ $recipe->id }}">{{ $recipe->name }}</h1>
                 </div>
             </div>
-            <div class="recipe-canvas-description @if(!empty($recipe->description)) shadow @endif pb-1 row mt-4">
-                <div class="col" contenteditable="true">
-                    @if(!empty($recipe->description))
-                    @php
-                    $descriptionLines = explode("\n", $recipe->description);
-                    @endphp
-                    @foreach ($descriptionLines as $descriptionLine)
-                    <span class="mt-1 d-block recipeDescription-{{ $recipe->id }}">{{ $descriptionLine }}</span>
-                    @endforeach
-                    @else
-                    <span class="mt-1 d-block recipeDescription-{{ $recipe->id }}">Descripción</span>
-                    @endif
+            <div class="recipe-canvas-description shadow pb-1 row mt-4">
+                <div class="col">
+                    <textarea class="recipe-input" id="recipeDescription-{{ $recipe->id }}" cols="2000" oninput="adjustRecipeDescriptionHeight(this)" onload="adjustRecipeDescriptionHeight(this)" placeholder="Descripción">{{$recipe->description}}</textarea>
+                </div>
+            </div>
+            <div class="d-none row mt-4">
+                <div class="col">
+                    <input value="{{ $recipe->url }}">
                 </div>
             </div>
             <div class="canvas-ingredients row mt-4 g-1">
@@ -40,17 +36,18 @@ use App\Data\Routes\RecipeRoutes;
             <div class="row mt-2">
                 <div class="card-grid" id="recipe-ingredients-grid-{{ $recipe->id }}">
                     <div class="row row-cols-3 row-cols-md-4 g-md-4 g-1 text-center">
-                        @foreach($recipe->ingredients as $ingredient)
+                        @foreach($recipe->ingredients()->orderBy('name')->get() as $ingredient)
                         <div class="col d-block" onclick="deleteIngredient(event)">
                             <div class="ingredient-card d-block">
                                 <div class="ingredient-card-image">
                                     <img class="ingredient-image" src="{{url('/leche.png')}}">
                                 </div>
-                                <div class="ingredient-card-text d-block mt-1">
+                                <div class="ingredient-card-text-{{ $recipe->id }} d-block mt-1">
                                     <div class="ingredient-card-name d-block">
                                         <div class="ingredient-name-div text-break ingredientName-{{ $recipe->id }}" style="font-size: 75%; line-height:10px">{{ $ingredient->name }}</div>
                                     </div>
-                                    <div class="ingredient-card-description d-block ingredientDescription-{{ $recipe->id }}"></div>
+                                    <div class="ingredient-card-qty d-none ingredientDQty-{{ $recipe->id }}">{{ $ingredient->pivot->qty }}</div>
+                                    <div class="ingredient-card-description d-none ingredientDescription-{{ $recipe->id }}">{{ $ingredient->pivot->description }}</div>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +66,14 @@ use App\Data\Routes\RecipeRoutes;
                 <div class="col-2 fs-6 fw-bold" style="font-size:0.8rem!important;"><span onclick="saveEditIngredients(event, {{ $recipe->id }})">LISTO</span></div>
             </div>
             <div class="canvas-header shadow py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
-                olakase
+                <div class="col">
+                    <input id="ingredient-searcher-{{ $recipe->id }}" type="text" placeholder="Busca un ingrediente..." oninput="searchIngredient()">
+                </div>
+            </div>
+            <div class="row mt-2 d-none">
+                <div class="card-grid" id="recipe-ingredients-grid-search-{{ $recipe->id }}">
+
+                </div>
             </div>
             <div class="row mt-2">
                 <div class="card-grid" id="recipe-ingredients-grid-edit-{{ $recipe->id }}"></div>
@@ -308,28 +312,52 @@ use App\Data\Routes\RecipeRoutes;
 
                 function saveRecipe(recipeId) {
                     var name = $('#recipeName-' + recipeId).html();
-                    // var quantity = $('#new-quantity-' + recipeId).val();
-                    // var unit = $('#new-unit-' + recipeId).val();
-                    var description = [];
-                    $('.recipeDescription-' + recipeId).each(function() {
-                        description.push($(this).html());
-                    });
-
-                    description = description.join('\n');
+                    var description = $('#recipeDescription-' + recipeId).val();
 
                     var ingredients = [];
-                    $('.ingredientName-' + recipeId).each(function() {
-                        ingredients.push($(this).html());
+                    $('.ingredient-card-text-' + recipeId).each(function() {
+                        var ingredientName = $($(this).children()[0]).children().html()
+                        var ingredientQty = $($(this).children()[1]).html();
+                        var ingredientDescription = $($(this).children()[2]).html();
+
+                        ingredients.push({
+                            "name": ingredientName,
+                            "qty": ingredientQty,
+                            "description": ingredientDescription
+                        });
                     });
 
                     var data = {
                         "name": name,
+                        "id": recipeId,
                         "description": description,
-                        "ingredients": ingredients
+                        "ingredients": ingredients,
+                    }
+
+                    var settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "{{ route('storeRecipe', ['tenant' => tenant()]) }}",
+                        "method": "POST",
+                        "headers": {
+                            "cache-control": "no-cache",
+                        },
+                        "data": JSON.stringify(data)
                     }
 
                     alert(JSON.stringify(data));
-                    
+                    $.ajax(settings).done(function(response) {
+                        alert('Se ha guardado la receta');
+                    });
+                }
+
+                function adjustRecipeDescriptionHeight(element) {
+                    element.style.height = "";
+                    element.style.height = element.scrollHeight + "px";
+                }
+
+                function searchIngredient() {
+
                 }
             </script>
         </div>

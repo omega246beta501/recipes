@@ -161,7 +161,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('newRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('storeRecipe', ['tenant' => tenant()]) }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
