@@ -43,7 +43,7 @@ class Controller extends BaseController
             'categories' => $categories,
             'shoppingList' => $shoppingListIngredients,
             'ingredients' => $ingredients,
-            'allRecipes' => Recipe::all(),
+            'allRecipes' => Recipe::all()->sortBy('name'),
         ]);
     }
 
