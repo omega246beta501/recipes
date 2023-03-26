@@ -42,7 +42,8 @@ class Controller extends BaseController
             'isMenuSet' => $isMenuSet,
             'categories' => $categories,
             'shoppingList' => $shoppingListIngredients,
-            'ingredients' => $ingredients
+            'ingredients' => $ingredients,
+            'allRecipes' => Recipe::all(),
         ]);
     }
 
@@ -53,9 +54,10 @@ class Controller extends BaseController
         $includedCategoriesIds = $data['includedCategoriesIds'];
         $excludedCategoriesIds = $data['excludedCategoriesIds'];
         $includedIngredientsIds = $data['includedIngredientsIds'];
+        $searchedRecipes = $data['searchedRecipes'] ?? null;
 
         Log::info($keepedRecipesIds);
-        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, 6);
+        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, 6, $searchedRecipes);
 
         return view('components.menu.table', [
             'recipes' => $recipes,

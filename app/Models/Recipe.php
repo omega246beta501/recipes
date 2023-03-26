@@ -84,11 +84,13 @@ class Recipe extends Model
         return $query;
     }
 
-    public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], array $withIngredients = [], int $amount = 6) {
+    public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], array $withIngredients = [], int $amount = 6, array $searchedRecipes = []) {
         Log::info($includedRecipes);
         $amountIncluded = count($includedRecipes);
         $amount = $amount - $amountIncluded;
         $included = Recipe::whereIn('id', $includedRecipes)->get();
+
+        $searched = Recipe::whereIn('id', $searchedRecipes)->get();
 
         $recipes = Recipe::where(function($q) use ($includedCategories, $excludedCategories, $includedRecipes) {
             self::queryCategories($q, $includedCategories, $excludedCategories);
@@ -107,7 +109,7 @@ class Recipe extends Model
         ->orderBy('name')
         ->get();
 
-        $all = $included->merge($recipes)->sortBy('name');
+        $all = $included->merge($recipes)->merge($searched)->sortBy('name');
 
         return $all;
     }

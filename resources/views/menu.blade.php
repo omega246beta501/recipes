@@ -40,6 +40,15 @@ use App\Data\Routes\RecipeRoutes;
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <select id="searchedRecipesSelect" name="searchedRecipes[]" multiple="multiple" style="width: 100%;">
+                                @foreach($allRecipes as $recipe)
+                                <option value={{ $recipe->id }}>{{ $recipe->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="row mt-2">
                         <div class="col">
                             <button type="submit" @disabled($isMenuSet) class="btn btn-danger" onclick="regenerate()">Regenerar recetas</button>
@@ -104,6 +113,10 @@ use App\Data\Routes\RecipeRoutes;
                         width: 'resolve',
                         placeholder: "Recetas que contengan"
                     });
+                    $('#searchedRecipesSelect').select2({
+                        width: 'resolve',
+                        placeholder: "Buscar recetas"
+                    });
                 });
 
                 function regenerate() {
@@ -111,6 +124,7 @@ use App\Data\Routes\RecipeRoutes;
                     var includedCategories = [];
                     var excludedCategories = [];
                     var includedIngredients = [];
+                    var searchedRecipes = [];
 
                     $('#recipestable input:checked').each(function() {
                         selectedToKeepIds.push($(this).attr('id'));
@@ -128,11 +142,16 @@ use App\Data\Routes\RecipeRoutes;
                         includedIngredients.push(this.value);
                     });
 
+                    $('#searchedRecipesSelect').find(':selected').each(function() {
+                        searchedRecipes.push(this.value);
+                    });
+
                     var data = {
                         "keepedRecipesIds": selectedToKeepIds,
                         "includedCategoriesIds": includedCategories,
                         "excludedCategoriesIds": excludedCategories,
-                        "includedIngredientsIds": includedIngredients
+                        "includedIngredientsIds": includedIngredients,
+                        "searchedRecipes" : searchedRecipes
                     }
 
                     var settings = {
