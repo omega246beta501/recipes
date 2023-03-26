@@ -4,6 +4,9 @@ use App\Data\Routes\RecipeRoutes;
 @endphp
 <x-layout>
     <x-slot:title>Menú</x-slot>
+        <card-component>
+            <span slot="recipe-name">Ogt</span>
+        </card-component>
         @foreach ($recipes as $recipe)
         <div id="receta{{ $recipe->id }}" class="recipe-canvas container-fluid" xyz="right-100% duration-2.5">
             <div class="canvas-header shadow py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
@@ -34,26 +37,10 @@ use App\Data\Routes\RecipeRoutes;
                 </div>
             </div>
             <div class="row mt-2">
-                <div class="card-grid" id="recipe-ingredients-grid-{{ $recipe->id }}">
-                    <div class="row row-cols-3 row-cols-md-4 g-md-4 g-1 text-center">
-                        @foreach($recipe->ingredients()->orderBy('name')->get() as $ingredient)
-                        <div class="col d-block" onclick="deleteIngredient(event)">
-                            <div class="ingredient-card d-block">
-                                <div class="ingredient-card-image">
-                                    <img class="ingredient-image" src="{{url('/leche.png')}}">
-                                </div>
-                                <div class="ingredient-card-text-{{ $recipe->id }} d-block mt-1">
-                                    <div class="ingredient-card-name d-block">
-                                        <div class="ingredient-name-div text-break ingredientName-{{ $recipe->id }}" style="font-size: 75%; line-height:10px">{{ $ingredient->name }}</div>
-                                    </div>
-                                    <div class="ingredient-card-qty d-none ingredientDQty-{{ $recipe->id }}">{{ $ingredient->pivot->qty }}</div>
-                                    <div class="ingredient-card-description d-none ingredientDescription-{{ $recipe->id }}">{{ $ingredient->pivot->description }}</div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
+                <x-elements.grid :recipe="$recipe" :ingredients="$recipe->ingredients()->orderBy('name')->get()">
+                    <x-slot:gridId>recipe-ingredients-grid-{{ $recipe->id }}</x-slot:gridId>
+                    <x-slot:cellOnClickCallback>deleteIngredient(event)</x-slot:gridId>
+                </x-elements.grid>
             </div>
         </div>
         <div id="edit-ingredients-{{ $recipe->id }}" class="edit-ingredients-canvas container-fluid" xyz="right-100% duration-2.5">
@@ -67,14 +54,10 @@ use App\Data\Routes\RecipeRoutes;
             </div>
             <div class="canvas-header shadow py-3 align-items-center row position-sticky top-0" style="background-color: #2f3c42;">
                 <div class="col">
-                    <input id="ingredient-searcher-{{ $recipe->id }}" type="text" placeholder="Busca un ingrediente..." oninput="searchIngredient()">
+                    <input id="ingredient-searcher-{{ $recipe->id }}" type="text" placeholder="Busca un ingrediente..." oninput="searchIngredient({{ $recipe->id }})">
                 </div>
             </div>
-            <div class="row mt-2 d-none">
-                <div class="card-grid" id="recipe-ingredients-grid-search-{{ $recipe->id }}">
-
-                </div>
-            </div>
+            <div class="row mt-2 d-none" id="regenerable-search-grid-{{ $recipe->id }}"></div>
             <div class="row mt-2">
                 <div class="card-grid" id="recipe-ingredients-grid-edit-{{ $recipe->id }}"></div>
             </div>
@@ -356,8 +339,34 @@ use App\Data\Routes\RecipeRoutes;
                     element.style.height = element.scrollHeight + "px";
                 }
 
-                function searchIngredient() {
+                function searchIngredient(recipeId) {
+                    var term = $('#ingredient-searcher-' + recipeId).val();
+                    var mainGrid = $('#recipe-ingredients-grid-edit-' + recipeId);
+                    var searchGrid = $('#regenerable-search-grid-' + recipeId);
 
+                    mainGrid.addClass('d-none');
+                    searchGrid.removeClass('d-none');
+
+                    var data = {
+                        "term": term,
+                        "gridId": 'recipe-ingredients-grid-search-' + recipeId,
+                        "recipeId": recipeId
+                    }
+
+                    var settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "{{ route('queryIngredients', ['tenant' => tenant()]) }}",
+                        "method": "POST",
+                        "headers": {
+                            "cache-control": "no-cache",
+                        },
+                        "data": JSON.stringify(data)
+                    }
+
+                    $.ajax(settings).done(function(response) {
+                        $('#regenerable-search-grid-' + recipeId).html(response);
+                    });
                 }
             </script>
         </div>

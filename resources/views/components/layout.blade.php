@@ -1,11 +1,5 @@
 <!doctype html>
 <html lang="en">
-@php
-use App\Data\Routes\MenuRoutes;
-use App\Data\Routes\RecipeRoutes;
-use App\Data\Routes\CategoryRoutes;
-@endphp
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,115 +10,7 @@ use App\Data\Routes\CategoryRoutes;
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core">
-    <style>
-        .select2-selection__choice {
-            background-color: #fd1dc2;
-        }
-
-        a {
-            color: white;
-            text-decoration: auto;
-        }
-
-        a:hover {
-            color: #ffc107 !important;
-            cursor: pointer;
-            text-decoration: auto;
-        }
-
-        header {
-            margin-bottom: 1%;
-        }
-
-        .close {
-            float: right;
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1;
-            color: #000;
-            text-shadow: 0 1px 0 #fff;
-            opacity: .5;
-        }
-
-        button.close {
-            padding: 0;
-            background-color: transparent;
-            border: 0;
-            -webkit-appearance: none;
-        }
-
-        .ui-autocomplete {
-            z-index: 2147483647;
-        }
-
-        .card-grid {
-            --xyz-stagger: 0.2s;
-            --xyz-translate-y: -350%;
-            --xyz-scale-x: 0;
-            --xyz-ease: cubic-bezier(0.5, -1.5, 0.5, 1.5);
-            --xyz-duration: 0.7s;
-        }
-
-        .ingredient-card {
-            /* min-height: 10vh; */
-            color: #f4f4f4;
-            background-color: rgb(79, 171, 162);
-            max-height: 15vh;
-            padding: 7% 5% 5%;
-            font-family: MuseoSans-500;
-            overflow: hidden;
-        }
-
-        .ingredient-image {
-            width: 25px;
-            height: 45px;
-        }
-
-        .recipe-canvas {
-            display: none;
-            height: 100vh;
-            z-index: 2;
-            position: fixed;
-            top: 0;
-            background-color: #2f3c42;
-            color: #f4f4f4;
-            overflow-x: hidden;
-            overflow-y: scroll;
-        }
-
-        .edit-ingredients-canvas {
-            display: none;
-            height: 100vh;
-            z-index: 3;
-            position: fixed;
-            top: 0;
-            background-color: #2f3c42;
-            color: #f4f4f4;
-            overflow-x: hidden;
-            overflow-y: scroll;
-        }
-
-        .recipe-canvas-description {
-            color: #9b9b9b;
-        }
-
-        .recipe-input {
-            max-width: 100%;
-            background: transparent;
-            color: #9b9b9b;
-            border: none;
-            resize: none;
-        }
-
-        .recipe-input:focus {
-            outline: none;
-        }
-
-        .recipe-name:focus {
-            outline: none;
-        }
-        
-    </style>
+    <script src="js/main.js"></script>
 </head>
 
 <body>

@@ -6,6 +6,9 @@ use App\Helpers\RequestHelper;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use stdClass;
+use Illuminate\Support\Str;
 
 class IngredientController extends Controller
 {
@@ -73,9 +76,29 @@ class IngredientController extends Controller
     public function queryIngredients(Request $request)
     {
         $data = RequestHelper::requestToArray($request);
-        $term = $data['term'];
-        $ingredients = Ingredient::where('name', 'like', '%' . $term . '%')->orderBy('name')->pluck('name');
-
-        return $ingredients;
+        $term = Str::title($data['term']);
+        if(!empty($term)) {
+            $gridId = $data['gridId'];
+            $recipeId = $data['recipeId'];
+            $recipe = Recipe::find($recipeId);
+            $recipeIngredients = $recipe->ingredients()->pluck('id');
+            $ingredients = Ingredient::where('name', 'like', '%' . $term . '%')
+                                        ->orderBy('name')->get();
+            
+            if(!$ingredients->contains(function($value) use ($term) {
+                return $value->name == $term;
+            })) {
+                $typedIngredient = new stdClass();
+                $typedIngredient->name = $term;
+                $ingredients->prepend($typedIngredient);
+        
+                return view('components.elements.grid', [
+                    'ingredients' => $ingredients,
+                    'gridId' => $gridId,
+                    'recipe' => $recipe,
+                    'cellOnClickCallback' => ''
+                ]);
+            }
+        }
     }
 }

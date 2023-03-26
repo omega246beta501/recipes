@@ -6,14 +6,17 @@ use Illuminate\View\Component;
 
 class Grid extends Component
 {
+    public $recipe;
+    public $ingredients;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($recipe, $ingredients)
     {
-        //
+        $this->recipe = $recipe;
+        $this->ingredients = $ingredients;
     }
 
     /**
