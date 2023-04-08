@@ -15,7 +15,7 @@ export default {
 <template>
     <div><input v-model="prefix" placeholder="Filter prefix"></div>
     <p>
-        Print prefix: {{ prefix }}
+        hijo de puta {{ prefix }}
     </p>
 </template>
 

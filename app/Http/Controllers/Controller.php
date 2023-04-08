@@ -109,6 +109,8 @@ class Controller extends BaseController
     }
 
     public function prueba() {
-        return Inertia::render('Yokse', ['user' => 'Tonto']);
+        return Inertia::render('HelloWorld', [
+            'message' => 'Welcome to the Hello World page!'
+        ]);
     }
 }
