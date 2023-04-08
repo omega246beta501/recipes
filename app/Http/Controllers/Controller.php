@@ -16,6 +16,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class Controller extends BaseController
 {
@@ -105,5 +106,9 @@ class Controller extends BaseController
 
     public function clearMenu() {
         Recipe::clearMenu();
+    }
+
+    public function prueba() {
+        return Inertia::render('Yokse', ['user' => 'Tonto']);
     }
 }

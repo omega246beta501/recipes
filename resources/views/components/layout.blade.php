@@ -16,6 +16,7 @@ use App\Data\Routes\CategoryRoutes;
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core">
+    <script src="js/app.js"></script>
     <style>
         .select2-selection__choice {
             background-color: #fd1dc2;
@@ -71,7 +72,7 @@ use App\Data\Routes\CategoryRoutes;
     </style>
 </head>
 
-<body>
+<body id="app">
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
             <button class="navbar-toggler bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
