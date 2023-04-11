@@ -8,6 +8,7 @@ use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -110,5 +111,19 @@ class CategoryController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
         }
+    }
+
+    public function updateViewVue($id) {
+
+        $category = Category::findOrFail($id);
+        $attachedRecipes = $category->recipes;
+        $allRecipes = Recipe::orderBy('name')->get();
+
+        return Inertia::render('Category', [
+            'recipes' => $allRecipes,
+            'attachedRecipes' => $attachedRecipes,
+            'category' => $category,
+            'url' =>  route('updateCategory', ['tenant' => tenant()])
+        ]);
     }
 }

@@ -66,4 +66,5 @@ Route::group([
         ->name('logout');
 
     Route::get('/kk', 'App\Http\Controllers\Controller@prueba');
+    Route::get('/kk/{id}', 'App\Http\Controllers\CategoryController@updateViewVue');
 });
