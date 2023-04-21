@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Recipe;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,19 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Log::info("Checking if the menu is outdated");
-
-        // $inMenuRecipe = Recipe::where('is_in_menu', true)->first();
-
-        // if($inMenuRecipe) {
-        //     $assignedAt = $inMenuRecipe->last_used_at;
-        //     $today = Carbon::now();
-    
-        //     $difference = $today->diffInDays($assignedAt);
-    
-        //     if($difference >= 7) {
-        //         Recipe::clearMenu();
-        //     }
-        // }
+        JsonResource::withoutWrapping();
     }
 }

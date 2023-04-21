@@ -33,7 +33,7 @@ export default {
 
         <div id="{{ $accordionId }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
-                {{ $slot }}
+                <slot></slot>
             </div>
         </div>
     </div>

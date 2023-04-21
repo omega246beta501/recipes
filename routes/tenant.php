@@ -9,6 +9,8 @@ use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LiteRecipeCollection;
+use App\Http\Resources\RecipeResource;
 use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 
 /*
@@ -39,10 +41,10 @@ Route::group([
 
     // CATEGORIES
     Route::get(CategoryRoutes::CATEGORIES, 'App\Http\Controllers\CategoryController@index')->middleware(['auth'])->name('categories');
-    Route::post(CategoryRoutes::NEW_CATEGORY, 'App\Http\Controllers\CategoryController@store')->middleware(['auth'])->name('newCategory');
+    Route::put(CategoryRoutes::PUT_CATEGORY, 'App\Http\Controllers\CategoryController@store')->middleware(['auth'])->name('putCategory');
     Route::get(CategoryRoutes::RECIPES_BY_CATEGORY, 'App\Http\Controllers\CategoryController@recipesByCategory')->middleware(['auth'])->name('recipesByCategory');
     Route::get(CategoryRoutes::UPDATE_VIEW, 'App\Http\Controllers\CategoryController@updateView')->middleware(['auth'])->name('updateCategoryView');
-    Route::post(CategoryRoutes::UPDATE, 'App\Http\Controllers\CategoryController@update')->middleware(['auth'])->name('updateCategory');
+    Route::get(CategoryRoutes::POPULATE_CATEGORY, 'App\Http\Controllers\CategoryController@populateCategory')->middleware(['auth'])->name('populateCategory');
 
     // RECIPES
     Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index')->middleware(['auth'])->name('recipes');
@@ -65,6 +67,6 @@ Route::group([
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    Route::get('/kk', 'App\Http\Controllers\Controller@prueba');
-    Route::get('/kk/{id}', 'App\Http\Controllers\CategoryController@updateViewVue');
+    Route::get('/kk', 'App\Http\Controllers\CategoryController@indexVue');
+    
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\RequestHelper;
+use App\Http\Resources\LiteRecipeCollection;
 use App\Models\Category;
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Collection;
@@ -43,7 +44,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store($id = null, Request $request) {
         $data = RequestHelper::requestToArray($request);
         
         $newName = $data['newName'];
@@ -57,11 +58,11 @@ class CategoryController extends Controller
                 $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
             }
     
-            $newCategory = new Category();
-            $newCategory->name = $newName;
-            $newCategory->save();
+            $category = Category::findOrNew($id);
+            $category->name = $newName;
+            $category->save();
     
-            $newCategory->recipes()->attach($recipesModels);
+            $category->recipes()->sync($recipesModels);
 
             DB::commit();
 
@@ -83,47 +84,33 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
-
-        $data = RequestHelper::requestToArray($request);
-        
-        $id             = $data['id'];
-        $newName        = $data['newName'] ?? null;
-
-        $recipesToAttach = $data['recipesToAttach'];
-        $recipesModels = new Collection();
-
-        try {
-            DB::beginTransaction();
-
-            if(!empty($recipesToAttach)) {
-                $recipesModels = Recipe::whereIn('id', $recipesToAttach)->get();
-            }
-    
-            $newCategory = Category::findOrFail($id);
-            $newCategory->name            = $newName;
-            $newCategory->save();
-    
-            $newCategory->recipes()->sync($recipesModels);
-
-            DB::commit();
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-        }
-    }
-
-    public function updateViewVue($id) {
+    public function populateCategory($id) {
 
         $category = Category::findOrFail($id);
-        $attachedRecipes = $category->recipes;
-        $allRecipes = Recipe::orderBy('name')->get();
+        $attachedRecipes = new LiteRecipeCollection($category->recipes);
 
-        return Inertia::render('Category', [
-            'recipes' => $allRecipes,
+        return [
             'attachedRecipes' => $attachedRecipes,
-            'category' => $category,
-            'url' =>  route('updateCategory', ['tenant' => tenant()])
+            'category' => $category->withoutRelations(),
+            'storeUrl' =>  route('putCategory', ['tenant' => tenant(), 'id' => $id])
+        ];
+    }
+
+    public function indexVue() {
+        $categories = Category::withCount('recipes')
+                                ->with('recipes')
+                                ->orderBy('recipes_count', 'desc')
+                                ->get();
+
+        $recipes = Recipe::orderBy('name')->get();
+        
+        return Inertia::render('Categories', [
+            'categories' => $categories,
+            'recipes'   => new LiteRecipeCollection($recipes),
+            'categoriesUrls' => [
+                'populateUrl' => route('populateCategory', ['tenant' => tenant()]),
+                'putUrl' => route('putCategory', ['tenant' => tenant(), 'id' => 0]),
+            ]
         ]);
     }
 }
