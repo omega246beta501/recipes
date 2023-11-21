@@ -9,7 +9,11 @@
                 </h5>
             </div>
             <div class="card-body accordion-item-content" :class="{ 'expanded': isExpanded }">
-                <slot></slot>
+                <Transition @after-enter="onAfterEnter" @leave="onLeave">
+                    <div v-show="showAccordion">
+                        <slot></slot>
+                    </div>
+                </Transition>
             </div>
         </div>
     </div>
@@ -19,15 +23,23 @@
 export default {
     data() {
         return {
-            isExpanded: Boolean
+            isExpanded: Boolean,
+            showAccordion: Boolean
         };
     },
     created() {
-        this.isExpanded = false;
+        this.isExpanded = false
+        this.showAccordion = false
     },
     methods: {
         toggleAccordionItem() {
-            this.isExpanded = !this.isExpanded;
+            this.showAccordion = !this.showAccordion
+        },
+        onAfterEnter() {
+            this.isExpanded = true
+        },
+        onLeave() {
+            this.isExpanded = false
         }
     },
     props: {
@@ -47,21 +59,45 @@ export default {
   cursor: pointer; /* Add cursor style for better UX */
 }
 
-/* Style your accordion item content */
-.accordion-item-content {
-  max-height: 0; /* Hide the content by default */
-  overflow: hidden; /* Hide overflow */
-  transition: max-height 0.3s ease, padding 0.3s ease; /* Add transition effect for smooth animation */
-  padding: 0;
+/* .v-enter-from {
+    max-height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.v-leave-to {
+    max-height: 200px;
+    overflow: visible;
+    padding: 16px;
 }
 
-/* Style your expanded accordion item content */
+.v-enter-active,
+.v-leave-active {
+    transition: max-height 0.3s ease, padding 0.3s ease;
+} */
+.v-enter-active,
+.v-leave-active {
+    transition: max-height 0.5s ease, padding 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    max-height: 0;
+    padding: 0;
+}
+.v-enter-to,
+.v-leave-from {
+    max-height: 200px;
+    padding: 16px;
+}
+
+.accordion-item-content {
+    overflow: hidden; 
+    padding: 0;
+}
+
 .expanded {
-  /* Add your styles here */
-  max-height: 200px; /* Set the max height to show the content */
-  transition: max-height 1s ease, padding 0.3s ease; /* Add transition effect for smooth animation */
-  padding: 16px;
-  overflow: visible;
+    padding: 16px;
+    overflow: visible;
 }
 </style>
 
