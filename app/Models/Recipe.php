@@ -41,6 +41,11 @@ class Recipe extends Model
         return $this->belongsToMany(Category::class, 'category_recipes');
     }
 
+    public function recipeLogs()
+    {
+        return $this->hasMany(RecipeHistory::class);
+    }
+
     public function ingredients() {
         return $this->belongsToMany(Ingredient::class, 'recipe_ingredient')
         ->using(RecipeIngredient::class)
@@ -67,9 +72,9 @@ class Recipe extends Model
         }
     }
 
-    private static function queryLastUsedAt($query) {
-        $query->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
-    }
+    // private static function queryLastUsedAt($query) {
+    //     $query->where(DB::raw('DATEDIFF(CURDATE(), last_used_at)'), '>=', 14);
+    // }
 
     private static function queryRecipesWithIngredients($query, $withIngredients) {
         if(!empty($withIngredients)) {
@@ -95,7 +100,7 @@ class Recipe extends Model
         $recipes = Recipe::where(function($q) use ($includedCategories, $excludedCategories, $includedRecipes) {
             self::queryCategories($q, $includedCategories, $excludedCategories);
 
-            self::queryLastUsedAt($q);
+            // self::queryLastUsedAt($q);
 
             if(!empty($includedRecipes)) {
                 $q = $q->whereNotIn('id', $includedRecipes);
@@ -119,7 +124,7 @@ class Recipe extends Model
     }
 
     public function includeInMenu() {
-        $this->last_used_at = Carbon::now();
+        $this->logUsedRecipe();
         $this->is_in_menu = true;
         $this->save();
     }
@@ -138,7 +143,7 @@ class Recipe extends Model
 
         foreach ($recipesInMenu as $recipe) {
             $recipe->is_in_menu = false;
-            $recipe->last_used_at = $recipe->previous_last_used_at;
+            $recipe->revertLastUsedAt();
             $recipe->save();
         }
     }
@@ -155,5 +160,36 @@ class Recipe extends Model
         }
 
         return $recipes->get();
+    }
+
+    public function logUsedRecipe()
+    {
+        $historyLog = new RecipeHistory();
+        $historyLog->recipe_id = $this->id;
+        $historyLog->used_at = Carbon::now();
+        $historyLog->save();
+    }
+
+    public function revertLastUsedAt()
+    {
+        $historyLog = $this->recipeLogs()->latest('used_at')->first();
+
+        if($historyLog) {
+            $historyLog->delete();
+        }
+    }
+
+    protected function lastUsedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                if($this->recipeLogs->count() > 0) {
+                    return $this->recipeLogs()->latest('used_at')->first()->used_at;
+                }
+                else {
+                    return null;
+                }
+            },
+        );
     }
 }
