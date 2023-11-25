@@ -32,7 +32,7 @@ class CategoryController extends Controller
         $recipes = $category->recipes;
 
         foreach ($recipes as $recipe) {
-            if($recipe->last_used_at == Recipe::$DEFAULT_DATE) {
+            if($recipe->last_used_at == null) {
                 $recipe->last_used_at = 'Nunca';
             }
         }
