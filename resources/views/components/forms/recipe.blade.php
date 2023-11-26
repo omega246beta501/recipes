@@ -39,6 +39,11 @@ $formMode = "update";
             <input class="form-control" type="text" id="{{ $formMode }}RecipeKcal" placeholder="Calorías (Opcional)" @if(isset($recipe)) value="{{ $recipe->kcal }}" @endif>
         </div>
     </div>
+    <div class="row">
+        <div class="col-6">
+            <input class="form-control" type="text" id="{{ $formMode }}RecipeServings" placeholder="Raciones" @if(isset($recipe)) value="{{ $recipe->servings }}" @endif>
+        </div>
+    </div>
     @if($formMode == 'update')
     <div class="row">
         <div class="col-12">
@@ -144,6 +149,7 @@ $formMode = "update";
         var recipeKcal = $('#insertRecipeKcal').val();
         var recipeDescription = $('#insertRecipeDescription').val();
         var recipeUrl = $('#insertRecipeUrl').val();
+        var recipeServings = $('#insertRecipeServings').val();
 
         $('#insertSelec2Categories').find(':selected').each(function() {
             categoriesToAttach.push(this.value);
@@ -155,7 +161,8 @@ $formMode = "update";
             "newPrice": recipePrice,
             "newKcal": recipeKcal,
             "newDescription": recipeDescription,
-            "newUrl": recipeUrl
+            "newUrl": recipeUrl,
+            "newServings": recipeServings
         }
 
         var settings = {
@@ -183,6 +190,7 @@ $formMode = "update";
         var recipeKcal = $('#updateRecipeKcal').val();
         var recipeDescription = $('#updateRecipeDescription').val();
         var recipeUrl = $('#updateRecipeUrl').val();
+        var recipeServings = $('#updateRecipeServings').val();
 
         $('#updateSelec2Categories').find(':selected').each(function() {
             categoriesToAttach.push(this.value);
@@ -195,6 +203,7 @@ $formMode = "update";
             "newKcal": recipeKcal,
             "newDescription": recipeDescription,
             "newUrl": recipeUrl,
+            "newServings": recipeServings,
             "id": id
         }
 
