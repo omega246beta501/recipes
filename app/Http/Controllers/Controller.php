@@ -28,13 +28,15 @@ class Controller extends BaseController
         $shoppingListIngredients = new Collection();
         $ingredients = Ingredient::orderBy('name')->get();
 
-        $includedInMenu = Recipe::includedInMenu()->pluck('id')->toArray();
-        $recipes = Recipe::randomRecipes($includedInMenu, [], [], [], 6);
+        $recipes = Recipe::includedInMenu();
         $categories = Category::orderBy('name')->get();
-
-        if(count($includedInMenu) > 0) {
+        
+        if($recipes->count() > 0) {
             $isMenuSet = true;
             $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
+        }
+        else {
+            $recipes = Recipe::randomRecipes();
         }
 
         return view('menu', [
@@ -55,9 +57,14 @@ class Controller extends BaseController
         $excludedCategoriesIds = $data['excludedCategoriesIds'];
         $includedIngredientsIds = $data['includedIngredientsIds'];
         $searchedRecipes = $data['searchedRecipes'] ?? null;
+        $numRecipes = $data['num_recipes'] ?? 6;
+
+        if(count($keepedRecipesIds) > $numRecipes) {
+            $numRecipes = count($keepedRecipesIds);
+        }
 
         Log::info($keepedRecipesIds);
-        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, 6, $searchedRecipes);
+        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, $numRecipes, $searchedRecipes);
 
         return view('components.menu.table', [
             'recipes' => $recipes,
@@ -79,7 +86,7 @@ class Controller extends BaseController
             $recipe->includeInMenu();
         }
 
-        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], 6);
+        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], count($recipesToInclude));
 
         $shoppingList->createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
