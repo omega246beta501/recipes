@@ -242,7 +242,7 @@
             @foreach ($recipes as $recipe)
             <div class="row card-element">
                 <div class="col-xs-2" style="padding-right: 5px;">
-                    <img src="http://64.227.67.35//storage/img_chania.jpg" width="54" height="54">
+                    <img src="http://64.227.67.35/storage/img_chania.jpg" width="54" height="54">
                 </div>
                 <div class="col-xs-9">
                     <span>{{ $recipe->name }}</span>
