@@ -24,6 +24,18 @@ class RecipeController extends Controller
 
     }
 
+    public function test() {
+        $recipes = Recipe::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
+
+        return view('prueba', [
+            'tableTitle' => 'Todas las recetas',
+            'recipes' => $recipes,
+            'categories' => $categories
+        ]);
+
+    }
+
     public function store(Request $request) {
         $data = RequestHelper::requestToArray($request);
         
