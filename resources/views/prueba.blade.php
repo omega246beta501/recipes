@@ -34,6 +34,10 @@
             background-color: white;
         }
 
+        .last-card {
+            margin-bottom: 140px;
+        }
+
         .card-element {
             /* margin: 15px; */
             padding: 15px;
@@ -306,7 +310,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12 card">
+        <div class="col-12 card last-card">
             @foreach ($recipes as $recipe)
             <div class="row card-element">
                 <div class="col-xs-2" style="text-align: center;">
