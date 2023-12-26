@@ -44,7 +44,8 @@ Route::group([
     Route::post(CategoryRoutes::UPDATE, 'App\Http\Controllers\CategoryController@update')->middleware(['auth'])->name('updateCategory');
 
     // RECIPES
-    Route::get('/test', 'App\Http\Controllers\RecipeController@test')->middleware(['auth']);
+    Route::get('/test', 'App\Http\Controllers\RecipeController@newRecipes')->middleware(['auth'])->name('newRecipes');
+    Route::get('/test/{id}', 'App\Http\Controllers\RecipeController@viewRecipe')->middleware(['auth'])->name('newViewRecipe');;
     Route::get(RecipeRoutes::RECIPES, 'App\Http\Controllers\RecipeController@index')->middleware(['auth'])->name('recipes');
     Route::post(RecipeRoutes::UPDATE, 'App\Http\Controllers\RecipeController@update')->middleware(['auth'])->name('updateRecipe');
     Route::post(RecipeRoutes::NEW_RECIPE, 'App\Http\Controllers\RecipeController@store')->middleware(['auth'])->name('newRecipe');

@@ -24,14 +24,23 @@ class RecipeController extends Controller
 
     }
 
-    public function test() {
+    public function newRecipes() {
         $recipes = Recipe::orderBy('name')->get();
         $categories = Category::orderBy('name')->get();
 
-        return view('prueba', [
+        return view('new_recipes', [
             'tableTitle' => 'Todas las recetas',
             'recipes' => $recipes,
             'categories' => $categories
+        ]);
+
+    }
+
+    public function viewRecipe($id) {
+        $recipe = Recipe::find($id);
+
+        return view('view_recipe', [
+            'recipe' => $recipe,
         ]);
 
     }
