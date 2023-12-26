@@ -385,29 +385,24 @@
         </div>
         <div class="row">
             <div class="col-12 recipe-nav">
-                <a class="nav-active-element" href="{{ route('newViewRecipe', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Ingredientes</a>
-                <a href="{{ route('viewRecipeInstructions', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Instrucciones</a>
+                <a href="{{ route('newViewRecipe', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Ingredientes</a>
+                <a class="nav-active-element" href="{{ route('viewRecipeInstructions', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Instrucciones</a>
             </div>
         </div>
     </div>
-
+    @php
+        $instructions = $recipe->recipeParts->first()->instructions()->orderBy('order', 'asc')->get()
+    @endphp
     <div class="row">
         <div class="col-12 card last-card">
-            @foreach ($recipe->ingredients()->orderBy('name', 'asc')->get() as $ingredient)
-            <div class="row recipe-card-element">
-                <div class="col-xs-2" style="text-align: center;">
-                    <div class="no-image">
-                        <svg viewBox="0 0 24 24" width="24" height="24">
-                            <path d="m16.736 9.252-3.982-5.876A.907.907 0 0 0 12 3a.892.892 0 0 0-.755.385L7.264 9.252H2.909c-.5 0-.909.403-.909.896 0 .08.01.16.036.241l2.31 8.303C4.554 19.445 5.254 20 6.09 20h11.818c.837 0 1.537-.555 1.755-1.308l2.309-8.303.027-.241a.905.905 0 0 0-.91-.896h-4.354Zm-7.463 0L12 5.31l2.727 3.94H9.273ZM12 16.417c-1 0-1.818-.806-1.818-1.791 0-.985.818-1.791 1.818-1.791s1.818.806 1.818 1.79c0 .986-.818 1.792-1.818 1.792Z"></path>
-                        </svg>
-                    </div>
-                    <!-- <img class="image" src="http://192.168.0.177/storage/img_chania.jpg"> -->
-                </div>
-                <div class="col-xs-10" style="padding-left: 5px;">
-                    <span>{{ $ingredient->name }} <strong>{{ $ingredient->pivot->qty }} ({{ $ingredient->pivot->description }})</strong></span>
+            @for ($i = 0; $i < $instructions->count(); $i++)
+            <div class="row card-element">
+                <div class="col-xs-11">
+                    <p style="margin-bottom: 8px; color: #898f9d;";>Step {{ $i + 1 }}</p>
+                    <span>{{ $instructions[$i]->description }}</span>
                 </div>
             </div>
-            @endforeach
+            @endfor
         </div>
     </div>
 </body>

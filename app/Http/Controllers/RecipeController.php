@@ -42,7 +42,14 @@ class RecipeController extends Controller
         return view('view_recipe', [
             'recipe' => $recipe,
         ]);
+    }
 
+    public function viewRecipeInstructions($id) {
+        $recipe = Recipe::find($id);
+
+        return view('view_recipe_instructions', [
+            'recipe' => $recipe,
+        ]);
     }
 
     public function store(Request $request) {
