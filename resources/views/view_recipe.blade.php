@@ -397,7 +397,7 @@
             <div class="row recipe-card-element">
                 <div class="col-xs-2" style="text-align: center;">
                     @if($ingredient->image_path)
-                        <img class="image" src="{{ global_asset($ingredient->image_path, ['tenant' => tenant()]) }}" defer>
+                        <img class="image" src="{{ global_asset($ingredient->image_path, ['tenant' => tenant()]) }}" loading="lazy">
                     @else
                         <div class="no-image">
                             <svg viewBox="0 0 24 24" width="24" height="24">
