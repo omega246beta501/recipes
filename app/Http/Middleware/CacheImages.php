@@ -21,12 +21,10 @@ class CacheImages
         $response = $next($request);
 
         if ($response instanceof Response && $response->isSuccessful()) {
-            $response->setCache([
-                'public' => true,
-                'max_age' => 31536000, // Cache for 1 year (adjust as needed)
-            ]);
+            $response->header('Cache-Control', 'public');
+            $response->header('Expires', now()->addYear());
         }
-        Log::info('Middleware de cache llamado');
+
         return $response;
     }
 }
