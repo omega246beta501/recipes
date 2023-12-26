@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class CacheImages
 {
@@ -25,7 +26,7 @@ class CacheImages
                 'max_age' => 31536000, // Cache for 1 year (adjust as needed)
             ]);
         }
-
+        Log::info('Middleware de cache llamado');
         return $response;
     }
 }
