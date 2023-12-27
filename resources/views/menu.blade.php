@@ -49,6 +49,15 @@ use App\Data\Routes\RecipeRoutes;
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <select id="num_recipes" name="numRecipesSelect" style="width: 100%;">
+                                @for ($i = 1; $i <= 21; $i++)
+                                <option value={{ $i }}>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
                     <div class="row mt-2">
                         <div class="col">
                             <button type="submit" @disabled($isMenuSet) class="btn btn-danger" onclick="regenerate()">Regenerar recetas</button>
@@ -117,6 +126,9 @@ use App\Data\Routes\RecipeRoutes;
                         width: 'resolve',
                         placeholder: "Buscar recetas"
                     });
+                    $('#num_recipes').select2({
+                        width: 'resolve',
+                    });
                 });
 
                 function regenerate() {
@@ -146,12 +158,15 @@ use App\Data\Routes\RecipeRoutes;
                         searchedRecipes.push(this.value);
                     });
 
+                    num_recipes = document.getElementById("num_recipes").value || null;
+
                     var data = {
                         "keepedRecipesIds": selectedToKeepIds,
                         "includedCategoriesIds": includedCategories,
                         "excludedCategoriesIds": excludedCategories,
                         "includedIngredientsIds": includedIngredients,
-                        "searchedRecipes" : searchedRecipes
+                        "searchedRecipes" : searchedRecipes,
+                        'num_recipes' : num_recipes
                     }
 
                     var settings = {

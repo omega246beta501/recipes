@@ -24,6 +24,34 @@ class RecipeController extends Controller
 
     }
 
+    public function newRecipes() {
+        $recipes = Recipe::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
+
+        return view('new_recipes', [
+            'tableTitle' => 'Todas las recetas',
+            'recipes' => $recipes,
+            'categories' => $categories
+        ]);
+
+    }
+
+    public function viewRecipe($id) {
+        $recipe = Recipe::find($id);
+
+        return view('view_recipe', [
+            'recipe' => $recipe,
+        ]);
+    }
+
+    public function viewRecipeInstructions($id) {
+        $recipe = Recipe::find($id);
+
+        return view('view_recipe_instructions', [
+            'recipe' => $recipe,
+        ]);
+    }
+
     public function store(Request $request) {
         $data = RequestHelper::requestToArray($request);
         
@@ -31,6 +59,7 @@ class RecipeController extends Controller
         $newName        = $data['newName'];
         $newKcal        = $data['newKcal'] ?? null;
         $newPrice       = $data['newPrice'] ?? null;
+        $newServings    = $data['newServings'] ?? null;
         $newDescription = $data['newDescription'] ?? null;
 
         $categoriesToAttach = $data['categoriesToAttach'];
@@ -49,6 +78,11 @@ class RecipeController extends Controller
             $newRecipe->price           = $newPrice;
             $newRecipe->description     = $newDescription;
             $newRecipe->url             = $newUrl;
+
+            if($newServings) {
+                $newRecipe->servings        = $newServings;
+            }
+            
             $newRecipe->save();
     
             $newRecipe->categories()->attach($categoriesModels);
@@ -84,6 +118,7 @@ class RecipeController extends Controller
         $newName        = $data['newName'] ?? null;
         $newKcal        = $data['newKcal'] ?? null;
         $newPrice       = $data['newPrice'] ?? null;
+        $newServings    = $data['newServings'] ?? null;
         $newDescription = $data['newDescription'] ?? null;
 
         $categoriesToAttach = $data['categoriesToAttach'];
@@ -102,6 +137,11 @@ class RecipeController extends Controller
             $newRecipe->price           = $newPrice;
             $newRecipe->description     = $newDescription;
             $newRecipe->url             = $newUrl;
+
+            if($newServings) {
+                $newRecipe->servings        = $newServings;
+            }
+            
             $newRecipe->save();
     
             $newRecipe->categories()->sync($categoriesModels);

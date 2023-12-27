@@ -46,6 +46,11 @@ class Recipe extends Model
         return $this->hasMany(RecipeHistory::class);
     }
 
+    public function recipeParts()
+    {
+        return $this->hasMany(RecipePart::class);
+    }
+
     public function ingredients() {
         return $this->belongsToMany(Ingredient::class, 'recipe_ingredient')
         ->using(RecipeIngredient::class)
