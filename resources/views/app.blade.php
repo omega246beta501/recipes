@@ -16,8 +16,10 @@ use App\Data\Routes\CategoryRoutes;
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@animxyz/core">
-    @vite('resources/js/app.js')
-    @inertiaHead
+    <script type="module" src="http://64.227.67.35:5173/@vite/client"></script>
+    <script type="module" src="http://64.227.67.35:5173/resources/js/app.js"></script>
+    <!-- @vite('resources/js/app.js')
+    @inertiaHead -->
     <style>
         .select2-selection__choice {
             background-color: #fd1dc2;
