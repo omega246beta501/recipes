@@ -172,7 +172,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ route('regenerateRecipes', ['tenant' => tenant()]) }}",
+                        "url": "{{ route('regenerateRecipes') }}",
                         "method": "POST",
                         "headers": {
                             "cache-control": "no-cache",
@@ -201,7 +201,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ route('createMenu', ['tenant' => tenant()]) }}",
+                        "url": "{{ route('createMenu') }}",
                         "method": "POST",
                         "headers": {
                             "cache-control": "no-cache",
@@ -221,7 +221,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ route('discardMenu', ['tenant' => tenant()]) }}",
+                        "url": "{{ route('discardMenu') }}",
                         "method": "GET",
                         "headers": {
                             "cache-control": "no-cache",
@@ -243,7 +243,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ route('newMenu', ['tenant' => tenant()]) }}",
+                        "url": "{{ route('newMenu') }}",
                         "method": "GET",
                         "headers": {
                             "cache-control": "no-cache",
@@ -264,7 +264,7 @@ use App\Data\Routes\RecipeRoutes;
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": "{{ route('updateRecipeView', ['tenant' => tenant(), 'id' => -1]) }}".replace("-1", recipeId),
+                        "url": "{{ route('updateRecipeView', ['id' => -1]) }}".replace("-1", recipeId),
                         "method": "GET",
                         "headers": {
                             "cache-control": "no-cache",

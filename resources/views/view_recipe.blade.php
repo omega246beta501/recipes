@@ -364,7 +364,7 @@
             <div class="col-12">
                 <div class="row recipe-header">
                     <div class="recipe-header-items">
-                        <a href="{{ route('newRecipes', ['tenant' => tenant()]) }}" class="col-xs-1">
+                        <a href="{{ route('newRecipes') }}" class="col-xs-1">
                             <button class="special-button" type="button">
                                 <svg viewBox="0 0 24 24" width="24" height="24">
                                     <path d="M20 12a1 1 0 0 0-1-1H7.83l4.88-4.88a1 1 0 0 0-1.415-1.415l-6.588 6.588a1 1 0 0 0 0 1.414l6.588 6.588a.997.997 0 0 0 1.41-1.41L7.83 13H19a1 1 0 0 0 1-1Z"></path>
@@ -385,8 +385,8 @@
         </div>
         <div class="row">
             <div class="col-12 recipe-nav">
-                <a class="nav-active-element" href="{{ route('newViewRecipe', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Ingredientes</a>
-                <a href="{{ route('viewRecipeInstructions', ['tenant' => tenant(), 'id' => $recipe->id]) }} }}">Instrucciones</a>
+                <a class="nav-active-element" href="{{ route('newViewRecipe', ['id' => $recipe->id]) }} }}">Ingredientes</a>
+                <a href="{{ route('viewRecipeInstructions', ['id' => $recipe->id]) }} }}">Instrucciones</a>
             </div>
         </div>
     </div>
@@ -397,7 +397,7 @@
             <div class="row recipe-card-element">
                 <div class="col-xs-2" style="text-align: center;">
                     @if($ingredient->image_path)
-                        <img class="image" src="{{ global_asset($ingredient->image_path, ['tenant' => tenant()]) }}" loading="eager">
+                        <img class="image" src="{{ global_asset($ingredient->image_path) }}" loading="eager">
                     @else
                         <div class="no-image">
                             <svg viewBox="0 0 24 24" width="24" height="24">

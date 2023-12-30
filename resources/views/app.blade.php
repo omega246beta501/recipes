@@ -82,13 +82,13 @@ use App\Data\Routes\CategoryRoutes;
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="{{ route('menu', ['tenant' => tenant()]) }}" class="nav-link px-2 text-warning">Menú</a>
+                        <a href="{{ route('menu') }}" class="nav-link px-2 text-warning">Menú</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('categories', ['tenant' => tenant()]) }}" class="nav-link px-2 text-white">Categorías</a>
+                        <a href="{{ route('categories') }}" class="nav-link px-2 text-white">Categorías</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('recipes', ['tenant' => tenant()]) }}" class="nav-link px-2 text-white">Recetas</a>
+                        <a href="{{ route('recipes') }}" class="nav-link px-2 text-white">Recetas</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link px-2 text-white">FAQs</a>
@@ -98,7 +98,7 @@ use App\Data\Routes\CategoryRoutes;
                     </li>
                 </ul>
                 <div class="text-end">
-                    <form method="POST" action="{{ route('logout', ['tenant' => tenant()]) }}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
             
                         <button type="submit" class="btn btn-outline-light me-2">Log Out</button>

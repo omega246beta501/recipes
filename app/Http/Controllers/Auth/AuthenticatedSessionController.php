@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/' . tenant('id') . RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
@@ -49,6 +49,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect(route('home', ['tenant' => tenant()]));
+        return redirect(route('home'));
     }
 }

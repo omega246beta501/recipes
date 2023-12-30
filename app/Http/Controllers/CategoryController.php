@@ -92,7 +92,7 @@ class CategoryController extends Controller
         return [
             'attachedRecipes' => $attachedRecipes,
             'category' => $category->withoutRelations(),
-            'storeUrl' =>  route('putCategory', ['tenant' => tenant(), 'id' => $id])
+            'storeUrl' =>  route('putCategory', ['id' => $id])
         ];
     }
 
@@ -108,8 +108,8 @@ class CategoryController extends Controller
             'categories' => $categories,
             'recipes'   => new LiteRecipeCollection($recipes),
             'categoriesUrls' => [
-                'populateUrl' => route('populateCategory', ['tenant' => tenant()]),
-                'putUrl' => route('putCategory', ['tenant' => tenant(), 'id' => 0]),
+                'populateUrl' => route('populateCategory'),
+                'putUrl' => route('putCategory', ['id' => 0]),
             ]
         ]);
     }

@@ -168,7 +168,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('newRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('newRecipe') }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -210,7 +210,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('updateRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('updateRecipe') }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -249,7 +249,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('attachRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('attachRecipe') }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -262,7 +262,7 @@ $formMode = "update";
             $("#ingredientsGrid").html(response);
 
             $("#autocomplete").autocomplete({
-                source: "{{ route('queryIngredients', ['tenant' => tenant()]) }}"
+                source: "{{ route('queryIngredients') }}"
             });
         });
     }
@@ -277,7 +277,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('detachRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('detachRecipe') }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -304,7 +304,7 @@ $formMode = "update";
                 }, 300);
 
                 $("#autocomplete").autocomplete({
-                    source: "{{ route('queryIngredients', ['tenant' => tenant()]) }}"
+                    source: "{{ route('queryIngredients') }}"
                 });
             });
         }
@@ -333,7 +333,7 @@ $formMode = "update";
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "{{ route('updateAttachedRecipe', ['tenant' => tenant()]) }}",
+            "url": "{{ route('updateAttachedRecipe') }}",
             "method": "POST",
             "headers": {
                 "cache-control": "no-cache",
@@ -346,7 +346,7 @@ $formMode = "update";
             $("#ingredientsGrid").html(response);
 
             $("#autocomplete").autocomplete({
-                source: "{{ route('queryIngredients', ['tenant' => tenant()]) }}"
+                source: "{{ route('queryIngredients') }}"
             });
             alert('Se ha actualizado el ingrediente en el sistema');
         });
@@ -354,7 +354,7 @@ $formMode = "update";
 
     $(document).ready(function() {
         $("#autocomplete").autocomplete({
-            source: "{{ route('queryIngredients', ['tenant' => tenant()]) }}"
+            source: "{{ route('queryIngredients') }}"
         });
     });
 </script>

@@ -324,8 +324,8 @@
                     </div>
                     <!-- <img class="image" src="http://192.168.0.177/storage/img_chania.jpg"> -->
                 </div>
-                <div class="col-xs-7" style="padding-left: 5px;" href="{{ route('newRecipes', ['tenant' => tenant()]) }}">
-                    <a href="{{ route('newViewRecipe', ['tenant' => tenant(), 'id' => $recipe->id]) }}">{{ $recipe->name }}</a>
+                <div class="col-xs-7" style="padding-left: 5px;" href="{{ route('newRecipes') }}">
+                    <a href="{{ route('newViewRecipe', ['id' => $recipe->id]) }}">{{ $recipe->name }}</a>
                 </div>
                 <div class="col-xs-3">
                     <span>{{ $recipe->last_used_at }}</span>

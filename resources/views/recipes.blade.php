@@ -79,7 +79,7 @@ use App\Data\Routes\RecipeRoutes;
                 var settings = {
                     "async": true,
                     "crossDomain": true,
-                    "url": "{{ route('updateRecipeView', ['tenant' => tenant(), 'id' => -1]) }}".replace("-1", recipeId),
+                    "url": "{{ route('updateRecipeView', ['id' => -1]) }}".replace("-1", recipeId),
                     "method": "GET",
                     "headers": {
                         "cache-control": "no-cache",
