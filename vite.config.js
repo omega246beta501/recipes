@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         hmr: {
-            host: process.env.VITE_BASE_IP
+            host: 'host'
         }
     },
     plugins: [
