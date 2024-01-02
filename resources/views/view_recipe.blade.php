@@ -385,8 +385,8 @@
         </div>
         <div class="row">
             <div class="col-12 recipe-nav">
-                <a class="nav-active-element" href="{{ route('newViewRecipe', ['id' => $recipe->id]) }} }}">Ingredientes</a>
-                <a href="{{ route('viewRecipeInstructions', ['id' => $recipe->id]) }} }}">Instrucciones</a>
+                <a class="nav-active-element" href="{{ route('newViewRecipe', ['id' => $recipe->id]) }}">Ingredientes</a>
+                <a href="{{ route('viewRecipeInstructions', ['id' => $recipe->id]) }}">Instrucciones</a>
             </div>
         </div>
     </div>
@@ -397,7 +397,7 @@
             <div class="row recipe-card-element">
                 <div class="col-xs-2" style="text-align: center;">
                     @if($ingredient->image_path)
-                        <img class="image" src="{{ global_asset($ingredient->image_path) }}" loading="eager">
+                        <img class="image" src="{{ asset($ingredient->image_path) }}" loading="eager">
                     @else
                         <div class="no-image">
                             <svg viewBox="0 0 24 24" width="24" height="24">

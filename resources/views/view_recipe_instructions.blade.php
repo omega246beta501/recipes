@@ -385,8 +385,8 @@
         </div>
         <div class="row">
             <div class="col-12 recipe-nav">
-                <a href="{{ route('newViewRecipe', ['id' => $recipe->id]) }} }}">Ingredientes</a>
-                <a class="nav-active-element" href="{{ route('viewRecipeInstructions', ['id' => $recipe->id]) }} }}">Instrucciones</a>
+                <a href="{{ route('newViewRecipe', ['id' => $recipe->id]) }}">Ingredientes</a>
+                <a class="nav-active-element" href="{{ route('viewRecipeInstructions', ['id' => $recipe->id]) }}">Instrucciones</a>
             </div>
         </div>
     </div>
