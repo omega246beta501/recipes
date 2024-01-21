@@ -19,6 +19,8 @@ class Recipe extends Model
 
     public $timestamps = false;
 
+    protected $appends = ['last_used_at'];
+
     protected function kcal(): Attribute {
         return Attribute::make(
             set: fn ($value) => FormatHelper::nullIfEmpty($value)
@@ -28,6 +30,20 @@ class Recipe extends Model
     protected function price(): Attribute {
         return Attribute::make(
             set: fn ($value) => FormatHelper::nullIfEmpty($value)
+        );
+    }
+
+    protected function lastUsedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function() {
+                if($this->recipeLogs->count() > 0) {
+                    return $this->recipeLogs()->latest('used_at')->first()->used_at;
+                }
+                else {
+                    return null;
+                }
+            },
         );
     }
     
@@ -55,7 +71,8 @@ class Recipe extends Model
         return $this->belongsToMany(Ingredient::class, 'recipe_ingredient')
         ->using(RecipeIngredient::class)
         ->withPivot(['qty','description'])
-        ->withTimestamps();
+        ->withTimestamps()
+        ->orderBy('name');
     }
 
     private static function queryCategories($query, $includedCategories, $excludedCategories) {
@@ -182,19 +199,5 @@ class Recipe extends Model
         if($historyLog) {
             $historyLog->delete();
         }
-    }
-
-    protected function lastUsedAt(): Attribute
-    {
-        return Attribute::make(
-            get: function() {
-                if($this->recipeLogs->count() > 0) {
-                    return $this->recipeLogs()->latest('used_at')->first()->used_at;
-                }
-                else {
-                    return null;
-                }
-            },
-        );
     }
 }

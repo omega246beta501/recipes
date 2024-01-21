@@ -11,8 +11,9 @@ class RecipePart extends Model
     use HasFactory;
 
     protected $table = 'recipe_parts';
-    
 
+    protected $with = ['instructions'];
+    
     public function recipes()
     {
         return $this->belongsTo(Recipe::class, 'recipe_id');

@@ -9,6 +9,7 @@ use App\View\Components\Forms\Recipe as FormsRecipe;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class RecipeController extends Controller
 {
@@ -26,21 +27,18 @@ class RecipeController extends Controller
 
     public function newRecipes() {
         $recipes = Recipe::orderBy('name')->get();
-        $categories = Category::orderBy('name')->get();
-
-        return view('new_recipes', [
-            'tableTitle' => 'Todas las recetas',
-            'recipes' => $recipes,
-            'categories' => $categories
+    
+        return Inertia::render('Recipes', [
+            'recipes' => $recipes
         ]);
 
     }
 
     public function viewRecipe($id) {
-        $recipe = Recipe::find($id);
-
-        return view('view_recipe', [
-            'recipe' => $recipe,
+        $recipe = Recipe::with(['ingredients', 'recipeParts'])->find($id);
+    
+        return Inertia::render('Recipe', [
+            'recipe' => $recipe
         ]);
     }
 
