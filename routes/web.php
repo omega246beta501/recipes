@@ -56,22 +56,6 @@ Route::get(CategoryRoutes::UPDATE_VIEW, 'App\Http\Controllers\CategoryController
 Route::get(CategoryRoutes::POPULATE_CATEGORY, 'App\Http\Controllers\CategoryController@populateCategory')->middleware(['auth'])->name('populateCategory');
 
 // RECIPES
-Route::get('/borrar', function() {
-    $recipes = Recipe::orderBy('name')->get();
-    
-    return Inertia::render('Recipes', [
-        'recipes' => $recipes
-    ]);
-})->name('borrar');
-
-Route::get('/borrar2/{id}', function($id) {
-    $recipe = Recipe::with(['ingredients', 'recipeParts'])->find($id);
-    
-    return Inertia::render('Recipe', [
-        'recipe' => $recipe
-    ]);
-})->name('borrar2');
-
 Route::get('/test', 'App\Http\Controllers\RecipeController@newRecipes')->middleware(['auth'])->name('newRecipes');
 Route::get('/test/{id}', 'App\Http\Controllers\RecipeController@viewRecipe')->middleware(['auth'])->name('newViewRecipe');
 Route::get('/test-instructions/{id}', 'App\Http\Controllers\RecipeController@viewRecipeInstructions')->middleware(['auth'])->name('viewRecipeInstructions');

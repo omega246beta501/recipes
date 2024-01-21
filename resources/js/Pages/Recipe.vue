@@ -103,7 +103,7 @@ export default {
             <div class="col-12">
                 <div class="row recipe-header">
                     <div class="recipe-header-items">
-                        <a :href="route('borrar')" class="col-xs-1">
+                        <a :href="route('newRecipes')" class="col-xs-1">
                             <button class="special-button" type="button">
                                 <svg viewBox="0 0 24 24" width="24" height="24">
                                     <path d="M20 12a1 1 0 0 0-1-1H7.83l4.88-4.88a1 1 0 0 0-1.415-1.415l-6.588 6.588a1 1 0 0 0 0 1.414l6.588 6.588a.997.997 0 0 0 1.41-1.41L7.83 13H19a1 1 0 0 0 1-1Z"></path>

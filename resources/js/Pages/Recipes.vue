@@ -30,7 +30,7 @@ const props = defineProps({
                     <!-- <img class="image" src="http://192.168.0.177/storage/img_chania.jpg"> -->
                 </div>
                 <div class="col-xs-7" style="padding-left: 5px;">
-                    <a :href="route('borrar2', recipe.id)">{{ recipe.name }}</a>
+                    <a :href="route('newViewRecipe', recipe.id)">{{ recipe.name }}</a>
                 </div>
                 <div class="col-xs-3">
                     <span>{{ recipe.last_used_at }}</span>
