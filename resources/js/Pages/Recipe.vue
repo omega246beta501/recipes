@@ -20,6 +20,26 @@ export default {
     },
     props: {
         recipe: Object
+    },
+    mounted() {
+        // Add scroll event listener to the window
+        window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeDestroy() {
+        // Remove the scroll event listener when the component is destroyed
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+    methods: {
+        handleScroll() {
+            // Access scroll-related information
+            console.log("Window scrolling");
+            
+            // You can also access the scroll position if needed
+            const scrollPositionX = window.scrollX;
+            const scrollPositionY = window.scrollY;
+            console.log("Horizontal Scroll position:", scrollPositionX);
+            console.log("Vertical Scroll position:", scrollPositionY);
+        }
     }
 }
 </script>
@@ -70,28 +90,21 @@ export default {
         color: #ff9939;
     }
 
-    .slide-left-enter-active,
-    .slide-right-enter-active,
-    .slide-left-leave-active,
-    .slide-right-leave-active {
-    transition: transform 0.1s;
+    .section {
+        width: 100vw; 
+        height: 100vh; 
+        display: inline-block; 
+        box-sizing: border-box;
+        vertical-align: top; 
+        scroll-snap-align: end;
+        white-space: normal;
     }
 
-    .slide-left-enter-from,
-    .slide-left-leave-to{
-    transform: translateX(100%);
-    }
-
-    .slide-right-enter-from,
-    .slide-right-leave-to {
-    transform: translateX(-100%);
-    }
-
-    .slide-left-enter-to,
-    .slide-right-enter-to,
-    .slide-left-leave-from,
-    .slide-right-leave-from {
-    transform: translateX(0);
+    .scrolling-sections {
+        scroll-snap-type: x mandatory;
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-behavior: smooth;
     }
 </style>
 
@@ -124,18 +137,18 @@ export default {
         </div>
         <div class="row">
             <div class="col-12 recipe-nav">
-                <a :class="{ 'nav-active-element': ingredientListActive }" @click="currentTab='IngredientList'">Ingredientes</a>
-                <a :class="{ 'nav-active-element': !ingredientListActive }" @click="currentTab='Instructions'">Instrucciones</a>
+                <a href="#ingredients_section" :class="{ 'nav-active-element': ingredientListActive }" @click="currentTab='IngredientList'">Ingredientes</a>
+                <a href="#instructions_section" :class="{ 'nav-active-element': !ingredientListActive }" @click="currentTab='Instructions'">Instrucciones</a>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12 card last-card">
-        <Transition :name="transitionName" mode="in-out">
-            <component :is="currentTab" :recipe="recipe"></component>
-        </Transition>
-
+    <div class="row scrolling-sections">
+        <div class="section" id="ingredients_section">
+            <IngredientList :recipe="recipe"></IngredientList>
+        </div>
+        <div class="section" id="instructions_section">
+            <Instructions :recipe="recipe"></Instructions>
         </div>
     </div>
 </template>
