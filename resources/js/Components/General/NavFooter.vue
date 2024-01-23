@@ -5,7 +5,7 @@
 <template>
     <div class="footer">
         <div class="footer-flex">
-            <a href="/feed" id="home-link">
+            <a :href="route('home')" id="home-link">
                 <svg viewBox="0 0 24 24" width="24" height="24" data-testid="home">
                     <path fill-rule="evenodd" d="M8 15.5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2V20h3V8.177l-7-3.89-7 3.89V20h3v-4.5ZM3 7l9-5 9 5v15h-7v-6.5h-4V22H3V7Z" clip-rule="evenodd"></path>
                 </svg>
