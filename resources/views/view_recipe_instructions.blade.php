@@ -52,7 +52,7 @@
             border-bottom-style: solid;
         }
 
-        .recipe-card-element {
+        .ingredient-card-element {
             /* margin: 15px; */
             padding: 0px 15px 0px 15px;
             overflow-wrap: anywhere;

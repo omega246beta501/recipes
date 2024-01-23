@@ -9,6 +9,7 @@ use App\Data\Routes\IngredientRoutes;
 use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ShoppingListController;
 use App\Models\Recipe;
 
 /*
@@ -69,6 +70,9 @@ Route::post(IngredientRoutes::ATTACH_RECIPE, 'App\Http\Controllers\IngredientCon
 Route::post(IngredientRoutes::DETACH_RECIPE, 'App\Http\Controllers\IngredientController@detachRecipe')->middleware(['auth'])->name('detachRecipe');
 Route::get(IngredientRoutes::QUERY_INGREDIENTS, 'App\Http\Controllers\IngredientController@queryIngredients')->middleware(['auth'])->name('queryIngredients');
 Route::post(IngredientRoutes::UPDATE_ATTACHED, 'App\Http\Controllers\IngredientController@updateAttachedRecipe')->middleware(['auth'])->name('updateAttachedRecipe');
+
+// SHOPPING LIST
+Route::get('/shopping_list', [ShoppingListController::class, 'index'])->middleware(['auth'])->name('shoppingList');
 
 Route::get('/login', function () {
     return view('login');

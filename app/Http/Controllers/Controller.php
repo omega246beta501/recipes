@@ -114,10 +114,4 @@ class Controller extends BaseController
     public function clearMenu() {
         Recipe::clearMenu();
     }
-
-    public function prueba() {
-        return Inertia::render('HelloWorld', [
-            'message' => 'Welcome to the Hello World page!'
-        ]);
-    }
 }

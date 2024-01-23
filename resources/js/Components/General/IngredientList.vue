@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 
 const props = defineProps({
-    recipe: Object
+    ingredients: Array
 })
 
 onMounted(() => {
@@ -10,11 +10,20 @@ onMounted(() => {
 
 </script>
 <style scoped>
+.ingredient-card-element {
+    /* margin: 15px; */
+    padding: 0px 15px 0px 15px;
+    overflow-wrap: anywhere;
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+}
+
 </style>
 
 <template>
     <div class="col-12 card last-card">
-        <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="row recipe-card-element">
+        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element">
             <div class="col-xs-2" style="text-align: center;">
                 <img v-if="ingredient.image_path" class="image" :src="`/${ingredient.image_path}`" loading="eager">
                 <div v-else class="no-image">

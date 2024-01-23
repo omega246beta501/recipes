@@ -52,7 +52,7 @@
             border-bottom-style: solid;
         }
 
-        .recipe-card-element {
+        .ingredient-card-element {
             /* margin: 15px; */
             padding: 0px 15px 0px 15px;
             overflow-wrap: anywhere;
@@ -394,7 +394,7 @@
     <div class="row">
         <div class="col-12 card last-card">
             @foreach ($recipe->ingredients()->orderBy('name', 'asc')->get() as $ingredient)
-            <div class="row recipe-card-element">
+            <div class="row ingredient-card-element">
                 <div class="col-xs-2" style="text-align: center;">
                     @if($ingredient->image_path)
                         <img class="image" src="{{ asset($ingredient->image_path) }}" loading="eager">

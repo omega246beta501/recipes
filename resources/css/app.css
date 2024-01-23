@@ -27,12 +27,6 @@ html {
     padding: 15px;
 }
 
-.sticky-header {
-    padding: 15px;
-    position: sticky;
-    top: 0;
-}
-
 .card {
     border-radius: 25px;
     background-color: white;

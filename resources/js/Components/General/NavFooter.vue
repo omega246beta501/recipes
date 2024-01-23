@@ -11,7 +11,7 @@
                 </svg>
                 Home
             </a>
-            <a href="/" id="search-link">
+            <a :href="route('newRecipes')" id="search-link">
                 <svg viewBox="0 0 24 24" width="24" height="24" data-testid="search">
                     <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14Z"></path>
                 </svg>
@@ -29,7 +29,7 @@
                 </svg>
                 Menu
             </a>
-            <a href="/shopping-list" id="sl-link">
+            <a :href="route('shoppingList')" id="sl-link">
                 <svg viewBox="0 0 24 24" width="24" height="24" data-testid="lists">
                     <path fill-rule="evenodd" d="M18.5 4a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-.5.5H5V4.5a.5.5 0 0 1 .5-.5h13ZM3 4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4Zm7.777 3C10.348 7 10 7.448 10 8s.348 1 .777 1h5.445c.43 0 .778-.448.778-1s-.349-1-.778-1h-5.445ZM10 12c0-.552.348-1 .777-1h5.445c.43 0 .778.448.778 1s-.349 1-.778 1h-5.445c-.429 0-.777-.448-.777-1Zm0 4c0-.552.348-1 .777-1h5.445c.43 0 .778.448.778 1s-.349 1-.778 1h-5.445c-.429 0-.777-.448-.777-1Zm-1 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-1-3a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm1-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd"></path>
                 </svg>

@@ -1,7 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import NavFooter from '@/Components/NavFooter.vue';
-import NavLink from '@/Components/NavLink.vue';
+import NavFooter from '@/Components/General/NavFooter.vue';
 
 const props = defineProps({
     recipes: Array
