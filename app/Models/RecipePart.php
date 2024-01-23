@@ -21,7 +21,7 @@ class RecipePart extends Model
 
     public function instructions()
     {
-        return $this->hasMany(Instruction::class, 'part_id');
+        return $this->hasMany(Instruction::class, 'part_id')->orderBy('order');
     }
 
 }
