@@ -85,7 +85,7 @@ use App\Data\Routes\RecipeRoutes;
                         <table class="table table-sm table-hover table-dark" id="shoppingListTable">
                             <thead>
                                 <tr>
-                                    <th>Elemento</th>
+                                    <th><a href="{{ route('shoppingList') }}">Elemento</a></th>
                                     <th>Detalles</th>
                                 </tr>
                             </thead>
