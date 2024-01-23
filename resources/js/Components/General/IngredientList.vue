@@ -1,12 +1,19 @@
-<script setup>
-import { onMounted } from 'vue';
+<script>
+export default {
+    props: {
+        ingredients: Array,
+        isFromRecipes: {
+            type: Boolean,
+            default: true
+        }
+    },
+    methods: {
+        showAlert(string) {
+            alert(string)
+        }
+    }
+}
 
-const props = defineProps({
-    ingredients: Array
-})
-
-onMounted(() => {
-})
 
 </script>
 <style scoped>
@@ -23,7 +30,7 @@ onMounted(() => {
 
 <template>
     <div class="col-12 card last-card">
-        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element">
+        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element" @click="showAlert(ingredient.pivot.description)">
             <div class="col-xs-2" style="text-align: center;">
                 <img v-if="ingredient.image_path" class="image" :src="`/${ingredient.image_path}`" loading="eager">
                 <div v-else class="no-image">
@@ -37,7 +44,7 @@ onMounted(() => {
                     {{ ingredient.name }}
                     <strong>
                         {{ ingredient.pivot.qty }}
-                        <span v-if="ingredient.pivot.description"> ({{ ingredient.pivot.description }}) </span>
+                        <span v-if="isFromRecipes && ingredient.pivot.description"> ({{ ingredient.pivot.description }}) </span>
                     </strong>
                 </span>
             </div>

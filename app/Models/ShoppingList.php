@@ -11,7 +11,7 @@ class ShoppingList extends Model
 
     public function ingredients() {
         return $this->belongsToMany(Ingredient::class, 'ingredient_lists', 'list_id')
-        ->withPivot('description')
+        ->withPivot(['description', 'qty'])
         ->withTimestamps();
     }
 
@@ -48,18 +48,21 @@ class ShoppingList extends Model
             $shoppingListElements[$i]['id'] = $ingredient->id;
 
             $elementDescriptions = array();
+            $ingredientQty = 0;
             foreach ($recipesInMenu as $recipe) {
                 $elementDescriptions[] = $this->formatElementDescription($recipe);
+                $ingredientQty  += $recipe->qty ?? 1;
             }
 
             $shoppingListElements[$i]['description'] = implode(',', $elementDescriptions);
+            $shoppingListElements[$i]['qty'] = $ingredientQty;
             $i++;
         }
 
         $shoppingListElements = json_decode(json_encode($shoppingListElements), false);
 
         foreach ($shoppingListElements as $element) {
-            $this->ingredients()->attach($element->id, ['description' => $element->description]);
+            $this->ingredients()->attach($element->id, ['description' => $element->description, 'qty' => $element->qty]);
         }
 
         // $inMenuIngredients = DB::table('recipes')

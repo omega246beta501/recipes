@@ -34,7 +34,7 @@ export default {
     </StickyHeader>
 
     <div class="row">
-        <IngredientList :ingredients="list"></IngredientList>
+        <IngredientList :ingredients="list" :isFromRecipes="false"></IngredientList>
     </div>
     <NavFooter></NavFooter>
 </template>
