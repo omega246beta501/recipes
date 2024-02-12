@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 
 class Recipe extends Model
 {
@@ -111,11 +112,13 @@ class Recipe extends Model
         return $query;
     }
 
-    public static function randomRecipes(array $includedRecipes = [], array $includedCategories = [], array $excludedCategories = [], array $withIngredients = [], int $amount = 6, array $searchedRecipes = []) {
+    public static function randomRecipes(array $includedCategories = [], array $excludedCategories = [], array $withIngredients = [], int $amount = 6, array $searchedRecipes = []) {
+        $menu = Menu::find(1);
+        $includedRecipes = $menu->recipes;
+
         Log::info($includedRecipes);
         $amountIncluded = count($includedRecipes);
         $amount = $amount - $amountIncluded;
-        $included = Recipe::whereIn('id', $includedRecipes)->get();
 
         $searched = Recipe::whereIn('id', $searchedRecipes)->get();
 
@@ -125,7 +128,7 @@ class Recipe extends Model
             // self::queryLastUsedAt($q);
 
             if(!empty($includedRecipes)) {
-                $q = $q->whereNotIn('id', $includedRecipes);
+                $q = $q->whereNotIn('id', $includedRecipes->pluck('id'));
             }
         });
 
@@ -136,37 +139,26 @@ class Recipe extends Model
         ->orderBy('name')
         ->get();
 
-        $all = $included->merge($recipes)->merge($searched)->sortBy('name');
+        $all = $includedRecipes->merge($recipes)->merge($searched)->sortBy('name');
 
         return $all;
     }
 
     public static function includedInMenu() {
-        return Recipe::where('is_in_menu', true)->get();
+        $menu = Menu::find(1);
+        return $menu->recipes;
     }
 
     public function includeInMenu() {
+        $menu = Menu::find(1);
+
         $this->logUsedRecipe();
-        $this->is_in_menu = true;
-        $this->save();
+        $menu->recipes()->attach($this);
     }
 
-    public static function clearMenu() {
-        $recipesInMenu = Recipe::includedInMenu();
-
-        foreach ($recipesInMenu as $recipe) {
-            $recipe->is_in_menu = false;
-            $recipe->save();
-        }
-    }
-
-    public static function discardMenu() {
-        $recipesInMenu = Recipe::includedInMenu();
-
-        foreach ($recipesInMenu as $recipe) {
-            $recipe->is_in_menu = false;
-            $recipe->revertLastUsedAt();
-            $recipe->save();
+    public static function logUsedRecipes(Collection $recipes) {
+        foreach ($recipes as $recipe) {
+            $recipe->logUsedRecipe();
         }
     }
 

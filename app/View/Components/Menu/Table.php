@@ -17,7 +17,7 @@ class Table extends Component
      */
     public function __construct($isMenuSet, $recipes, $keepedRecipesIds = "")
     {
-        $this->$keepedRecipesIds = $keepedRecipesIds;
+        $this->keepedRecipesIds = $keepedRecipesIds;
         $this->recipes = $recipes;
         $this->isMenuSet = $isMenuSet;
     }

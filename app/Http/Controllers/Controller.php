@@ -7,6 +7,7 @@ use App\Models\Bring;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\InternalSetting;
+use App\Models\Menu;
 use App\Models\Recipe;
 use App\Models\ShoppingList;
 use Illuminate\Database\Eloquent\Collection;
@@ -29,16 +30,19 @@ class Controller extends BaseController
         $shoppingListIngredients = new Collection();
         $ingredients = Ingredient::orderBy('name')->get();
 
-        $recipes = Recipe::includedInMenu();
+        $menu = Menu::find(1);
         $categories = Category::orderBy('name')->get();
         
-        if($recipes->count() > 0) {
+        if($menu->is_menu_locked) {
             $isMenuSet = true;
+            $recipes = Recipe::includedInMenu();
             $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
         }
         else {
             $recipes = Recipe::randomRecipes();
         }
+
+        $keepedRecipesIds = $menu->recipes->pluck('id');
 
         return view('menu', [
             'recipes' => $recipes,
@@ -47,6 +51,7 @@ class Controller extends BaseController
             'shoppingList' => $shoppingListIngredients,
             'ingredients' => $ingredients,
             'allRecipes' => Recipe::all()->sortBy('name'),
+            'keepedRecipesIds' => $keepedRecipesIds,
         ]);
     }
 
@@ -60,12 +65,17 @@ class Controller extends BaseController
         $searchedRecipes = $data['searchedRecipes'] ?? null;
         $numRecipes = $data['num_recipes'] ?? 6;
 
+        $menu = Menu::find(1);
+
+        $menu->syncMenuRecipes($keepedRecipesIds);
+        $keepedRecipesIds = $menu->recipes->pluck('id');
+
         if(count($keepedRecipesIds) > $numRecipes) {
             $numRecipes = count($keepedRecipesIds);
         }
 
         Log::info($keepedRecipesIds);
-        $recipes = Recipe::randomRecipes($keepedRecipesIds, $includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, $numRecipes, $searchedRecipes);
+        $recipes = Recipe::randomRecipes($includedCategoriesIds, $excludedCategoriesIds, $includedIngredientsIds, $numRecipes, $searchedRecipes);
 
         return view('components.menu.table', [
             'recipes' => $recipes,
@@ -75,19 +85,23 @@ class Controller extends BaseController
         ]);
     }
 
-    public function includeRecipesInMenu(Request $request) {
+    public function closeMenu(Request $request) {
         $data = RequestHelper::requestToArray($request);
         $recipesToInclude = $data['recipesToInclude'];
         $shoppingList = ShoppingList::findOrFail(1);
         $shoppingListIngredients = new Collection();
 
-        
-        foreach ($recipesToInclude as $recipeId) {
-            $recipe = Recipe::find($recipeId);
-            $recipe->includeInMenu();
-        }
+        $menu = Menu::find(1);
 
-        $recipes = Recipe::randomRecipes($recipesToInclude, [], [], [], count($recipesToInclude));
+        $menu->syncMenuRecipes($recipesToInclude);
+        $menu->is_menu_locked = true;
+        $menu->save();
+
+        Recipe::logUsedRecipes($menu->recipes);
+
+        $keepedRecipesIds = $menu->recipes->pluck('id');
+
+        $recipes = Recipe::randomRecipes([], [], [], count($recipesToInclude));
 
         $shoppingList->createShoppingList();
         $shoppingListIngredients = $shoppingList->ingredients()->orderBy('name')->get();
@@ -102,16 +116,18 @@ class Controller extends BaseController
         return view('components.menu.table', [
             'recipes' => $recipes,
             'isMenuSet' => true,
-            'keepedRecipesIds' => $recipesToInclude,
+            'keepedRecipesIds' => $keepedRecipesIds,
             'shoppingList' => $shoppingListIngredients
         ]);
     }
 
     public function discardMenu() {
-        Recipe::discardMenu();
+        $menu = Menu::find(1);
+        $menu->discardMenu();
     }
 
     public function clearMenu() {
-        Recipe::clearMenu();
+        $menu = Menu::find(1);
+        $menu->clearMenu();
     }
 }

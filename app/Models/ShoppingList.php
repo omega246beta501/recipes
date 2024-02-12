@@ -36,15 +36,18 @@ class ShoppingList extends Model
     public function createShoppingList() {
         $this->emptyList();
         
-        $inMenuIngredients = Ingredient::whereHas('recipes', function($query) {
-            $query->where('is_in_menu', 1);
+        $menu = Menu::find(1);
+        $inMenuRecipes = $menu->recipes;
+
+        $inMenuIngredients = Ingredient::whereHas('recipes', function($query) use ($inMenuRecipes) {
+            $query->whereIn('id', $inMenuRecipes->pluck('id'));
         })->get();
 
         $shoppingListElements = array();
 
         $i = 0;
         foreach ($inMenuIngredients as $ingredient) {
-            $recipesInMenu = $ingredient->recipes()->where('is_in_menu', 1)->get();
+            $recipesInMenu = $ingredient->recipes()->whereIn('id', $inMenuRecipes->pluck('id'))->get();
             $shoppingListElements[$i]['id'] = $ingredient->id;
 
             $elementDescriptions = array();

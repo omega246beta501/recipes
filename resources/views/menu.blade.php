@@ -11,7 +11,7 @@ use App\Data\Routes\RecipeRoutes;
                 <div class="col">
                     <div class="row">
                         <div class="regenerable col">
-                            <x-menu.table :is-menu-set="$isMenuSet" :recipes="$recipes">
+                            <x-menu.table :is-menu-set="$isMenuSet" :recipes="$recipes" :keeped-recipes-ids="$keepedRecipesIds">
                             </x-menu.table>
                         </div>
                     </div>
@@ -53,7 +53,11 @@ use App\Data\Routes\RecipeRoutes;
                         <div class="col">
                             <select id="num_recipes" name="numRecipesSelect" style="width: 100%;">
                                 @for ($i = 1; $i <= 21; $i++)
+                                @if($i == 6)
+                                <option selected value={{ $i }}>{{ $i }}</option>
+                                @else
                                 <option value={{ $i }}>{{ $i }}</option>
+                                @endif
                                 @endfor
                             </select>
                         </div>
