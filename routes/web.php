@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', 'App\Http\Controllers\Controller@randomRecipes')->middleware(['auth'])->name('home');
+// Route::get('/1', 'App\Http\Controllers\Controller@newRandomRecipes')->middleware(['auth'])->name('home');
 Route::get(MenuRoutes::MENU, 'App\Http\Controllers\Controller@randomRecipes')->middleware(['auth'])->name('menu');
 Route::post(MenuRoutes::REGENERATE_RECIPES, 'App\Http\Controllers\Controller@regenerateRecipes')->middleware(['auth'])->name('regenerateRecipes');
 Route::post(MenuRoutes::CREATE_MENU, 'App\Http\Controllers\Controller@closeMenu')->middleware(['auth'])->name('createMenu');
@@ -84,5 +85,9 @@ Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 Route::get('/kk', 'App\Http\Controllers\CategoryController@indexVue');
+
+Route::get('/mojon', function() {
+    return Inertia::render('BarcodeScanner');
+});
 
 require __DIR__.'/auth.php';
