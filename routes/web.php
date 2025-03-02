@@ -10,6 +10,7 @@ use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ShoppingListController;
+use App\Http\Controllers\SplitwiseController;
 use App\Models\Recipe;
 
 /*
@@ -74,6 +75,13 @@ Route::post(IngredientRoutes::UPDATE_ATTACHED, 'App\Http\Controllers\IngredientC
 
 // SHOPPING LIST
 Route::get('/shopping_list', [ShoppingListController::class, 'index'])->middleware(['auth'])->name('shoppingList');
+
+// SPLITWISE
+Route::get('/splitwise/create_expense_view', [SplitwiseController::class, 'createExpenseView'])->middleware(['auth'])->name('createExpenseView');
+Route::post('/splitwise/create_expense', [SplitwiseController::class, 'createExpense'])->middleware(['auth'])->name('createExpense');
+Route::get('/splitwise/list_groups', [SplitwiseController::class, 'listGroups'])->middleware(['auth'])->name('listGroups');
+Route::get('/splitwise/list_categories', [SplitwiseController::class, 'listCategories'])->middleware(['auth'])->name('listCategories');
+Route::get('/splitwise/list_members', [SplitwiseController::class, 'listMembers'])->middleware(['auth'])->name('listMembers');
 
 Route::get('/login', function () {
     return view('login');

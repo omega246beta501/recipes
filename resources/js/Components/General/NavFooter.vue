@@ -23,11 +23,11 @@
                 </svg>
                 Categorías
             </a>
-            <a href="/meal-plan" id="meal-planner-link">
+            <a :href="route('createExpenseView')" id="meal-planner-link">
                 <svg viewBox="0 0 24 24" width="24" height="24" data-testid="calendar">
                     <path d="M18.454 5H17V3.773C17 3.348 16.494 3 16 3c-.493 0-1 .348-1 .773V5H9V3.773C9 3.348 8.5 3 8 3s-1 .348-1 .773V5H5.545A1.55 1.55 0 0 0 4 6.545v11.91C4 19.305 4.695 20 5.545 20h12.91A1.55 1.55 0 0 0 20 18.454V6.545A1.55 1.55 0 0 0 18.454 5Zm-1.227 13H6.773A.775.775 0 0 1 6 17.227V8h12v9.227a.775.775 0 0 1-.773.773Z"></path>
                 </svg>
-                Menu
+                Splitwise
             </a>
             <a :href="route('shoppingList')" id="sl-link">
                 <svg viewBox="0 0 24 24" width="24" height="24" data-testid="lists">

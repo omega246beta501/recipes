@@ -1,0 +1,259 @@
+[
+	{
+		"id": 19,
+		"name": "Entertainment",
+		"subcategories": [
+			{
+				"id": 20,
+				"name": "Games",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/entertainment/games@2x.png"
+			},
+			{
+				"id": 21,
+				"name": "Movies",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/entertainment/movies@2x.png"
+			},
+			{
+				"id": 22,
+				"name": "Music",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/entertainment/music@2x.png"
+			},
+			{
+				"id": 23,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/entertainment/other@2x.png"
+			},
+			{
+				"id": 24,
+				"name": "Sports",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/entertainment/sports@2x.png"
+			}
+		]
+	},
+	{
+		"id": 25,
+		"name": "Food and drink",
+		"subcategories": [
+			{
+				"id": 13,
+				"name": "Dining out",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/food-and-drink/dining-out@2x.png"
+			},
+			{
+				"id": 12,
+				"name": "Groceries",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/food-and-drink/groceries@2x.png"
+			},
+			{
+				"id": 38,
+				"name": "Liquor",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/food-and-drink/liquor@2x.png"
+			},
+			{
+				"id": 26,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/food-and-drink/other@2x.png"
+			}
+		]
+	},
+	{
+		"id": 27,
+		"name": "Home",
+		"subcategories": [
+			{
+				"id": 39,
+				"name": "Electronics",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/electronics@2x.png"
+			},
+			{
+				"id": 16,
+				"name": "Furniture",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/furniture@2x.png"
+			},
+			{
+				"id": 14,
+				"name": "Household supplies",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/household-supplies@2x.png"
+			},
+			{
+				"id": 17,
+				"name": "Maintenance",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/maintenance@2x.png"
+			},
+			{
+				"id": 4,
+				"name": "Mortgage",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/mortgage@2x.png"
+			},
+			{
+				"id": 28,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/other@2x.png"
+			},
+			{
+				"id": 29,
+				"name": "Pets",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/pets@2x.png"
+			},
+			{
+				"id": 3,
+				"name": "Rent",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/rent@2x.png"
+			},
+			{
+				"id": 30,
+				"name": "Services",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/home/services@2x.png"
+			}
+		]
+	},
+	{
+		"id": 40,
+		"name": "Life",
+		"subcategories": [
+			{
+				"id": 50,
+				"name": "Childcare",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/childcare@2x.png"
+			},
+			{
+				"id": 41,
+				"name": "Clothing",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/clothing@2x.png"
+			},
+			{
+				"id": 49,
+				"name": "Education",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/education@2x.png"
+			},
+			{
+				"id": 42,
+				"name": "Gifts",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/gifts@2x.png"
+			},
+			{
+				"id": 10,
+				"name": "Insurance",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/insurance@2x.png"
+			},
+			{
+				"id": 43,
+				"name": "Medical expenses",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/medical-expenses@2x.png"
+			},
+			{
+				"id": 44,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/other@2x.png"
+			},
+			{
+				"id": 45,
+				"name": "Taxes",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/life/taxes@2x.png"
+			}
+		]
+	},
+	{
+		"id": 31,
+		"name": "Transportation",
+		"subcategories": [
+			{
+				"id": 46,
+				"name": "Bicycle",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/bicycle@2x.png"
+			},
+			{
+				"id": 32,
+				"name": "Bus/train",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/bus-train@2x.png"
+			},
+			{
+				"id": 15,
+				"name": "Car",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/car@2x.png"
+			},
+			{
+				"id": 33,
+				"name": "Gas/fuel",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/gas-fuel@2x.png"
+			},
+			{
+				"id": 47,
+				"name": "Hotel",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/hotel@2x.png"
+			},
+			{
+				"id": 34,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/other@2x.png"
+			},
+			{
+				"id": 9,
+				"name": "Parking",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/parking@2x.png"
+			},
+			{
+				"id": 35,
+				"name": "Plane",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/plane@2x.png"
+			},
+			{
+				"id": 36,
+				"name": "Taxi",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/transportation/taxi@2x.png"
+			}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Uncategorized",
+		"subcategories": [
+			{
+				"id": 18,
+				"name": "General",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/uncategorized/general@2x.png"
+			}
+		]
+	},
+	{
+		"id": 1,
+		"name": "Utilities",
+		"subcategories": [
+			{
+				"id": 48,
+				"name": "Cleaning",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/cleaning@2x.png"
+			},
+			{
+				"id": 5,
+				"name": "Electricity",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/electricity@2x.png"
+			},
+			{
+				"id": 6,
+				"name": "Heat/gas",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/heat-gas@2x.png"
+			},
+			{
+				"id": 11,
+				"name": "Other",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/other@2x.png"
+			},
+			{
+				"id": 37,
+				"name": "Trash",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/trash@2x.png"
+			},
+			{
+				"id": 8,
+				"name": "TV/Phone/Internet",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/tv-phone-internet@2x.png"
+			},
+			{
+				"id": 7,
+				"name": "Water",
+				"icon": "https://s3.amazonaws.com/splitwise/uploads/category/icon/square_v2/utilities/water@2x.png"
+			}
+		]
+	}
+]

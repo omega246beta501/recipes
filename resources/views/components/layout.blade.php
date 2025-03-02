@@ -90,7 +90,7 @@ use App\Data\Routes\CategoryRoutes;
                         <a href="{{ route('recipes') }}" class="nav-link px-2 text-white">Recetas</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-white">FAQs</a>
+                        <a href="{{ route('createExpenseView') }}" class="nav-link px-2 text-white">Splitwise</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link px-2 text-white">About</a>
