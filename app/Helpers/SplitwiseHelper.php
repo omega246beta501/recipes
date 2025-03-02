@@ -44,7 +44,7 @@ class SplitwiseHelper {
         //     ];
         // });
         
-        $path = storage_path('/splitwise/categories.json'); // Adjust path accordingly
+        $path = storage_path('/app/splitwise/categories.json'); // Adjust path accordingly
 
         if (!file_exists($path)) {
             return response()->json(['error' => 'File not found'], 404);
