@@ -8,8 +8,8 @@ export default {
         }
     },
     methods: {
-        showAlert(string) {
-            alert(string)
+        ingredientClick(ingredient) {
+            this.$emit('ingredientClick', ingredient)
         }
     }
 }
@@ -30,7 +30,7 @@ export default {
 
 <template>
     <div class="col-12 card last-card">
-        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element" @click="showAlert(ingredient.pivot.description)">
+        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element" @click="ingredientClick(ingredient)">
             <div class="col-xs-2" style="text-align: center;">
                 <img v-if="ingredient.image_path" class="image" :src="`/${ingredient.image_path}`" loading="eager">
                 <div v-else class="no-image">
@@ -42,9 +42,9 @@ export default {
             <div class="col-xs-10" style="padding-left: 5px;">
                 <span>
                     {{ ingredient.name }}
-                    <strong>
-                        {{ ingredient.pivot.qty }}
-                        <span v-if="isFromRecipes && ingredient.pivot.description"> ({{ ingredient.pivot.description }}) </span>
+                    <strong v-if="ingredient.pivot">
+                        {{ ingredient?.pivot?.qty }}
+                        <span v-if="isFromRecipes && ingredient?.pivot?.description"> ({{ ingredient?.pivot?.description }}) </span>
                     </strong>
                 </span>
             </div>

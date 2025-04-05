@@ -20,6 +20,9 @@ export default {
     beforeDestroy() {
     },
     methods: {
+        ingredientClick(ingredient) {
+            alert(ingredient.pivot.description)
+        }
     }
 }
 </script>
@@ -34,7 +37,7 @@ export default {
     </StickyHeader>
 
     <div class="row">
-        <IngredientList :ingredients="list" :isFromRecipes="false"></IngredientList>
+        <IngredientList :ingredients="list" :isFromRecipes="false" @ingredientClick="ingredientClick"></IngredientList>
     </div>
     <NavFooter></NavFooter>
 </template>
