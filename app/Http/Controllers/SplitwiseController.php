@@ -46,4 +46,10 @@ class SplitwiseController extends Controller
     {
         return (new SplitwiseHelper())->listMembers();
     }
+
+    public function createExpenseFromBank()
+    {
+        $splitwiseHelper = new SplitwiseHelper();
+        return $splitwiseHelper->createExpensesFromTransactions();
+    }
 }

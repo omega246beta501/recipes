@@ -104,7 +104,7 @@ class SplitwiseHelper {
 
             foreach ($body['expenses'] as $item) {
                 $repaymentsTo = $item['repayments'][0]['to'] ?? null;
-                if ($item['deleted_at'] == null && in_array($item['group_id'], [30183981, 70010141]) && $item['description'] != 'Payment' && $repaymentsTo == 43056804) {
+                if ($item['deleted_at'] == null && in_array($item['group_id'], [30183981, 70010141]) && $item['description'] != 'Payment' && ($repaymentsTo == 43056804 || $repaymentsTo == null)) {
                     $expenses->push([
                         'id' => $item['id'],
                         'description' => $item['description'],
@@ -141,6 +141,7 @@ class SplitwiseHelper {
                             "split_equally" => true
                         ]);
         Log::info($response->body());
+        return $response->body();
     }
 
     public function getGocardlessToken()
@@ -287,7 +288,7 @@ class SplitwiseHelper {
         $notSplitedTransactions = $this->getNotSplittedTransactions();
 
         foreach ($notSplitedTransactions as $transaction) {
-            $this->createExpense([
+            $response = $this->createExpense([
                 'cost' => $transaction['amount'],
                 'date' => $transaction['valueDate'],
                 'description' => $transaction['concept'],
@@ -303,5 +304,7 @@ class SplitwiseHelper {
             ]);
             Sleep::for(10)->seconds();
         }
+
+        return $response;
     }
 }
