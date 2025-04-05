@@ -112,7 +112,7 @@ export default {
             <IngredientList :ingredients="list" :isFromRecipes="false" @ingredientClick="ingredientClick">
             </IngredientList>
         </div>
-        <div class="col-6 card last-card">
+        <div class="col-6 card last-card" style="position: sticky; top: 95px">
             <div class="row ingredient-card-element">
                 <div class="col">
                     <input type="text" v-model="queryInput" @keyup.enter="queryMercadonaProduct">
