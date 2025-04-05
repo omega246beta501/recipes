@@ -6,6 +6,7 @@ use App\Data\Routes\BringRoutes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use stdClass;
 
 class Bring extends Model
 {
@@ -62,5 +63,20 @@ class Bring extends Model
 
         $cmd .= ' > /dev/null 2>&1 &';
         exec($cmd, $output, $exit);
+    }
+
+    public function addDefaultIngredients()
+    {
+        $defaultIngredients = json_decode(Auth::user()->default_ingredients);
+        $borrar = array();
+        foreach ($defaultIngredients as $ingredient) {
+            $object = new stdClass();
+            $object->name = $ingredient;
+            $object->pivot = new stdClass();
+            $object->pivot->description = 'Los de siempre';
+            $borrar[] = $object;
+            $this->addIngredient($object);
+        }
+        return  $borrar;
     }
 }

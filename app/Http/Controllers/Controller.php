@@ -111,6 +111,8 @@ class Controller extends BaseController
             foreach ($shoppingListIngredients as $ingredient) {
                 $bring->addIngredient($ingredient);
             }
+
+            $bring->addDefaultIngredients();
         }
 
         return view('components.menu.table', [
