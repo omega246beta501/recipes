@@ -20,6 +20,11 @@ class Ingredient extends Model
                     ->withTimestamps();
     }
 
+    public function mercadonaProduct()
+    {
+        return $this->belongsTo(MercadonaProduct::class);
+    }
+
     protected function name(): Attribute {
         return Attribute::make(
             set: fn ($value) => FormatHelper::ingredientNameFormat($value)

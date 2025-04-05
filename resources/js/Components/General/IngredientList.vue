@@ -8,8 +8,8 @@ export default {
         }
     },
     methods: {
-        ingredientClick(ingredient) {
-            this.$emit('ingredientClick', ingredient)
+        ingredientClick(ingredient, index) {
+            this.$emit('ingredientClick', ingredient, index)
         }
     }
 }
@@ -30,7 +30,7 @@ export default {
 
 <template>
     <div class="col-12 card last-card">
-        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element" @click="ingredientClick(ingredient)">
+        <div v-for="(ingredient, index) in ingredients" :key="index" class="row ingredient-card-element" @click="ingredientClick(ingredient, index)">
             <div class="col-xs-2" style="text-align: center;">
                 <img v-if="ingredient.image_path" class="image" :src="`/${ingredient.image_path}`" loading="eager">
                 <div v-else class="no-image">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\MercadonaAPI;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Data\Routes\IngredientRoutes;
 use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\SplitwiseController;
 use App\Models\Recipe;
@@ -72,6 +74,9 @@ Route::post(IngredientRoutes::ATTACH_RECIPE, 'App\Http\Controllers\IngredientCon
 Route::post(IngredientRoutes::DETACH_RECIPE, 'App\Http\Controllers\IngredientController@detachRecipe')->middleware(['auth'])->name('detachRecipe');
 Route::get(IngredientRoutes::QUERY_INGREDIENTS, 'App\Http\Controllers\IngredientController@queryIngredients')->middleware(['auth'])->name('queryIngredients');
 Route::post(IngredientRoutes::UPDATE_ATTACHED, 'App\Http\Controllers\IngredientController@updateAttachedRecipe')->middleware(['auth'])->name('updateAttachedRecipe');
+Route::get(IngredientRoutes::ALL_INGREDIENTS, [IngredientController::class, 'index'])->middleware(['auth'])->name('ingredientIndex');
+Route::post(IngredientRoutes::MERCADONA_QUERY, [IngredientController::class, 'queryMercadonaProduct'])->middleware(['auth'])->name('mercadonaQuery');
+Route::post(IngredientRoutes::ATTACH_MERCADONA_PRODUCT, [IngredientController::class, 'attachMercadonaProduct'])->middleware(['auth'])->name('attachMercadonaProduct');
 
 // SHOPPING LIST
 Route::get('/shopping_list', [ShoppingListController::class, 'index'])->middleware(['auth'])->name('shoppingList');
