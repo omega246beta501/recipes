@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 
 class SplitwiseHelper {
+
+    const MARTA = 42254719;
+    const RUBEN = 43056804;
+
     public function listMembers()
     {
         return [
@@ -97,14 +101,14 @@ class SplitwiseHelper {
                             ->get('https://secure.splitwise.com/api/v3.0/get_expenses?limit=100');
             
             $body = $response->json();
-    
+            
+            Log::info("Splitwise queried to get expenses", ['raw_expenses' => $body]);
             $expenses = collect();
 
             if ($body == null) { return $expenses; }
 
             foreach ($body['expenses'] as $item) {
-                $repaymentsTo = $item['repayments'][0]['to'] ?? null;
-                if ($item['deleted_at'] == null && in_array($item['group_id'], [30183981, 70010141]) && $item['description'] != 'Payment' && ($repaymentsTo == 43056804 || $repaymentsTo == null)) {
+                if (self::isValidExpense($item)) {
                     $expenses->push([
                         'id' => $item['id'],
                         'description' => $item['description'],
@@ -120,6 +124,23 @@ class SplitwiseHelper {
         });
 
         return $expenses;
+    }
+
+    private function isValidExpense($expenseItem)
+    {
+        $repaymentsTo = $expenseItem['repayments'][0]['to'] ?? null;
+        $deletedCondition = $expenseItem['deleted_at'] == null;
+        $groupsCondition = in_array($expenseItem['group_id'], [30183981, 70010141]);
+        $paymentInDescriptionCondition = $expenseItem['description'] != 'Payment';
+
+        if ($deletedCondition && $groupsCondition && $paymentInDescriptionCondition) {
+            if ($expenseItem['created_by']['id'] == self::MARTA) {
+                return $repaymentsTo == self::RUBEN;
+            }
+            else {
+                return ($repaymentsTo == self::RUBEN || $repaymentsTo == null);
+            }
+        }
     }
 
     public function createExpense($data)
