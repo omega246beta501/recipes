@@ -9,11 +9,8 @@
 	"settings": {},
 	"extensions": [
 		"eamodio.gitlens",
-		// "mikestead.dotenv",
-		// "amiralizadeh9480.laravel-extra-intellisense",
-		// "ryannaddy.laravel-artisan",
-		// "onecentlin.laravel5-snippets",
-		// "onecentlin.laravel-blade"
+		"bmewburn.vscode-intelephense-client",
+		"xdebug.php-debug"
 	],
 	"remoteUser": "sail",
 	// "forwardPorts": [],

@@ -29,22 +29,7 @@ class SplitwiseController extends Controller
     public function createExpense(Request $request)
     {
         $data = RequestHelper::requestToArray($request);
-
-        $token = $data['member']['name'] == 'Rubén' ? 'IqkLiNcQYjRuopAQSp15QgTKorV696PSQ3uoU9OC' : 'Y1Cbe3HVO64MULCE3mmViiQtsmfwoctHAMLfclqS';
-
-        $response = Http::withToken($token)
-                        ->post('https://secure.splitwise.com/api/v3.0/create_expense', [
-                            "cost" => $data['cost'],
-                            "description" => $data['description'],
-                            "details" => null,
-                            "date" => $data['date'],
-                            "repeat_interval" => "never",
-                            "currency_code" => "EUR",
-                            "category_id" => $data['category']['id'],
-                            "group_id" => $data['group']['id'],
-                            "split_equally" => true
-                        ]);
-        Log::info($response->status());
+        (new SplitwiseHelper())->createExpense($data);
     }
 
     public function listGroups()
@@ -62,4 +47,9 @@ class SplitwiseController extends Controller
         return (new SplitwiseHelper())->listMembers();
     }
 
+    public function createExpenseFromBank()
+    {
+        $splitwiseHelper = new SplitwiseHelper();
+        return $splitwiseHelper->createExpensesFromTransactions();
+    }
 }

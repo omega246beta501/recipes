@@ -87,6 +87,7 @@ Route::post('/splitwise/create_expense', [SplitwiseController::class, 'createExp
 Route::get('/splitwise/list_groups', [SplitwiseController::class, 'listGroups'])->middleware(['auth'])->name('listGroups');
 Route::get('/splitwise/list_categories', [SplitwiseController::class, 'listCategories'])->middleware(['auth'])->name('listCategories');
 Route::get('/splitwise/list_members', [SplitwiseController::class, 'listMembers'])->middleware(['auth'])->name('listMembers');
+Route::get('/splitwise/create_from_bank', [SplitwiseController::class, 'createExpenseFromBank'])->middleware(['auth'])->name('createExpenseFromBank');
 
 Route::get('/login', function () {
     return view('login');
