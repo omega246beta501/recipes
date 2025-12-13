@@ -96,7 +96,7 @@ class SplitwiseHelper {
 
     public function listExpenses()
     {
-        $expenses = Cache::remember('_splitwise_expenses', 1000, function() {
+        $expenses = Cache::remember('_splitwise_expenses', 30, function() {
             $response = Http::withToken('IqkLiNcQYjRuopAQSp15QgTKorV696PSQ3uoU9OC')
                             ->get('https://secure.splitwise.com/api/v3.0/get_expenses?limit=100');
             
@@ -323,7 +323,7 @@ class SplitwiseHelper {
                     'name' => 'Rubén',
                 ]
             ]);
-            Sleep::for(10)->seconds();
+            Sleep::for(3)->seconds();
         }
 
         return $response;
