@@ -11,6 +11,7 @@ use App\Data\Routes\MenuRoutes;
 use App\Data\Routes\RecipeRoutes;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\SenecaController;
 use App\Http\Controllers\ShoppingListController;
 use App\Http\Controllers\SplitwiseController;
 use App\Models\Recipe;
@@ -103,5 +104,9 @@ Route::get('/kk', 'App\Http\Controllers\CategoryController@indexVue');
 Route::get('/mojon', function() {
     return Inertia::render('BarcodeScanner');
 });
+
+Route::get('/seneca_comparer', [SenecaController::class, 'index'])->name('seneca.index');
+Route::post('/seneca/import', [SenecaController::class, 'compareIdoceoSeneca'])->name('seneca.import');
+
 
 require __DIR__.'/auth.php';

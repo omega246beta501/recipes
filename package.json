@@ -19,5 +19,8 @@
         "vite": "^5.0.0",
         "vue": "^3.2.41",
         "vue-multiselect": "^3.0.0-beta.1"
+    },
+    "dependencies": {
+        "vue-csv-import": "^4.1.2"
     }
 }
