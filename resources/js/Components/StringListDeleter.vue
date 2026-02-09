@@ -43,7 +43,7 @@ const confirmDeletion = () => {
         <ul v-if="items.length > 0" class="divide-y divide-gray-200 border border-gray-200 rounded-md">
             <li
                 v-for="(item, index) in items"
-                :key="index"
+                :key="`${item}-${index}`"
                 class="flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors"
                 :class="{ 'bg-red-50 line-through text-gray-400': isMarkedForDeletion(index) }"
             >
